@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumni Collector</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📚 Alumni CHPS</h1>
+      <div class="stats">
+        <span id="profileCount">0</span> profil(s)
+      </div>
+    </header>
+
+    <div class="search-bar">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Rechercher par nom, entreprise, formation..."
+      >
+    </div>
+
+    <div class="actions">
+      <button id="exportExcel" class="btn btn-primary">
+        📊 Exporter Excel (.xlsx)
+      </button>
+      <button id="exportCsv" class="btn btn-secondary">
+        📄 Exporter CSV
+      </button>
+    </div>
+
+    <div id="profileList" class="profile-list"></div>
+
+    <div class="footer-actions">
+      <button id="clearAll" class="btn btn-danger">
+        🗑️ Tout effacer
+      </button>
+      <button id="openOptions" class="btn btn-link">
+        ⚙️ Options
+      </button>
+    </div>
+  </div>
+
+  <script src="lib/xlsx.full.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

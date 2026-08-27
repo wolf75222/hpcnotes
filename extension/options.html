@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Options - Alumni Collector</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>⚙️ Options - Alumni Collector</h1>
+    </header>
+
+    <div class="content">
+      <section class="section">
+        <h2>🔗 Intégration Google Sheets</h2>
+        <p class="description">
+          Configurez une URL de webhook pour envoyer automatiquement chaque profil ajouté vers une Google Sheet.
+        </p>
+        
+        <div class="form-group">
+          <label for="webhookUrl">URL du Webhook (optionnel)</label>
+          <input 
+            type="url" 
+            id="webhookUrl" 
+            placeholder="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"
+            class="input-url"
+          >
+          <small class="help-text">
+            Laissez vide si vous n'utilisez que l'export Excel local.
+          </small>
+        </div>
+
+        <button id="saveBtn" class="btn btn-primary">💾 Enregistrer</button>
+        <div id="saveStatus" class="status-message"></div>
+      </section>
+
+      <section class="section">
+        <h2>📖 Comment créer un webhook Google Sheets</h2>
+        <div class="instructions">
+          <ol>
+            <li>Ouvrez une Google Sheet où vous voulez recevoir les données</li>
+            <li>Allez dans <strong>Extensions → Apps Script</strong></li>
+            <li>Copiez-collez le code fourni dans le README</li>
+            <li>Cliquez sur <strong>Déployer → Nouveau déploiement</strong></li>
+            <li>Choisissez <strong>Application web</strong></li>
+            <li>Dans "Qui a accès", sélectionnez <strong>"Tout le monde"</strong></li>
+            <li>Cliquez sur <strong>Déployer</strong></li>
+            <li>Copiez l'URL fournie et collez-la ci-dessus</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>🗂️ Données stockées</h2>
+        <p class="description">
+          Vos données sont stockées localement dans votre navigateur. Elles ne sont jamais envoyées ailleurs 
+          que vers le webhook optionnel que vous configurez.
+        </p>
+        <div class="stats-box">
+          <div class="stat">
+            <strong id="profileCount">0</strong>
+            <span>profil(s) enregistré(s)</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>ℹ️ À propos</h2>
+        <p class="description">
+          <strong>LinkedIn Alumni Collector</strong> v1.0.0<br>
+          Extension pour collecter les profils d'anciens élèves du Master CHPS.
+        </p>
+      </section>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
