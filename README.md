@@ -13,6 +13,8 @@ Extension Chrome pour collecter les profils d'anciens élèves du **Master CHPS*
 - 💾 **Stockage local** : Toutes les données restent dans votre navigateur
 - 🚫 **Pas de scraping automatique** : Ajout manuel uniquement, respectueux des conditions d'utilisation
 
+L’extension et les guides se trouvent dans le dossier **`document/`**.
+
 ## 📥 Installation
 
 ### 1. Télécharger l'extension
@@ -24,7 +26,7 @@ Téléchargez ou clonez ce dépôt sur votre ordinateur.
 1. Ouvrez Chrome et allez à `chrome://extensions/`
 2. Activez le **Mode développeur** (bouton en haut à droite)
 3. Cliquez sur **Charger l'extension non empaquetée**
-4. Sélectionnez le dossier `extension/` de ce projet
+4. Sélectionnez le dossier `document/extension/` de ce projet
 5. L'extension est maintenant installée ! 🎉
 
 ## 🚀 Utilisation
@@ -215,24 +217,27 @@ Vous pouvez tester l'extension sur ces profils publics :
 ## 🛠️ Structure du projet
 
 ```
-extension/
-├── manifest.json          # Configuration Manifest V3
-├── background.js          # Service worker
-├── content.js             # Script injecté sur LinkedIn
-├── content.css            # Styles du bouton
-├── popup.html             # Interface de la popup
-├── popup.css              # Styles de la popup
-├── popup.js               # Logique de la popup
-├── options.html           # Page d'options
-├── options.css            # Styles de la page d'options
-├── options.js             # Logique des options
-├── icons/                 # Icônes de l'extension
-│   ├── icon16.png
-│   ├── icon32.png
-│   ├── icon48.png
-│   └── icon128.png
-└── lib/
-    └── xlsx.full.min.js   # Bibliothèque SheetJS pour Excel
+document/
+├── GUIDE_RAPIDE.md        # Démarrage rapide
+├── CHECKLIST.md           # Checklist des fonctionnalités
+└── extension/
+    ├── manifest.json          # Configuration Manifest V3
+    ├── background.js          # Service worker
+    ├── content.js             # Script injecté sur LinkedIn
+    ├── content.css            # Styles du bouton
+    ├── popup.html             # Interface de la popup
+    ├── popup.css              # Styles de la popup
+    ├── popup.js               # Logique de la popup
+    ├── options.html           # Page d'options
+    ├── options.css            # Styles de la page d'options
+    ├── options.js             # Logique des options
+    ├── icons/                 # Icônes de l'extension
+    │   ├── icon16.png
+    │   ├── icon32.png
+    │   ├── icon48.png
+    │   └── icon128.png
+    └── lib/
+        └── xlsx.full.min.js   # Bibliothèque SheetJS pour Excel
 ```
 
 ## 📝 Notes techniques
@@ -293,7 +298,7 @@ Ce projet est libre d'utilisation pour des besoins éducatifs et de collecte d'a
 
 Pour modifier l'extension :
 
-1. Éditez les fichiers dans `extension/`
+1. Éditez les fichiers dans `document/extension/`
 2. Allez à `chrome://extensions/`
 3. Cliquez sur l'icône de rechargement (🔄) de l'extension
 4. Actualisez la page LinkedIn pour tester

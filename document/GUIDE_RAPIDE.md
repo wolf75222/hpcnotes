@@ -9,7 +9,7 @@ Téléchargez ce dépôt ou clonez-le sur votre ordinateur.
 1. Ouvrez Chrome et allez à **`chrome://extensions/`**
 2. Activez le **Mode développeur** (bouton en haut à droite)
 3. Cliquez sur **"Charger l'extension non empaquetée"**
-4. Sélectionnez le dossier **`extension/`** de ce projet
+4. Sélectionnez le dossier **`document/extension/`** de ce projet
 5. ✅ C'est fait !
 
 ### 3️⃣ Utiliser
@@ -87,7 +87,7 @@ Pour chaque profil :
 
 ## 📖 Documentation complète
 
-Voir **README.md** pour :
+Voir **README.md** (à la racine du projet) pour :
 - Configuration du webhook Google Sheets
 - Code Apps Script complet
 - Détails techniques

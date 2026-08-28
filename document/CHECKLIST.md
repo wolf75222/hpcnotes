@@ -5,7 +5,7 @@
 ### Extension Chrome
 - [x] Manifest V3
 - [x] Peut être chargée en mode "unpacked" (non empaquetée)
-- [x] Dossier `extension/` clair et organisé
+- [x] Dossier `document/extension/` clair et organisé
 - [x] Icônes pour toutes les tailles (16, 32, 48, 128)
 - [x] Permissions minimales (storage + LinkedIn uniquement)
 
@@ -109,25 +109,25 @@
 ## 📦 Fichiers livrés
 
 ### Extension
-- [x] `extension/manifest.json`
-- [x] `extension/background.js`
-- [x] `extension/content.js`
-- [x] `extension/content.css`
-- [x] `extension/popup.html`
-- [x] `extension/popup.css`
-- [x] `extension/popup.js`
-- [x] `extension/options.html`
-- [x] `extension/options.css`
-- [x] `extension/options.js`
-- [x] `extension/icons/icon16.png`
-- [x] `extension/icons/icon32.png`
-- [x] `extension/icons/icon48.png`
-- [x] `extension/icons/icon128.png`
-- [x] `extension/lib/xlsx.full.min.js`
+- [x] `document/extension/manifest.json`
+- [x] `document/extension/background.js`
+- [x] `document/extension/content.js`
+- [x] `document/extension/content.css`
+- [x] `document/extension/popup.html`
+- [x] `document/extension/popup.css`
+- [x] `document/extension/popup.js`
+- [x] `document/extension/options.html`
+- [x] `document/extension/options.css`
+- [x] `document/extension/options.js`
+- [x] `document/extension/icons/icon16.png`
+- [x] `document/extension/icons/icon32.png`
+- [x] `document/extension/icons/icon48.png`
+- [x] `document/extension/icons/icon128.png`
+- [x] `document/extension/lib/xlsx.full.min.js`
 
 ### Documentation
-- [x] `README.md` (guide complet en français)
-- [x] `GUIDE_RAPIDE.md` (démarrage rapide)
+- [x] `README.md` (guide complet en français, à la racine)
+- [x] `document/GUIDE_RAPIDE.md` (démarrage rapide)
 - [x] `.gitignore`
 
 ## 🎯 Objectif final
@@ -161,7 +161,7 @@ Romain peut :
 
 ## ✨ Fonctionnalités bonus implémentées
 
-- [x] Guide rapide séparé (GUIDE_RAPIDE.md)
+- [x] Guide rapide séparé (`document/GUIDE_RAPIDE.md`)
 - [x] Recherche dans les profils sauvegardés
 - [x] Interface moderne et professionnelle
 - [x] Icônes personnalisées
