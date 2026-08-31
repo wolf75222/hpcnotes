@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { Heading, Text } from "@astryxdesign/core/Text";
 import { List, ListItem } from "@astryxdesign/core/List";
 import { VStack } from "@astryxdesign/core/Stack";
@@ -9,6 +8,7 @@ import { MarkdownDoc } from "@/components/markdown-doc";
 import { AdSlot } from "@/components/ad-slot";
 import { getOtherPosts, getPosts, POSTS_BY_SLUG } from "@/content/posts";
 import { formatDate } from "@/lib/dates";
+import { MissingPost } from "@/components/missing-post";
 
 export function generateStaticParams() {
   return getPosts().map((post) => ({ slug: post.slug }));
@@ -22,7 +22,10 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = POSTS_BY_SLUG[slug];
   if (post == null) {
-    return { title: "Not found" };
+    return {
+      title: "Not found",
+      robots: { index: false, follow: false },
+    };
   }
   return { title: post.title, description: post.summary };
 }
@@ -35,7 +38,7 @@ export default async function PostPage({
   const { slug } = await params;
   const post = POSTS_BY_SLUG[slug];
   if (post == null) {
-    notFound();
+    return <MissingPost />;
   }
 
   const others = getOtherPosts(post.slug);
