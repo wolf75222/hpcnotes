@@ -21,7 +21,7 @@ function MarkdownLink({
 export function MarkdownDoc({ children }: { children: string }) {
   return (
     <Markdown
-      headingLevelStart={2}
+      headingLevelStart={1}
       contentWidth={680}
       autolink="gfm"
       components={{ link: MarkdownLink }}
