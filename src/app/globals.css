@@ -1,0 +1,23 @@
+@import "@astryxdesign/core/reset.css";
+@import "@astryxdesign/core/astryx.css";
+@import "../theme/hpc.css";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  font-family: var(--font-family-body);
+  background-color: var(--color-background-body);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Google AdSense requires an ins element; keep it on the token surface. */
+.adsbygoogle {
+  display: block;
+  min-height: var(--size-element-lg);
+  background-color: var(--color-background-muted);
+}
