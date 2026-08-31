@@ -43,11 +43,7 @@ Edits are pull requests. There is no in-browser wiki editor.
 
 ## Design system
 
-UI is [Astryx](https://astryx.atmeta.com/docs/getting-started) (`@astryxdesign/core`) with a custom cool-blue **hpc** theme compiled from `src/theme/source.ts`:
-
-```bash
-npm run astryx -- theme build src/theme/source.ts -o src/theme/hpc.css
-```
+UI is [Astryx](https://astryx.atmeta.com/docs/getting-started) with the shipped **neutral** theme, locked to light mode. There is no dark mode.
 
 Agent conventions live in `AGENTS.md`. Look up components with `npm run astryx -- component Button`.
 

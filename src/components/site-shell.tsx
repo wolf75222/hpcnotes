@@ -26,7 +26,6 @@ import { AUDIENCES } from "@/content/audiences";
 import { WIKI_PAGES } from "@/content/wiki";
 import { SearchPalette } from "@/components/search-palette";
 import { SiteFooter } from "@/components/site-footer";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 const AUDIENCE_ICONS = {
   basics: GraduationCap,
@@ -103,7 +102,6 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
                   onClick={() => setIsPaletteOpen(true)}
                 />
                 <Kbd keys="mod+k" />
-                <ThemeToggle />
               </>
             }
           />

@@ -13,9 +13,6 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "document/**",
-    "src/theme/hpc.js",
-    "src/theme/hpc.d.ts",
-    "src/theme/hpc.variants.d.ts",
   ]),
 ]);
 

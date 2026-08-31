@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start --port 43123",
     "lint": "eslint",
-    "astryx": "node node_modules/@astryxdesign/cli/clients/cli/bin/astryx.mjs",
-    "theme:build": "node node_modules/@astryxdesign/cli/clients/cli/bin/astryx.mjs theme build src/theme/source.ts -o src/theme/hpc.css"
+    "astryx": "node node_modules/@astryxdesign/cli/clients/cli/bin/astryx.mjs"
   },
   "dependencies": {
     "@astryxdesign/cli": "^0.5.2",

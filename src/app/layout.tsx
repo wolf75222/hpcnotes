@@ -1,23 +1,9 @@
 import type { Metadata } from "next";
-import { Figtree, IBM_Plex_Mono } from "next/font/google";
 import Script from "next/script";
 import { Providers } from "./providers";
 import { SiteShell } from "@/components/site-shell";
 import { getAdSenseConfig } from "@/lib/ads";
 import "./globals.css";
-
-const figtree = Figtree({
-  subsets: ["latin"],
-  variable: "--font-hpc-sans",
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-hpc-mono",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -42,11 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   const ads = getAdSenseConfig();
 
   return (
-    <html
-      lang="en"
-      className={`${figtree.variable} ${plexMono.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en">
       <body>
         <Providers>
           <SiteShell>{children}</SiteShell>

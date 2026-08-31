@@ -1,6 +1,10 @@
 @import "@astryxdesign/core/reset.css";
 @import "@astryxdesign/core/astryx.css";
-@import "../theme/hpc.css";
+@import "@astryxdesign/theme-neutral/theme.css";
+
+html {
+  color-scheme: light;
+}
 
 html,
 body {
