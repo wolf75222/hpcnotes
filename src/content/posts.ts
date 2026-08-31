@@ -1,17 +1,17 @@
 import type { BlogPost } from "./types";
 
-export const BLOG_POSTS: BlogPost[] = [
+export const POSTS: BlogPost[] = [
   {
     slug: "site-independent-hpc-docs",
-    title: "Why site-independent HPC documentation still matters",
+    title: "Why site-independent HPC notes still matter",
     summary:
-      "Every centre has a hostname. None of them should have to re-explain MPI ranks from scratch. How HPC Wiki splits local facts from portable practice.",
+      "Every centre has a hostname. None of them should have to re-explain MPI ranks from scratch.",
     date: "2026-08-24",
     author: "HPC Wiki editors",
-    tags: ["community", "documentation"],
+    tags: ["documentation"],
     body: `Campus clusters, national machines, and cloud partitions disagree about almost every proper noun: the login host, the GPU partition, the scratch purge. They agree about almost every concept: login nodes are not compute, collectives have to match, and walltime is a contract.
 
-That split is the whole idea behind HPC Wiki — the same brief as the [classic MediaWiki](https://hpc-wiki.info/hpc/HPC_Wiki), written for a reading layout that is not a left-hand toolbox from 2006.
+That split is the brief for these notes — the same idea as the [classic HPC Wiki](https://hpc-wiki.info/hpc/HPC_Wiki), written as dated posts instead of a MediaWiki.
 
 ## What belongs in a centre's docs
 
@@ -22,20 +22,14 @@ That split is the whole idea behind HPC Wiki — the same brief as the [classic 
 
 If a sentence contains a string a user must type, it is probably local.
 
-## What belongs here
+## What belongs in a portable note
 
 - Why you should not run MPI on the login node
 - How to size walltime from a short representative run
 - What a data race looks like in OpenMP
 - How to read a Lustre stripe without becoming a storage admin
 
-Those pages should be **linkable** from local docs: one paragraph of site facts, then "concepts: HPC Wiki". Duplicating the MPI tutorial in every centre's Confluence is how the tutorial rots.
-
-## Blog versus wiki
-
-The wiki is the durable map, organised by audience (Basics, Users, Developers, Admins). The blog is dated and argumentative: war stories, tool releases, opinions about measurement. Both are first-class here, because people actually learn from both.
-
-If you maintain a centre handbook, the highest-leverage change is often a dozen links, not a new CMS.
+If you maintain a centre handbook, the highest-leverage change is often a dozen links to notes like these, not a new CMS.
 `,
   },
   {
@@ -45,7 +39,7 @@ If you maintain a centre handbook, the highest-leverage change is often a dozen 
       "The difference between a script that queued and a result you can publish is usually walltime, cwd, and the launcher — not the solver.",
     date: "2026-08-11",
     author: "HPC Wiki editors",
-    tags: ["slurm", "users"],
+    tags: ["slurm"],
     body: `A surprising number of "the cluster is broken" tickets are job scripts that never had a chance: wrong directory, stdout path that does not exist, \`mpirun\` that ignored the allocation, walltime copied from a colleague's 48-hour production run into a compile test.
 
 ## The five lines that matter
@@ -55,8 +49,6 @@ If you maintain a centre handbook, the highest-leverage change is often a dozen 
 3. \`module purge\` then a known-good stack.
 4. \`srun\` (or the site launcher), not a naked \`mpirun\`.
 5. A walltime you measured, plus a margin, not a round number from folklore.
-
-The [job script page](/wiki/slurm-job-scripts) has a full template. This note is about the failure modes that template is defending against.
 
 ## cwd is not the submission directory you remember
 
@@ -72,7 +64,7 @@ If you \`sbatch ../scripts/run.slurm\` from a random folder, relative paths insi
 
 ## After it dies
 
-\`sacct -j JOBID\` before you change the code. TIMEOUT, OOM, and a Python traceback in the log are different jobs. The [batch systems](/wiki/batch-systems) page is the concept; \`sacct\` is the evidence.
+\`sacct -j JOBID\` before you change the code. TIMEOUT, OOM, and a Python traceback in the log are different jobs. Fix the matching resource, not all of them at once.
 `,
   },
   {
@@ -82,7 +74,7 @@ If you \`sbatch ../scripts/run.slurm\` from a random folder, relative paths insi
       "A CFD mini-app that was 'MPI bound' until we turned the VTK dumps off. Performance engineering as a habit, not a rewrite.",
     date: "2026-07-28",
     author: "HPC Wiki editors",
-    tags: ["performance", "developers"],
+    tags: ["performance"],
     body: `The first profile on a production mesh is allowed to be embarrassing. The unforgivable part is rewriting the flux kernel before that profile exists.
 
 ## A short true-to-life sequence
@@ -97,7 +89,7 @@ We timed three runs on the same 8 nodes:
 | VTK every 50 steps | 18 min |
 | No VTK, same compute | 11 min |
 
-The halo exchanges were fine. The parallel filesystem was taking a metadata beating from per-rank VTK. The "MPI problem" was [I/O](/wiki/parallel-filesystems).
+The halo exchanges were fine. The parallel filesystem was taking a metadata beating from per-rank VTK. The "MPI problem" was I/O.
 
 ## What we changed
 
@@ -109,8 +101,6 @@ Not the Riemann solver. A single writer rank, larger intervals, and a binary for
 - The same mesh and the same node type
 - A timer around **output**, **exchange**, and **update**, not only the whole executable
 - No optimisation sprint during a conference deadline
-
-The durable version of this is the [performance engineering](/wiki/performance-engineering) wiki page. The blog exists so the VTK story can stay a story.
 `,
   },
   {
@@ -120,7 +110,7 @@ The durable version of this is the [performance engineering](/wiki/performance-e
       "A checklist for the first CUDA or HIP allocation: visibility, a tiny kernel, then the application module — in that order.",
     date: "2026-06-16",
     author: "HPC Wiki editors",
-    tags: ["gpu", "developers"],
+    tags: ["gpu"],
     body: `People skip from "I have a GPU partition" to "I built the full application" and then spend a day debugging a solver that never saw a device.
 
 ## 1. Get an allocation that includes a GPU
@@ -144,12 +134,20 @@ Now \`module load gromacs-gpu\` (or whatever you actually wanted). Check that th
 ## 4. Only then scale
 
 Multi-GPU and multi-node GPU-aware MPI are where site stacks differ. They are not the first experiment.
-
-The wiki page [GPU computing](/wiki/gpu-computing) keeps the durable checklist. This post is the order of operations we wish was on every course slide.
 `,
   },
 ];
 
-export const BLOG_BY_SLUG = Object.fromEntries(
-  BLOG_POSTS.map((post) => [post.slug, post]),
+export const POSTS_BY_SLUG = Object.fromEntries(
+  POSTS.map((post) => [post.slug, post]),
 ) as Record<string, BlogPost>;
+
+export function getPosts() {
+  return [...POSTS].sort((a, b) => b.date.localeCompare(a.date));
+}
+
+export function getOtherPosts(slug: string, limit = 3) {
+  return getPosts()
+    .filter((post) => post.slug !== slug)
+    .slice(0, limit);
+}

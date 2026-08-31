@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { Card } from "@astryxdesign/core/Card";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
-import { Link } from "@astryxdesign/core/Link";
 import { getAdSenseConfig, type AdPlacement } from "@/lib/ads";
 
 declare global {
@@ -14,7 +13,6 @@ declare global {
 }
 
 const PLACEHOLDER_COPY: Record<AdPlacement, string> = {
-  sidebar: "Sidebar unit",
   infeed: "In-feed unit",
   article: "In-article unit",
 };
@@ -52,9 +50,9 @@ export function AdSlot({
             {label}
           </Text>
           <Text>
-            {PLACEHOLDER_COPY[placement]}. Connect Google AdSense with{" "}
-            <Link href="/contribute">the contribute guide</Link> to replace this
-            placeholder.
+            {PLACEHOLDER_COPY[placement]}. Set{" "}
+            <Text type="code">NEXT_PUBLIC_ADSENSE_CLIENT</Text> and a slot ID in{" "}
+            <Text type="code">.env.local</Text> to replace this placeholder.
           </Text>
         </VStack>
       </Card>

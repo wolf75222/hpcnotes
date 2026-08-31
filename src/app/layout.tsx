@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: "%s · HPC Wiki",
   },
   description:
-    "A modern wiki and blog for site-independent high-performance computing: batch systems, MPI, GPUs, and the practice that transfers between clusters.",
+    "A small blog of site-independent notes on high-performance computing: Slurm, MPI, GPUs, and the habits that transfer between clusters.",
   applicationName: "HPC Wiki",
   keywords: [
     "HPC",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     "Slurm",
     "MPI",
     "GPU",
-    "wiki",
+    "blog",
     "cluster",
   ],
 };
