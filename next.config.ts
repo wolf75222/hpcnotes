@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 import { getNoteSlugs } from "./src/content/load-notes";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["mermaid", "katex"],
+  transpilePackages: ["katex"],
   async redirects() {
     return [
       { source: "/notes", destination: "/", permanent: false },
