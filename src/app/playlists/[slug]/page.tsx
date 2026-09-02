@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Text } from "@astryxdesign/core/Text";
-import { Link } from "@astryxdesign/core/Link";
 import { VStack } from "@astryxdesign/core/Stack";
 import { PageHeading } from "@/components/page-heading";
 import { NoteList } from "@/components/note-list";
+import { EmptyNotes } from "@/components/empty-notes";
 import { getPlaylistNotes } from "@/content/catalog";
 import { PLAYLISTS, PLAYLISTS_BY_SLUG } from "@/content/playlists";
 
@@ -37,12 +36,22 @@ export default async function PlaylistPage({
 
   if (playlist == null) {
     return (
-      <VStack gap={2}>
-        <PageHeading title="That playlist is not here" />
-        <Text color="secondary">No reading list uses that slug.</Text>
-        <Link href="/playlists" hasUnderline>
-          All playlists
-        </Link>
+      <VStack gap={8}>
+        <PageHeading
+          title="That playlist is not here"
+          trail={[
+            { href: "/", label: "notes" },
+            { href: "/playlists", label: "playlists" },
+            { label: "missing", current: true },
+          ]}
+        />
+        <EmptyNotes
+          title="No reading list uses that slug"
+          description="Playlists are ordered groups of notes."
+          actionHref="/playlists"
+          actionLabel="All playlists"
+          headingLevel={2}
+        />
       </VStack>
     );
   }
@@ -51,7 +60,15 @@ export default async function PlaylistPage({
 
   return (
     <VStack gap={8}>
-      <PageHeading title={playlist.title} summary={playlist.summary} />
+      <PageHeading
+        title={playlist.title}
+        summary={playlist.summary}
+        trail={[
+          { href: "/", label: "notes" },
+          { href: "/playlists", label: "playlists" },
+          { label: playlist.title, current: true },
+        ]}
+      />
       <NoteList notes={notes} numbered />
     </VStack>
   );

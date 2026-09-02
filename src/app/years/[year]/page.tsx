@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Text } from "@astryxdesign/core/Text";
-import { Link } from "@astryxdesign/core/Link";
 import { VStack } from "@astryxdesign/core/Stack";
 import { PageHeading } from "@/components/page-heading";
 import { NoteList } from "@/components/note-list";
+import { EmptyNotes } from "@/components/empty-notes";
 import { getNotesByYear, getYears } from "@/content/catalog";
 
 export function generateStaticParams() {
@@ -32,14 +31,22 @@ export default async function YearPage({
 
   return (
     <VStack gap={8}>
-      <PageHeading title={year} summary={`Notes dated ${year}.`} />
+      <PageHeading
+        title={year}
+        summary={`Notes dated ${year}.`}
+        trail={[
+          { href: "/", label: "notes" },
+          { href: "/years", label: "years" },
+          { label: year, current: true },
+        ]}
+      />
       {notes.length === 0 ? (
-        <VStack gap={2}>
-          <Text color="secondary">No notes in that year.</Text>
-          <Link href="/years" hasUnderline>
-            All years
-          </Link>
-        </VStack>
+        <EmptyNotes
+          title="No notes in that year"
+          description="The archive only lists years that already have a note."
+          actionHref="/years"
+          actionLabel="All years"
+        />
       ) : (
         <NoteList notes={notes} />
       )}

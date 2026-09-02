@@ -22,6 +22,8 @@ npm start
 
 Notes live in `src/content/notes.ts`. Add an object to `NOTES` (slug, title, summary, ISO date, author, tags, Markdown body). Playlists live in `src/content/playlists.ts` as ordered lists of slugs.
 
+Markdown in a note is rendered with Astryx (`Markdown`, `CodeBlock`, `Outline`, `Lightbox`). Fenced `mermaid` becomes a diagram, fenced `math` / `$…$` becomes KaTeX, images and gifs open in a lightbox. Put media under `public/media/`.
+
 | Route | What it is |
 | --- | --- |
 | `/` | All notes, grouped by year |

@@ -7,9 +7,11 @@ const NOTE_SLUGS = [
   "first-gpu-kernel",
   "login-nodes-are-not-compute",
   "modules-are-a-contract",
+  "what-a-note-can-carry",
 ];
 
 const nextConfig: NextConfig = {
+  transpilePackages: ["mermaid", "katex"],
   async redirects() {
     return [
       { source: "/notes", destination: "/", permanent: false },

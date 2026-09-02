@@ -17,6 +17,10 @@ export default function YearsPage() {
       <PageHeading
         title="Years"
         summary="The same notes, cut by calendar instead of by tag."
+        trail={[
+          { href: "/", label: "notes" },
+          { label: "years", current: true },
+        ]}
       />
       <VStack gap={4}>
         {years.map(({ year, count }) => (

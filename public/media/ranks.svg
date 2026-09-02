@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 220" role="img" aria-label="Four MPI ranks on a mesh">
+  <rect width="480" height="220" fill="#ffffff"/>
+  <g fill="none" stroke="#0A1317" stroke-width="1.5">
+    <rect x="40" y="36" width="160" height="64" rx="2"/>
+    <rect x="280" y="36" width="160" height="64" rx="2"/>
+    <rect x="40" y="120" width="160" height="64" rx="2"/>
+    <rect x="280" y="120" width="160" height="64" rx="2"/>
+    <path d="M200 68h80"/>
+    <path d="M200 152h80"/>
+    <path d="M120 100v20"/>
+    <path d="M360 100v20"/>
+  </g>
+  <g fill="#0A1317" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" text-anchor="middle">
+    <text x="120" y="74">rank 0</text>
+    <text x="360" y="74">rank 1</text>
+    <text x="120" y="158">rank 2</text>
+    <text x="360" y="158">rank 3</text>
+  </g>
+</svg>

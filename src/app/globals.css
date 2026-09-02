@@ -46,6 +46,31 @@ body {
   }
 }
 
+.md-image-trigger {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: start;
+  width: 100%;
+}
+
+.md-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.md-mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.md-math-display {
+  overflow-x: auto;
+}
+
 .adsbygoogle {
   display: block;
   min-height: var(--size-element-lg);

@@ -17,6 +17,10 @@ export default function TagsPage() {
       <PageHeading
         title="Tags"
         summary="Every note carries a few short tags. Open one to see only that slice."
+        trail={[
+          { href: "/", label: "notes" },
+          { label: "tags", current: true },
+        ]}
       />
       <VStack gap={4}>
         {tags.map(({ tag, count }) => (

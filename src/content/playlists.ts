@@ -24,6 +24,7 @@ export const PLAYLISTS: Playlist[] = [
     summary: "What belongs in a centre handbook, and what should not.",
     slugs: [
       "site-independent-hpc-docs",
+      "what-a-note-can-carry",
       "modules-are-a-contract",
       "login-nodes-are-not-compute",
     ],

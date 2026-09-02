@@ -1,17 +1,11 @@
-import { Heading, Text } from "@astryxdesign/core/Text";
-import { Link } from "@astryxdesign/core/Link";
-import { VStack } from "@astryxdesign/core/Stack";
+import { EmptyNotes } from "@/components/empty-notes";
 
 export function MissingPost() {
   return (
-    <VStack gap={2}>
-      <Heading level={1}>That note is not here</Heading>
-      <Text color="secondary">
-        The slug may have moved, or it never existed.
-      </Text>
-      <Link href="/" hasUnderline>
-        All notes
-      </Link>
-    </VStack>
+    <EmptyNotes
+      title="That note is not here"
+      description="The slug may have moved, or it never existed."
+      headingLevel={1}
+    />
   );
 }

@@ -1,11 +1,13 @@
 import { Text } from "@astryxdesign/core/Text";
 import { HStack, StackItem, VStack } from "@astryxdesign/core/Stack";
 import { Link } from "@astryxdesign/core/Link";
+import { Section } from "@astryxdesign/core/Section";
 import type { Note } from "@/content/types";
 import { notesByYear } from "@/content/catalog";
 import { formatDotDate } from "@/lib/dates";
 import { LeaderRow } from "@/components/leader-row";
 import { TagLinks } from "@/components/tag-links";
+import { EmptyNotes } from "@/components/empty-notes";
 
 function NoteRows({
   notes,
@@ -55,19 +57,26 @@ export function NoteList({
   empty?: string;
 }) {
   if (notes.length === 0) {
-    return <Text color="secondary">{empty}</Text>;
+    return (
+      <EmptyNotes
+        title="Nothing here"
+        description={empty}
+      />
+    );
   }
 
   if (grouped) {
     return (
       <VStack gap={8}>
         {notesByYear(notes).map((group) => (
-          <VStack key={group.year} gap={3}>
-            <Link href={`/years/${group.year}`} color="secondary" isStandalone>
-              {group.year}
-            </Link>
-            <NoteRows notes={group.notes} numbered={numbered} />
-          </VStack>
+          <Section key={group.year} padding={0}>
+            <VStack gap={3}>
+              <Link href={`/years/${group.year}`} color="secondary" isStandalone>
+                {group.year}
+              </Link>
+              <NoteRows notes={group.notes} numbered={numbered} />
+            </VStack>
+          </Section>
         ))}
       </VStack>
     );

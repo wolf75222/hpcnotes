@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Text } from "@astryxdesign/core/Text";
+import { Section } from "@astryxdesign/core/Section";
 import { VStack } from "@astryxdesign/core/Stack";
 import { Heading } from "@astryxdesign/core/Text";
+import { Text } from "@astryxdesign/core/Text";
 import { NoteList } from "@/components/note-list";
 import { getNotes } from "@/content/notes";
 
@@ -16,13 +17,15 @@ export default function HomePage() {
 
   return (
     <VStack gap={8}>
-      <VStack gap={2}>
-        <Heading level={1}>Short notes on high-performance computing</Heading>
-        <Text color="secondary">
-          Site-independent, dated, and meant to sit beside a centre handbook —
-          not replace it.
-        </Text>
-      </VStack>
+      <Section padding={0}>
+        <VStack gap={2}>
+          <Heading level={1}>Short notes on high-performance computing</Heading>
+          <Text color="secondary">
+            Site-independent, dated, and meant to sit beside a centre handbook —
+            not replace it.
+          </Text>
+        </VStack>
+      </Section>
       <NoteList notes={notes} grouped />
     </VStack>
   );

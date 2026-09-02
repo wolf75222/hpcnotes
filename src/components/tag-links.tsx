@@ -1,4 +1,4 @@
-import { Link } from "@astryxdesign/core/Link";
+import { Token } from "@astryxdesign/core/Token";
 import { HStack } from "@astryxdesign/core/Stack";
 
 export function TagLinks({ tags }: { tags: string[] }) {
@@ -7,17 +7,15 @@ export function TagLinks({ tags }: { tags: string[] }) {
   }
 
   return (
-    <HStack gap={2} wrap="wrap">
+    <HStack gap={1} wrap="wrap">
       {tags.map((tag) => (
-        <Link
+        <Token
           key={tag}
-          href={`/tags/${encodeURIComponent(tag)}`}
-          color="secondary"
+          label={tag}
           size="sm"
-          isStandalone
-        >
-          {tag}
-        </Link>
+          color="default"
+          href={`/tags/${encodeURIComponent(tag)}`}
+        />
       ))}
     </HStack>
   );

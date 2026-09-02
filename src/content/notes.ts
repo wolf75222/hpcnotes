@@ -192,6 +192,71 @@ Login profiles accumulate. Yesterday's PETSc is still in \`LD_LIBRARY_PATH\` whe
 Do not \`export PATH=\$HOME/local/bin:\$PATH\` and then file a ticket that "MPI is broken". Your overlay is now the software stack. The helpdesk cannot see it.
 `,
   },
+  {
+    slug: "what-a-note-can-carry",
+    title: "What a note can carry",
+    summary:
+      "Code, diagrams, maths, figures, gifs. The same Markdown as the rest of the site, meant for a short technical note rather than a slide deck.",
+    date: "2026-09-02",
+    author: "hpcnotes",
+    tags: ["documentation"],
+    body: `A note is still a dated page. The body is Markdown. That is enough for most HPC fragments: a job script, a flop count, a picture of four ranks, a tiny motion GIF of a heartbeat you should not run on login.
+
+## Code
+
+Fence a block and name the language. Copy sits on the block; longer listings collapse.
+
+\`\`\`bash
+#!/bin/bash
+#SBATCH --job-name=ping
+#SBATCH --ntasks=4
+#SBATCH --time=00:10:00
+srun ./a.out
+\`\`\`
+
+Inline names stay in code span: \`srun\`, \`MPI_Init\`, \`$SLURM_NTASKS\`.
+
+## Diagrams
+
+A \`mermaid\` fence becomes a figure.
+
+\`\`\`mermaid
+flowchart LR
+  login[Login] --> sbatch[sbatch]
+  sbatch --> alloc[Allocation]
+  alloc --> srun[srun]
+  srun --> ranks[Ranks]
+\`\`\`
+
+## Maths
+
+Inline TeX sits in dollar signs: a naive GEMM is $2n^3$ flops. Displayed expressions use a \`math\` fence.
+
+\`\`\`math
+E(p) = \\frac{T_1}{p \\, T_p}
+\`\`\`
+
+Strong scaling is the ratio of serial time to $p$ times parallel time. If $E(p)$ falls over while the solver is "MPI bound", time the I/O.
+
+## Figures and gifs
+
+A Markdown image is a figure. Click it for a lightbox. GIFs work the same way as stills.
+
+![Four ranks on a mesh, each with a neighbour exchange](/media/ranks.svg)
+
+![A pulse you should not run on the login node](/media/heartbeat.gif)
+
+## Tables
+
+| Probe | What it answers |
+| --- | --- |
+| \`sacct -j\` | TIMEOUT, OOM, or a traceback |
+| \`nvidia-smi\` | Whether the allocation saw a GPU |
+| A timer around VTK | Whether the "MPI problem" is output |
+
+None of this replaces the centre handbook. It is just what a short note is allowed to hold.
+`,
+  },
 ];
 
 export const NOTES_BY_SLUG = Object.fromEntries(

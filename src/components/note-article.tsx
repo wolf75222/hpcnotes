@@ -3,6 +3,8 @@
 import { Heading, Text } from "@astryxdesign/core/Text";
 import { Link } from "@astryxdesign/core/Link";
 import { HStack, StackItem, VStack } from "@astryxdesign/core/Stack";
+import { Section } from "@astryxdesign/core/Section";
+import { Divider } from "@astryxdesign/core/Divider";
 import { Outline, useOutlineFromMarkdown } from "@astryxdesign/core/Outline";
 import { useMediaQuery } from "@astryxdesign/core/hooks";
 import type { Note, Playlist } from "@/content/types";
@@ -11,6 +13,7 @@ import { MarkdownDoc } from "@/components/markdown-doc";
 import { TagLinks } from "@/components/tag-links";
 import { NoteList } from "@/components/note-list";
 import { AdSlot } from "@/components/ad-slot";
+import { PageTrail } from "@/components/page-trail";
 
 export function NoteArticle({
   note,
@@ -28,38 +31,49 @@ export function NoteArticle({
 
   const article = (
     <VStack gap={6}>
-      <VStack gap={3}>
-        <Link href={`/years/${year}`} color="secondary" isStandalone>
-          {formatDotDate(note.date)}
-        </Link>
-        <Heading level={1}>{note.title}</Heading>
-        <Text color="secondary">{note.summary}</Text>
-        <TagLinks tags={note.tags} />
-        {playlists.length > 0 ? (
-          <HStack gap={2} wrap="wrap" align="center">
-            <Text type="supporting">in</Text>
-            {playlists.map((playlist) => (
-              <Link
-                key={playlist.slug}
-                href={`/playlists/${playlist.slug}`}
-                color="secondary"
-                isStandalone
-              >
-                {playlist.title}
-              </Link>
-            ))}
-          </HStack>
-        ) : null}
-      </VStack>
+      <Section padding={0}>
+        <VStack gap={3}>
+          <PageTrail
+            items={[
+              { href: "/", label: "notes" },
+              { label: note.title, current: true },
+            ]}
+          />
+          <Link href={`/years/${year}`} color="secondary" isStandalone>
+            {formatDotDate(note.date)}
+          </Link>
+          <Heading level={1}>{note.title}</Heading>
+          <Text color="secondary">{note.summary}</Text>
+          <TagLinks tags={note.tags} />
+          {playlists.length > 0 ? (
+            <HStack gap={2} wrap="wrap" align="center">
+              <Text type="supporting">in</Text>
+              {playlists.map((playlist) => (
+                <Link
+                  key={playlist.slug}
+                  href={`/playlists/${playlist.slug}`}
+                  color="secondary"
+                  isStandalone
+                >
+                  {playlist.title}
+                </Link>
+              ))}
+            </HStack>
+          ) : null}
+        </VStack>
+      </Section>
       <MarkdownDoc>{note.body}</MarkdownDoc>
       <AdSlot placement="article" />
       {related.length > 0 ? (
-        <VStack gap={3}>
-          <Text type="label" color="secondary">
-            Nearby
-          </Text>
-          <NoteList notes={related} />
-        </VStack>
+        <Section padding={0}>
+          <VStack gap={3}>
+            <Divider variant="subtle" />
+            <Text type="label" color="secondary">
+              Nearby
+            </Text>
+            <NoteList notes={related} />
+          </VStack>
+        </Section>
       ) : null}
     </VStack>
   );

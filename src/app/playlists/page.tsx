@@ -18,6 +18,10 @@ export default function PlaylistsPage() {
       <PageHeading
         title="Playlists"
         summary="Ordered reading lists — a group of notes with a beginning, not a dump of tags."
+        trail={[
+          { href: "/", label: "notes" },
+          { label: "playlists", current: true },
+        ]}
       />
       <VStack gap={5}>
         {playlists.map((playlist) => (

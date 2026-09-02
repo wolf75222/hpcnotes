@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 import { Text } from "@astryxdesign/core/Text";
 import { TextInput } from "@astryxdesign/core/TextInput";
 import { VStack } from "@astryxdesign/core/Stack";
+import { Section } from "@astryxdesign/core/Section";
 import type { Note, Playlist } from "@/content/types";
 import { filterNotes, searchPlaylists } from "@/content/catalog";
 import { NoteList } from "@/components/note-list";
 import { LeaderRow } from "@/components/leader-row";
+import { EmptyNotes } from "@/components/empty-notes";
 
 export function SearchNotes({
   notes,
@@ -58,32 +60,34 @@ export function SearchNotes({
         </Text>
       ) : (
         <Text color="secondary">
-          {results.length === 1
-            ? "1 note"
-            : `${results.length} notes`}
+          {results.length === 1 ? "1 note" : `${results.length} notes`}
           {playlists.length > 0
             ? `, ${playlists.length === 1 ? "1 playlist" : `${playlists.length} playlists`}`
             : null}
         </Text>
       )}
       {playlists.length > 0 ? (
-        <VStack gap={3}>
-          <Text type="label" color="secondary">
-            Playlists
-          </Text>
-          {playlists.map((playlist) => (
-            <PlaylistHit key={playlist.slug} playlist={playlist} />
-          ))}
-        </VStack>
+        <Section padding={0}>
+          <VStack gap={3}>
+            <Text type="label" color="secondary">
+              Playlists
+            </Text>
+            {playlists.map((playlist) => (
+              <PlaylistHit key={playlist.slug} playlist={playlist} />
+            ))}
+          </VStack>
+        </Section>
       ) : null}
-      <NoteList
-        notes={results}
-        empty={
-          trimmed === ""
-            ? "No notes published yet."
-            : "Nothing matches that phrase. Try a tag or a shorter word."
-        }
-      />
+      {trimmed === "" || results.length > 0 ? (
+        <NoteList notes={results} empty="No notes published yet." />
+      ) : playlists.length === 0 ? (
+        <EmptyNotes
+          title="Nothing matches"
+          description="Try a tag, a tool name, or a shorter phrase."
+          actionLabel="Clear search"
+          actionHref="/search"
+        />
+      ) : null}
     </VStack>
   );
 }

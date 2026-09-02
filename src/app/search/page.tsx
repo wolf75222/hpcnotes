@@ -23,6 +23,10 @@ export default async function SearchPage({
       <PageHeading
         title="Search"
         summary="Titles, summaries, tags, and bodies — plus playlists when the name matches."
+        trail={[
+          { href: "/", label: "notes" },
+          { label: "search", current: true },
+        ]}
       />
       <SearchNotes notes={getNotes()} initialQuery={initialQuery} />
     </VStack>

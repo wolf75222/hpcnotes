@@ -13,7 +13,13 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <VStack gap={6}>
-      <PageHeading title="About" />
+      <PageHeading
+        title="About"
+        trail={[
+          { href: "/", label: "notes" },
+          { label: "about", current: true },
+        ]}
+      />
       <Text>
         hpcnotes.eu is a small set of short notes on high-performance computing.
         Hostnames, partitions, and module names stay in the centre handbook.
@@ -36,7 +42,8 @@ export default function AboutPage() {
         <Link href="/search" hasUnderline>
           Search
         </Link>{" "}
-        looks through titles, tags, and bodies.
+        looks through titles, tags, and bodies. A note can carry code,
+        diagrams, maths, images, and gifs.
       </Text>
       <Text color="secondary">
         Nothing here is a substitute for the machine you are about to log into.
