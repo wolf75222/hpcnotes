@@ -37,6 +37,5 @@ yarn-error.log*
 # vercel
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# mermaid browser bundle (copied from node_modules on install)
+/public/vendor/mermaid.min.js

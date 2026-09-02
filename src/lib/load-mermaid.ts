@@ -11,22 +11,63 @@ function readGlobalMermaid(): MermaidApi | undefined {
 }
 
 function loadMermaid(): Promise<MermaidApi> {
-  mermaidPromise ??= (async () => {
-    // The package entry (`mermaid.core.mjs`) lazy-imports diagram chunks.
-    // Turbopack never finishes those imports, so diagrams stay on
-    // "Rendering diagram…". The min bundle has no dynamic imports.
-    await import("mermaid/dist/mermaid.min.js");
-    const mermaid = readGlobalMermaid();
-    if (mermaid == null) {
-      throw new Error("Mermaid did not attach to the page.");
+  mermaidPromise ??= new Promise((resolve, reject) => {
+    const existing = readGlobalMermaid();
+    if (existing) {
+      existing.initialize({
+        startOnLoad: false,
+        securityLevel: "strict",
+        theme: "neutral",
+      });
+      resolve(existing);
+      return;
     }
-    mermaid.initialize({
-      startOnLoad: false,
-      securityLevel: "strict",
-      theme: "neutral",
-    });
-    return mermaid;
-  })();
+
+    const src = "/vendor/mermaid.min.js";
+    const ready = (script: HTMLScriptElement) => {
+      script.addEventListener("load", () => {
+        const mermaid = readGlobalMermaid();
+        if (mermaid == null) {
+          reject(new Error("Mermaid did not attach to the page."));
+          return;
+        }
+        mermaid.initialize({
+          startOnLoad: false,
+          securityLevel: "strict",
+          theme: "neutral",
+        });
+        resolve(mermaid);
+      });
+      script.addEventListener("error", () => {
+        reject(new Error("Failed to load mermaid."));
+      });
+    };
+
+    const prev = document.querySelector<HTMLScriptElement>(
+      'script[data-hpc-mermaid="1"]',
+    );
+    if (prev) {
+      const already = readGlobalMermaid();
+      if (already) {
+        already.initialize({
+          startOnLoad: false,
+          securityLevel: "strict",
+          theme: "neutral",
+        });
+        resolve(already);
+        return;
+      }
+      ready(prev);
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = true;
+    script.dataset.hpcMermaid = "1";
+    ready(script);
+    document.head.appendChild(script);
+  });
   return mermaidPromise;
 }
 

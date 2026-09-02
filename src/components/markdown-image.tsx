@@ -32,7 +32,11 @@ export function MarkdownImage({ src, alt }: { src: string; alt: string }) {
           className="md-image-trigger"
           aria-haspopup="dialog"
           aria-label={alt ? `Open ${alt}` : "Open image"}
-          onClick={() => setOpen(true)}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            window.setTimeout(() => setOpen(true), 0);
+          }}
         >
           {/* Astryx Markdown uses img; GIFs must animate, and there is no Astryx Image. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
