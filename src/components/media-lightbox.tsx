@@ -3,8 +3,8 @@
 import { useCallback, useRef, useState, type MouseEvent } from "react";
 import { Lightbox, type LightboxMedia } from "@astryxdesign/core/Lightbox";
 
-const OPEN_DELAY_MS = 50;
-const IGNORE_CLOSE_MS = 600;
+const OPEN_DELAY_MS = 80;
+const IGNORE_CLOSE_MS = 220;
 
 export function useDeferredLightbox(
   media: LightboxMedia,
