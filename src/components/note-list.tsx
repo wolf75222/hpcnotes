@@ -1,6 +1,6 @@
-import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { Section } from "@astryxdesign/core/Section";
+import { Link } from "@astryxdesign/core/Link";
 import type { Note } from "@/content/types";
 import { notesByYear } from "@/content/query";
 import { formatDotDate } from "@/lib/dates";
@@ -9,7 +9,7 @@ import { EmptyNotes } from "@/components/empty-notes";
 
 function NoteRows({ notes }: { notes: Note[] }) {
   return (
-    <VStack gap={4}>
+    <VStack gap={3}>
       {notes.map((note) => (
         <LeaderRow
           key={note.slug}
@@ -41,9 +41,14 @@ export function NoteList({
         {notesByYear(notes).map((group) => (
           <Section key={group.year} padding={0}>
             <VStack gap={3}>
-              <Text type="supporting" color="secondary">
+              <Link
+                href={`/years/${group.year}`}
+                color="secondary"
+                type="supporting"
+                isStandalone
+              >
                 {group.year}
-              </Text>
+              </Link>
               <NoteRows notes={group.notes} />
             </VStack>
           </Section>

@@ -25,7 +25,10 @@ export function SearchPalette({ notes }: { notes: Note[] }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const results = useMemo(() => filterNotes(notes, query), [notes, query]);
+  const results = useMemo(
+    () => filterNotes(notes, query).slice(0, 8),
+    [notes, query],
+  );
   const trimmed = query.trim();
 
   const close = () => {
@@ -35,9 +38,17 @@ export function SearchPalette({ notes }: { notes: Note[] }) {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if ((event.key === "k" || event.key === "K") && (event.metaKey || event.ctrlKey)) {
+      if (
+        (event.key === "k" || event.key === "K") &&
+        (event.metaKey || event.ctrlKey)
+      ) {
         event.preventDefault();
-        setOpen(true);
+        setOpen((current) => {
+          if (current) {
+            setQuery("");
+          }
+          return !current;
+        });
         return;
       }
       if (
@@ -51,8 +62,8 @@ export function SearchPalette({ notes }: { notes: Note[] }) {
         setOpen(true);
       }
     };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener("keydown", onKeyDown, true);
+    return () => window.removeEventListener("keydown", onKeyDown, true);
   }, []);
 
   const go = (slug: string) => {

@@ -21,7 +21,7 @@ export function NoteArticle({
   return (
     <VStack gap={6}>
       <Section padding={0}>
-        <VStack gap={3}>
+        <VStack gap={2}>
           <Text type="supporting" color="secondary" hasTabularNumbers>
             {formatDotDate(note.date)}
           </Text>

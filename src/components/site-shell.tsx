@@ -12,16 +12,26 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       <Layout
         height="auto"
         contentWidth={640}
-        padding={8}
+        padding={6}
         defaultHasDividers={false}
         content={
           <LayoutContent>
-            <VStack gap={10} paddingBlockStart={6} paddingBlockEnd={10}>
-              <Link href="/" color="secondary" isStandalone>
+            <VStack gap={8} paddingBlockStart={4} paddingBlockEnd={8}>
+              <Link
+                href="/"
+                color="secondary"
+                type="supporting"
+                isStandalone
+              >
                 hpcnotes
               </Link>
               {children}
-              <Link href="/about" color="secondary" isStandalone>
+              <Link
+                href="/about"
+                color="secondary"
+                type="supporting"
+                isStandalone
+              >
                 about
               </Link>
             </VStack>
