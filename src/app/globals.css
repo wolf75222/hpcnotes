@@ -14,12 +14,11 @@ body {
 body {
   min-height: 100%;
   font-family: var(--font-family-body);
-  background-color: var(--color-background-body);
+  background-color: var(--color-background-surface);
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
 }
 
-/* Google AdSense requires an ins element; keep it on the token surface. */
 .adsbygoogle {
   display: block;
   min-height: var(--size-element-lg);

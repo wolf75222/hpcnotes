@@ -32,7 +32,7 @@ NEXT_PUBLIC_ADSENSE_SLOT_INFEED=
 NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE=
 ```
 
-Without those values the site still runs; ad regions render as labelled placeholders so the layout stays stable. Do not click your own ads.
+Without those values the site still runs and ad regions stay hidden. Do not click your own ads.
 
 ## Design system
 

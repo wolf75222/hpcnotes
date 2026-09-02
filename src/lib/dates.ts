@@ -6,3 +6,13 @@ export function formatDate(iso: string) {
     timeZone: "UTC",
   }).format(new Date(`${iso}T00:00:00.000Z`));
 }
+
+export function formatMonthYear(iso: string) {
+  return new Intl.DateTimeFormat("en-GB", {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  })
+    .format(new Date(`${iso}T00:00:00.000Z`))
+    .toUpperCase();
+}
