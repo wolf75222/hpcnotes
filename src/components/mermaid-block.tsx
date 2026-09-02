@@ -10,15 +10,16 @@ import {
 } from "@/lib/load-mermaid";
 import { useDeferredLightbox } from "@/components/media-lightbox";
 
+if (typeof document !== "undefined") {
+  prefetchMermaid();
+}
+
 export function MermaidBlock({ chart }: { chart: string }) {
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     prefetchMermaid();
-  }, []);
-
-  useEffect(() => {
     let cancelled = false;
 
     void renderMermaidChart(chart)
@@ -58,28 +59,26 @@ export function MermaidBlock({ chart }: { chart: string }) {
     return <Text color="secondary">{error}</Text>;
   }
 
+  if (svg == null) {
+    return null;
+  }
+
   return (
-    <VStack gap={2}>
-      {svg == null ? (
-        <Text color="secondary">Rendering diagram…</Text>
-      ) : (
-        <>
-          <button
-            type="button"
-            className="md-image-trigger"
-            aria-haspopup="dialog"
-            aria-label="Open diagram"
-            onClick={openLightbox}
-          >
-            <figure
-              className="md-mermaid"
-              aria-hidden="true"
-              dangerouslySetInnerHTML={{ __html: svg }}
-            />
-          </button>
-          {src ? element : null}
-        </>
-      )}
+    <VStack gap={1}>
+      <button
+        type="button"
+        className="md-image-trigger"
+        aria-haspopup="dialog"
+        aria-label="Open diagram"
+        onClick={openLightbox}
+      >
+        <figure
+          className="md-mermaid"
+          aria-hidden="true"
+          dangerouslySetInnerHTML={{ __html: svg }}
+        />
+      </button>
+      {src ? element : null}
     </VStack>
   );
 }

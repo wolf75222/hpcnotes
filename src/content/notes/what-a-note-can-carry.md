@@ -12,7 +12,7 @@ A note is a `.md` file with a short header. The body is ordinary Markdown: headi
 
 ## Code
 
-Fence a block and name the language. Copy sits on the block; longer listings collapse.
+Fence a block and name the language. Copy sits on the block.
 
 ```bash
 #!/bin/bash

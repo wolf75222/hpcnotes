@@ -42,9 +42,7 @@ export function AdSlot({
 
   return (
     <VStack gap={2}>
-      <Text type="label" color="secondary">
-        {label}
-      </Text>
+      <Text color="secondary">{label}</Text>
       <ins
         className="adsbygoogle"
         data-ad-client={ads.client}

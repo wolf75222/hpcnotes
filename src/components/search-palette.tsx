@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Dialog } from "@astryxdesign/core/Dialog";
-import { Layout, LayoutContent } from "@astryxdesign/core/Layout";
 import { TextInput } from "@astryxdesign/core/TextInput";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
@@ -85,49 +84,39 @@ export function SearchPalette({ notes }: { notes: Note[] }) {
       padding={4}
       aria-label="Search notes"
     >
-      <Layout height="auto" defaultHasDividers={false}>
-        <LayoutContent>
-          <VStack gap={4}>
-            <TextInput
-              label="Search notes"
-              isLabelHidden
-              value={query}
-              onChange={(value) => setQuery(value)}
-              placeholder="a tool, a tag, a phrase"
-              hasClear
-              hasAutoFocus
-              width="100%"
-              onEnter={() => {
-                const first = results[0];
-                if (trimmed !== "" && first != null) {
-                  go(first.slug);
-                }
-              }}
-            />
-            {trimmed === "" ? (
-              <Text type="supporting" color="secondary">
-                Type to find a note.
-              </Text>
-            ) : results.length === 0 ? (
-              <Text type="supporting" color="secondary">
-                Nothing matches.
-              </Text>
-            ) : (
-              <VStack gap={3}>
-                {results.map((note) => (
-                  <LeaderRow
-                    key={note.slug}
-                    href={`/notes/${note.slug}`}
-                    label={note.title}
-                    meta={formatDotDate(note.date)}
-                    onNavigate={close}
-                  />
-                ))}
-              </VStack>
-            )}
+      <VStack gap={4}>
+        <TextInput
+          label="Search notes"
+          isLabelHidden
+          value={query}
+          onChange={(value) => setQuery(value)}
+          placeholder="a tool, a tag, a phrase"
+          hasClear
+          hasAutoFocus
+          width="100%"
+          onEnter={() => {
+            const first = results[0];
+            if (trimmed !== "" && first != null) {
+              go(first.slug);
+            }
+          }}
+        />
+        {trimmed === "" ? null : results.length === 0 ? (
+          <Text color="secondary">Nothing matches.</Text>
+        ) : (
+          <VStack gap={3}>
+            {results.map((note) => (
+              <LeaderRow
+                key={note.slug}
+                href={`/notes/${note.slug}`}
+                label={note.title}
+                meta={formatDotDate(note.date)}
+                onNavigate={close}
+              />
+            ))}
           </VStack>
-        </LayoutContent>
-      </Layout>
+        )}
+      </VStack>
     </Dialog>
   );
 }

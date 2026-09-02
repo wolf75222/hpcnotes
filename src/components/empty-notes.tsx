@@ -1,5 +1,6 @@
-import { EmptyState } from "@astryxdesign/core/EmptyState";
-import { Button } from "@astryxdesign/core/Button";
+import { Heading, Text } from "@astryxdesign/core/Text";
+import { VStack } from "@astryxdesign/core/Stack";
+import { Link } from "@astryxdesign/core/Link";
 
 export function EmptyNotes({
   title,
@@ -15,14 +16,16 @@ export function EmptyNotes({
   headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
 }) {
   return (
-    <EmptyState
-      title={title}
-      description={description}
-      headingLevel={headingLevel}
-      isCompact
-      actions={
-        <Button variant="ghost" href={actionHref} label={actionLabel} />
-      }
-    />
+    <VStack gap={2}>
+      {headingLevel === 1 ? (
+        <Heading level={1}>{title}</Heading>
+      ) : (
+        <Text>{title}</Text>
+      )}
+      <Text color="secondary">{description}</Text>
+      <Link href={actionHref} color="secondary" isStandalone>
+        {actionLabel}
+      </Link>
+    </VStack>
   );
 }

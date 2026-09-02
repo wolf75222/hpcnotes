@@ -2,8 +2,8 @@
 
 import { Markdown } from "@astryxdesign/core/Markdown";
 import { Link } from "@astryxdesign/core/Link";
+import { Heading } from "@astryxdesign/core/Text";
 import { Code } from "@astryxdesign/core/CodeBlock";
-import { Divider } from "@astryxdesign/core/Divider";
 import { MathText } from "@/components/math-text";
 import { MarkdownCode } from "@/components/markdown-code";
 import { MarkdownImage } from "@/components/markdown-image";
@@ -17,9 +17,8 @@ function MarkdownLink({
   href: string;
   children: React.ReactNode;
 }) {
-  const isExternal = href.startsWith("http://") || href.startsWith("https://");
   return (
-    <Link href={href} isExternalLink={isExternal} hasUnderline>
+    <Link href={href} hasUnderline>
       {children}
     </Link>
   );
@@ -39,7 +38,7 @@ const mathPlugins: MarkdownInlinePlugin[] = [
 export function MarkdownDoc({ children }: { children: string }) {
   return (
     <Markdown
-      headingLevelStart={1}
+      headingLevelStart={2}
       contentWidth={640}
       autolink="gfm"
       inlinePlugins={mathPlugins}
@@ -48,7 +47,10 @@ export function MarkdownDoc({ children }: { children: string }) {
         code: MarkdownCode,
         inlineCode: ({ children: code }) => <Code>{code}</Code>,
         image: MarkdownImage,
-        hr: () => <Divider variant="subtle" />,
+        heading: ({ children: heading }) => (
+          <Heading level={2}>{heading}</Heading>
+        ),
+        hr: () => null,
       }}
     >
       {liftDisplayMath(children)}

@@ -4,14 +4,43 @@ type MermaidApi = {
 };
 
 const SCRIPT_SRC = "/vendor/mermaid.min.js";
+const LOAD_MS = 8000;
+const RENDER_MS = 8000;
 const svgCache = new Map<string, string>();
 
 let mermaidPromise: Promise<MermaidApi> | null = null;
 let renderChain: Promise<void> = Promise.resolve();
 let renderSeq = 0;
 
+function unwrapMermaid(value: unknown): MermaidApi | undefined {
+  if (value == null || typeof value !== "object") {
+    return undefined;
+  }
+  const record = value as {
+    render?: unknown;
+    initialize?: unknown;
+    default?: unknown;
+  };
+  if (
+    typeof record.render === "function" &&
+    typeof record.initialize === "function"
+  ) {
+    return record as MermaidApi;
+  }
+  if (record.default != null && record.default !== value) {
+    return unwrapMermaid(record.default);
+  }
+  return undefined;
+}
+
 function readGlobalMermaid(): MermaidApi | undefined {
-  return (globalThis as unknown as { mermaid?: MermaidApi }).mermaid;
+  const g = globalThis as unknown as {
+    mermaid?: unknown;
+    __esbuild_esm_mermaid_nm?: { mermaid?: unknown };
+  };
+  return (
+    unwrapMermaid(g.mermaid) ?? unwrapMermaid(g.__esbuild_esm_mermaid_nm?.mermaid)
+  );
 }
 
 function configure(mermaid: MermaidApi) {
@@ -20,6 +49,9 @@ function configure(mermaid: MermaidApi) {
     securityLevel: "strict",
     theme: "neutral",
     fontFamily: "inherit",
+    themeVariables: {
+      background: "white",
+    },
     flowchart: {
       htmlLabels: false,
       useMaxWidth: true,
@@ -88,14 +120,14 @@ function waitForMermaid(script: HTMLScriptElement | null): Promise<MermaidApi> {
       const api = readGlobalMermaid();
       if (api != null) {
         succeed(api);
-      } else if (Date.now() - started > 20000) {
+      } else if (Date.now() - started > LOAD_MS) {
         fail(new Error("Timed out loading mermaid."));
       }
     }, 30);
 
     const timer = window.setTimeout(() => {
       fail(new Error("Timed out loading mermaid."));
-    }, 20000);
+    }, LOAD_MS);
 
     script?.addEventListener(
       "load",
@@ -158,7 +190,7 @@ export function renderMermaidChart(chart: string): Promise<string> {
     const mermaid = await loadMermaid();
     renderSeq += 1;
     const id = `hpcmmd${renderSeq}`;
-    const { svg } = await withTimeout(mermaid.render(id, key), 20000);
+    const { svg } = await withTimeout(mermaid.render(id, key), RENDER_MS);
     svgCache.set(key, svg);
     return svg;
   });
@@ -193,13 +225,12 @@ export function prepareMermaidSvg(svg: string): string {
       }
     }
   }
-  trimmed = trimmed.replace(
-    /style="[^"]*max-width:[^"]*"/,
-    (style) => style.replace(/max-width:\s*[^;"]*;?/, ""),
+  trimmed = trimmed.replace(/style="[^"]*max-width:[^"]*"/, (style) =>
+    style.replace(/max-width:\s*[^;"]*;?/, ""),
   );
   return trimmed.replace(
     /(<svg[^>]*>)/,
-    '$1<rect width="100%" height="100%" fill="#ffffff"/>',
+    '$1<rect width="100%" height="100%" fill="white"/>',
   );
 }
 

@@ -1,21 +1,32 @@
+import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { Section } from "@astryxdesign/core/Section";
-import { Link } from "@astryxdesign/core/Link";
 import type { Note } from "@/content/types";
 import { notesByYear } from "@/content/query";
 import { formatDotDate } from "@/lib/dates";
 import { LeaderRow } from "@/components/leader-row";
 import { EmptyNotes } from "@/components/empty-notes";
 
-function NoteRows({ notes }: { notes: Note[] }) {
+function NoteRows({
+  notes,
+  showSummary,
+}: {
+  notes: Note[];
+  showSummary: boolean;
+}) {
   return (
-    <VStack gap={3}>
+    <VStack gap={5}>
       {notes.map((note) => (
         <LeaderRow
           key={note.slug}
           href={`/notes/${note.slug}`}
           label={note.title}
           meta={formatDotDate(note.date)}
+          extra={
+            showSummary && note.summary ? (
+              <Text color="secondary">{note.summary}</Text>
+            ) : undefined
+          }
         />
       ))}
     </VStack>
@@ -25,10 +36,12 @@ function NoteRows({ notes }: { notes: Note[] }) {
 export function NoteList({
   notes,
   grouped = false,
+  showSummary = false,
   empty = "No notes in this list yet.",
 }: {
   notes: Note[];
   grouped?: boolean;
+  showSummary?: boolean;
   empty?: string;
 }) {
   if (notes.length === 0) {
@@ -37,19 +50,12 @@ export function NoteList({
 
   if (grouped) {
     return (
-      <VStack gap={8}>
+      <VStack gap={10}>
         {notesByYear(notes).map((group) => (
-          <Section key={group.year} padding={0}>
+          <Section key={group.year} variant="transparent" padding={0}>
             <VStack gap={3}>
-              <Link
-                href={`/years/${group.year}`}
-                color="secondary"
-                type="supporting"
-                isStandalone
-              >
-                {group.year}
-              </Link>
-              <NoteRows notes={group.notes} />
+              <Text color="secondary">{group.year}</Text>
+              <NoteRows notes={group.notes} showSummary={showSummary} />
             </VStack>
           </Section>
         ))}
@@ -57,5 +63,5 @@ export function NoteList({
     );
   }
 
-  return <NoteRows notes={notes} />;
+  return <NoteRows notes={notes} showSummary={showSummary} />;
 }

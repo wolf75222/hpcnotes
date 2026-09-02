@@ -12,13 +12,13 @@ export function MarkdownImage({ src, alt }: { src: string; alt: string }) {
   const isVideo = VIDEO_SRC.test(src);
   const isGif = GIF_SRC.test(src);
   const media = useMemo(
-    () => ({ src, alt, caption: alt, type: "image" as const }),
+    () => ({ src, alt, type: "image" as const }),
     [src, alt],
   );
   const { openLightbox, element } = useDeferredLightbox(media, !isGif);
 
   return (
-    <VStack gap={2} as="figure">
+    <VStack gap={1} as="figure">
       {isVideo ? (
         <video
           className="md-image"
@@ -42,11 +42,7 @@ export function MarkdownImage({ src, alt }: { src: string; alt: string }) {
           <img src={src} alt={alt} className="md-image" />
         </button>
       )}
-      {alt ? (
-        <Text type="supporting" color="secondary">
-          {alt}
-        </Text>
-      ) : null}
+      {alt ? <Text color="secondary">{alt}</Text> : null}
       {isVideo ? null : element}
     </VStack>
   );

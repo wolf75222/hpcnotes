@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <NoteList notes={getNotes()} grouped />;
+  return <NoteList notes={getNotes()} grouped showSummary />;
 }

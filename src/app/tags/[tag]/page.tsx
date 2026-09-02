@@ -33,16 +33,14 @@ export default async function TagPage({
 
   return (
     <VStack gap={6}>
-      <Text type="supporting" color="secondary">
-        #{decoded}
-      </Text>
+      <Text color="secondary">#{decoded}</Text>
       {notes.length === 0 ? (
         <EmptyNotes
           title="Nothing carries that tag yet"
           description="Tags live at the end of a note, as #labels."
         />
       ) : (
-        <NoteList notes={notes} grouped />
+        <NoteList notes={notes} grouped showSummary />
       )}
     </VStack>
   );

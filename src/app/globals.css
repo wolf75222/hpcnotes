@@ -17,6 +17,7 @@ body {
 body {
   font-family: var(--font-family-body);
   color: var(--color-text-primary);
+  line-height: var(--text-body-leading);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -28,7 +29,7 @@ body {
 .note-leader {
   min-width: var(--spacing-8);
   height: 1em;
-  margin-block-end: 0.22em;
+  margin-block-end: var(--spacing-0-5);
   border: 0;
   color: var(--color-border-emphasized);
   background-image: radial-gradient(
@@ -36,7 +37,7 @@ body {
     currentColor 96%,
     transparent 100%
   );
-  background-size: 0.4em 0.4em;
+  background-size: var(--spacing-1-5) var(--spacing-1-5);
   background-repeat: repeat-x;
   background-position: 0 50%;
 }

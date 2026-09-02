@@ -3,7 +3,6 @@
 import { Heading, Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { Section } from "@astryxdesign/core/Section";
-import { Divider } from "@astryxdesign/core/Divider";
 import type { Note } from "@/content/types";
 import { formatDotDate } from "@/lib/dates";
 import { MarkdownDoc } from "@/components/markdown-doc";
@@ -19,10 +18,10 @@ export function NoteArticle({
   related: Note[];
 }) {
   return (
-    <VStack gap={6}>
-      <Section padding={0}>
-        <VStack gap={2}>
-          <Text type="supporting" color="secondary" hasTabularNumbers>
+    <VStack gap={10}>
+      <Section variant="transparent" padding={0}>
+        <VStack gap={1}>
+          <Text color="secondary" hasTabularNumbers>
             {formatDotDate(note.date)}
           </Text>
           <Heading level={1}>{note.title}</Heading>
@@ -30,14 +29,9 @@ export function NoteArticle({
       </Section>
       <MarkdownDoc>{note.body}</MarkdownDoc>
       <AdSlot placement="article" />
-      <VStack gap={5}>
+      <VStack gap={6}>
         <HashTags tags={note.tags} />
-        {related.length > 0 ? (
-          <VStack gap={3}>
-            <Divider variant="subtle" />
-            <NoteList notes={related} />
-          </VStack>
-        ) : null}
+        {related.length > 0 ? <NoteList notes={related} /> : null}
       </VStack>
     </VStack>
   );

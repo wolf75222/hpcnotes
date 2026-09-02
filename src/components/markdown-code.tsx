@@ -23,16 +23,12 @@ export function MarkdownCode({
     return <MathText expr={code} display />;
   }
 
-  const lineCount = code.split("\n").length;
-
   return (
     <CodeBlock
       code={code}
       language={language || "plaintext"}
       hasCopyButton
-      hasLanguageLabel
-      hasLineNumbers={lineCount >= 5}
-      isCollapsible={lineCount > 12}
+      hasLanguageLabel={false}
       width="100%"
       container="section"
     />

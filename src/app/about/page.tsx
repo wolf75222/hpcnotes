@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <VStack gap={5}>
+    <VStack gap={2}>
       <Text>
         Short notes on high-performance computing. Hostnames, partitions, and
         module names stay in the centre handbook. These notes cover the habits
