@@ -36,6 +36,11 @@ export default async function NotePage({
   }
 
   return (
-    <NoteArticle note={note} related={getRelatedNotes(note.slug)} />
+    <>
+      {note.body.includes("```mermaid") ? (
+        <link rel="preload" href="/vendor/mermaid.min.js" as="script" />
+      ) : null}
+      <NoteArticle note={note} related={getRelatedNotes(note.slug)} />
+    </>
   );
 }

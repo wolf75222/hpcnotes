@@ -1,20 +1,25 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
-import { renderMermaidChart } from "@/lib/load-mermaid";
+import {
+  prefetchMermaid,
+  renderMermaidChart,
+  svgToDataUrl,
+} from "@/lib/load-mermaid";
+import { useDeferredLightbox } from "@/components/media-lightbox";
 
 export function MermaidBlock({ chart }: { chart: string }) {
-  const reactId = useId();
+  prefetchMermaid();
+
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const id = `mermaid-${reactId.replace(/:/g, "")}`;
     let cancelled = false;
 
-    void renderMermaidChart(id, chart)
+    void renderMermaidChart(chart)
       .then((rendered) => {
         if (!cancelled) {
           setSvg(rendered);
@@ -35,7 +40,13 @@ export function MermaidBlock({ chart }: { chart: string }) {
     return () => {
       cancelled = true;
     };
-  }, [chart, reactId]);
+  }, [chart]);
+
+  const src = useMemo(() => (svg == null ? "" : svgToDataUrl(svg)), [svg]);
+  const { openLightbox, element } = useDeferredLightbox(
+    { src, alt: "Diagram", caption: "Diagram", type: "image" },
+    true,
+  );
 
   if (error) {
     return <Text color="secondary">{error}</Text>;
@@ -46,11 +57,22 @@ export function MermaidBlock({ chart }: { chart: string }) {
       {svg == null ? (
         <Text color="secondary">Rendering diagram…</Text>
       ) : (
-        <figure
-          className="md-mermaid"
-          aria-label="Diagram"
-          dangerouslySetInnerHTML={{ __html: svg }}
-        />
+        <>
+          <button
+            type="button"
+            className="md-image-trigger"
+            aria-haspopup="dialog"
+            aria-label="Open diagram"
+            onClick={openLightbox}
+          >
+            <figure
+              className="md-mermaid"
+              aria-hidden="true"
+              dangerouslySetInnerHTML={{ __html: svg }}
+            />
+          </button>
+          {src ? element : null}
+        </>
       )}
     </VStack>
   );

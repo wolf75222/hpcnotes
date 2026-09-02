@@ -1,18 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { createPortal } from "react-dom";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
-import { Lightbox } from "@astryxdesign/core/Lightbox";
+import { useDeferredLightbox } from "@/components/media-lightbox";
 
 const VIDEO_SRC = /\.(mp4|webm|ogg)(\?|$)/i;
 const GIF_SRC = /\.gif(\?|$)/i;
 
 export function MarkdownImage({ src, alt }: { src: string; alt: string }) {
-  const [open, setOpen] = useState(false);
   const isVideo = VIDEO_SRC.test(src);
   const isGif = GIF_SRC.test(src);
+  const { openLightbox, element } = useDeferredLightbox(
+    { src, alt, caption: alt, type: "image" },
+    !isGif,
+  );
 
   return (
     <VStack gap={2} as="figure">
@@ -32,11 +33,7 @@ export function MarkdownImage({ src, alt }: { src: string; alt: string }) {
           className="md-image-trigger"
           aria-haspopup="dialog"
           aria-label={alt ? `Open ${alt}` : "Open image"}
-          onClick={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            window.setTimeout(() => setOpen(true), 0);
-          }}
+          onClick={openLightbox}
         >
           {/* Astryx Markdown uses img; GIFs must animate, and there is no Astryx Image. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -48,17 +45,7 @@ export function MarkdownImage({ src, alt }: { src: string; alt: string }) {
           {alt}
         </Text>
       ) : null}
-      {open
-        ? createPortal(
-            <Lightbox
-              isOpen={open}
-              onOpenChange={setOpen}
-              media={{ src, alt, caption: alt, type: "image" }}
-              hasZoom={!isGif}
-            />,
-            document.body,
-          )
-        : null}
+      {isVideo ? null : element}
     </VStack>
   );
 }

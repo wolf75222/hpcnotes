@@ -52,6 +52,11 @@ body {
 .md-mermaid svg {
   max-width: 100%;
   height: auto;
+  display: block;
+}
+
+.md-image-trigger .md-mermaid {
+  width: 100%;
 }
 
 .md-math-display {
