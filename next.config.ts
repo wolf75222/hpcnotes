@@ -4,6 +4,7 @@ import { getNoteSlugs } from "./src/content/load-notes";
 const nextConfig: NextConfig = {
   transpilePackages: ["katex"],
   allowedDevOrigins: ["127.0.0.1", "localhost"],
+  devIndicators: false,
   async redirects() {
     return [
       { source: "/notes", destination: "/", permanent: false },
