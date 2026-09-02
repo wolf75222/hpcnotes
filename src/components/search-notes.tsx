@@ -7,7 +7,7 @@ import { TextInput } from "@astryxdesign/core/TextInput";
 import { VStack } from "@astryxdesign/core/Stack";
 import { Section } from "@astryxdesign/core/Section";
 import type { Note, Playlist } from "@/content/types";
-import { filterNotes, searchPlaylists } from "@/content/catalog";
+import { filterNotes, searchPlaylists } from "@/content/query";
 import { NoteList } from "@/components/note-list";
 import { LeaderRow } from "@/components/leader-row";
 import { EmptyNotes } from "@/components/empty-notes";

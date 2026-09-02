@@ -3,7 +3,7 @@ import { HStack, StackItem, VStack } from "@astryxdesign/core/Stack";
 import { Link } from "@astryxdesign/core/Link";
 import { Section } from "@astryxdesign/core/Section";
 import type { Note } from "@/content/types";
-import { notesByYear } from "@/content/catalog";
+import { notesByYear } from "@/content/query";
 import { formatDotDate } from "@/lib/dates";
 import { LeaderRow } from "@/components/leader-row";
 import { TagLinks } from "@/components/tag-links";

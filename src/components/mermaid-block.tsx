@@ -1,22 +1,20 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 
 export function MermaidBlock({ chart }: { chart: string }) {
   const reactId = useId();
-  const hostRef = useRef<HTMLElement>(null);
-  const [status, setStatus] = useState<"loading" | "ready" | "error">(
-    "loading",
-  );
+  const [svg, setSvg] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const id = `mermaid-${reactId.replace(/:/g, "")}`;
     let cancelled = false;
 
     void import("mermaid")
-      .then((mod) => {
+      .then(async (mod) => {
         const mermaid = mod.default;
         mermaid.initialize({
           startOnLoad: false,
@@ -24,18 +22,18 @@ export function MermaidBlock({ chart }: { chart: string }) {
           theme: "neutral",
           fontFamily: "var(--font-family-body)",
         });
-        return mermaid.render(id, chart);
+        return mermaid.render(id, chart.trim());
       })
-      .then(({ svg }) => {
-        if (cancelled || hostRef.current == null) {
-          return;
+      .then(({ svg: rendered }) => {
+        if (!cancelled) {
+          setSvg(rendered);
+          setError(null);
         }
-        hostRef.current.innerHTML = svg;
-        setStatus("ready");
       })
       .catch(() => {
         if (!cancelled) {
-          setStatus("error");
+          setSvg(null);
+          setError("Diagram failed to render. Check the mermaid source.");
         }
       });
 
@@ -44,25 +42,22 @@ export function MermaidBlock({ chart }: { chart: string }) {
     };
   }, [chart, reactId]);
 
-  if (status === "error") {
-    return (
-      <Text color="secondary">
-        Diagram failed to render. Check the mermaid source.
-      </Text>
-    );
+  if (error) {
+    return <Text color="secondary">{error}</Text>;
   }
 
   return (
     <VStack gap={2}>
-      {status === "loading" ? (
+      {svg == null ? (
         <Text color="secondary">Rendering diagram…</Text>
-      ) : null}
-      <VStack
-        ref={hostRef}
-        as="figure"
-        className="md-mermaid"
-        aria-label="Diagram"
-      />
+      ) : (
+        <figure
+          className="md-mermaid"
+          aria-label="Diagram"
+          // Mermaid returns an SVG document; keep it in React so re-renders do not wipe it.
+          dangerouslySetInnerHTML={{ __html: svg }}
+        />
+      )}
     </VStack>
   );
 }

@@ -7,6 +7,7 @@ import { Divider } from "@astryxdesign/core/Divider";
 import { MathText } from "@/components/math-text";
 import { MarkdownCode } from "@/components/markdown-code";
 import { MarkdownImage } from "@/components/markdown-image";
+import { liftDisplayMath } from "@/lib/lift-display-math";
 import type { MarkdownInlinePlugin } from "@astryxdesign/core/Markdown";
 
 function MarkdownLink({
@@ -26,10 +27,8 @@ function MarkdownLink({
 
 const mathPlugins: MarkdownInlinePlugin[] = [
   {
-    pattern: /\$\$([\s\S]+?)\$\$/g,
-    render: (match, key) => (
-      <MathText key={key} expr={match[1] ?? ""} display />
-    ),
+    pattern: /\\\(([\s\S]+?)\\\)/g,
+    render: (match, key) => <MathText key={key} expr={match[1] ?? ""} />,
   },
   {
     pattern: /(?<!\$)\$(?!\$)([^$\n]+?)\$(?!\$)/g,
@@ -52,7 +51,7 @@ export function MarkdownDoc({ children }: { children: string }) {
         hr: () => <Divider variant="subtle" />,
       }}
     >
-      {children}
+      {liftDisplayMath(children)}
     </Markdown>
   );
 }

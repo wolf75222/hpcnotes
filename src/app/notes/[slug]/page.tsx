@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { NoteArticle } from "@/components/note-article";
 import { MissingPost } from "@/components/missing-post";
-import { getNotes, NOTES_BY_SLUG } from "@/content/notes";
+import { getNoteBySlug, getNotes } from "@/content/load-notes";
 import { getPlaylistsForNote, getRelatedNotes } from "@/content/catalog";
 
 export function generateStaticParams() {
@@ -14,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const note = NOTES_BY_SLUG[slug];
+  const note = getNoteBySlug(slug);
   if (note == null) {
     return {
       title: "Not found",
@@ -30,7 +30,7 @@ export default async function NotePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const note = NOTES_BY_SLUG[slug];
+  const note = getNoteBySlug(slug);
   if (note == null) {
     return <MissingPost />;
   }

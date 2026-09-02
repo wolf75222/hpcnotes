@@ -56,10 +56,16 @@ body {
   width: 100%;
 }
 
-.md-image {
+.md-image,
+.md-image-trigger video {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+.md-mermaid {
+  margin: 0;
+  overflow-x: auto;
 }
 
 .md-mermaid svg {

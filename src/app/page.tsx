@@ -4,7 +4,7 @@ import { VStack } from "@astryxdesign/core/Stack";
 import { Heading } from "@astryxdesign/core/Text";
 import { Text } from "@astryxdesign/core/Text";
 import { NoteList } from "@/components/note-list";
-import { getNotes } from "@/content/notes";
+import { getNotes } from "@/content/load-notes";
 
 export const metadata: Metadata = {
   title: { absolute: "hpcnotes.eu" },

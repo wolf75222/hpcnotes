@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { VStack } from "@astryxdesign/core/Stack";
 import { PageHeading } from "@/components/page-heading";
 import { SearchNotes } from "@/components/search-notes";
-import { getNotes } from "@/content/notes";
+import { getNotes } from "@/content/load-notes";
 
 export const metadata: Metadata = {
   title: "Search",

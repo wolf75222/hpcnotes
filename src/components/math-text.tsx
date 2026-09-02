@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import katex from "katex";
 import { Text } from "@astryxdesign/core/Text";
 import "katex/dist/katex.min.css";
@@ -12,27 +11,24 @@ export function MathText({
   expr: string;
   display?: boolean;
 }) {
-  const ref = useRef<HTMLElement>(null);
+  const html = katex.renderToString(expr.trim(), {
+    displayMode: display,
+    throwOnError: false,
+    output: "html",
+  });
 
-  useEffect(() => {
-    if (ref.current == null) {
-      return;
-    }
-    katex.render(expr.trim(), ref.current, {
-      displayMode: display,
-      throwOnError: false,
-      output: "html",
-    });
-  }, [display, expr]);
+  const Tag = display ? "div" : "span";
 
   return (
     <Text
-      ref={ref}
       as={display ? "div" : "span"}
       display={display ? "block" : "inline"}
       className={display ? "md-math-display" : "md-math-inline"}
     >
-      {expr}
+      <Tag
+        // KaTeX HTML; Astryx Text omits dangerouslySetInnerHTML from its props.
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
     </Text>
   );
 }

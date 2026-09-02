@@ -1,6 +1,9 @@
 import type { Note, Playlist } from "./types";
-import { getNotes, NOTES_BY_SLUG } from "./notes";
+import { getNoteBySlug, getNotes } from "./load-notes";
 import { PLAYLISTS } from "./playlists";
+import { filterNotes } from "./query";
+
+export { filterNotes, notesByYear, searchPlaylists } from "./query";
 
 export function getNotesByTag(tag: string) {
   const needle = tag.toLowerCase();
@@ -38,7 +41,7 @@ export function getYears(): { year: string; count: number }[] {
 
 export function getPlaylistNotes(playlist: Playlist): Note[] {
   return playlist.slugs
-    .map((slug) => NOTES_BY_SLUG[slug])
+    .map((slug) => getNoteBySlug(slug))
     .filter((note): note is Note => note != null);
 }
 
@@ -51,7 +54,7 @@ export function getPlaylistsForNote(slug: string) {
 }
 
 export function getRelatedNotes(slug: string, limit = 4) {
-  const note = NOTES_BY_SLUG[slug];
+  const note = getNoteBySlug(slug);
   if (note == null) {
     return [];
   }
@@ -65,46 +68,6 @@ export function getRelatedNotes(slug: string, limit = 4) {
     .slice(0, limit);
 }
 
-export function filterNotes(notes: Note[], query: string) {
-  const needle = query.trim().toLowerCase();
-  if (needle === "") {
-    return notes;
-  }
-  return notes.filter((note) => {
-    const hay = [note.title, note.summary, note.body, note.tags.join(" ")]
-      .join("\n")
-      .toLowerCase();
-    return hay.includes(needle);
-  });
-}
-
 export function searchNotes(query: string) {
   return filterNotes(getNotes(), query);
-}
-
-export function searchPlaylists(query: string) {
-  const needle = query.trim().toLowerCase();
-  if (needle === "") {
-    return [];
-  }
-  return PLAYLISTS.filter((playlist) => {
-    const hay = [playlist.title, playlist.summary, playlist.slug]
-      .join("\n")
-      .toLowerCase();
-    return hay.includes(needle);
-  });
-}
-
-export function notesByYear(notes: Note[]) {
-  const groups: { year: string; notes: Note[] }[] = [];
-  for (const note of notes) {
-    const year = note.date.slice(0, 4);
-    const last = groups[groups.length - 1];
-    if (last && last.year === year) {
-      last.notes.push(note);
-    } else {
-      groups.push({ year, notes: [note] });
-    }
-  }
-  return groups;
 }

@@ -20,9 +20,22 @@ npm start
 
 ## Content
 
-Notes live in `src/content/notes.ts`. Add an object to `NOTES` (slug, title, summary, ISO date, author, tags, Markdown body). Playlists live in `src/content/playlists.ts` as ordered lists of slugs.
+Notes are Markdown files in `src/content/notes/`. The filename is the slug (`what-a-note-can-carry.md` → `/notes/what-a-note-can-carry`). Front matter:
 
-Markdown in a note is rendered with Astryx (`Markdown`, `CodeBlock`, `Outline`, `Lightbox`). Fenced `mermaid` becomes a diagram, fenced `math` / `$…$` becomes KaTeX, images and gifs open in a lightbox. Put media under `public/media/`.
+```md
+---
+title: What a note can carry
+summary: One line for the list.
+date: 2026-09-02
+author: hpcnotes
+tags: documentation, gpu
+---
+
+Write ordinary Markdown. A `mermaid` fence is a diagram, `$…$` or a `math`
+fence is KaTeX, `![alt](/media/file.gif)` is a figure or gif (files live in
+`public/media/`), and fenced code gets a copy button. Playlists are still
+`src/content/playlists.ts` (ordered lists of slugs).
+```
 
 | Route | What it is |
 | --- | --- |

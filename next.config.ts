@@ -1,14 +1,5 @@
 import type { NextConfig } from "next";
-
-const NOTE_SLUGS = [
-  "site-independent-hpc-docs",
-  "slurm-jobs-that-finish",
-  "measure-before-you-optimize",
-  "first-gpu-kernel",
-  "login-nodes-are-not-compute",
-  "modules-are-a-contract",
-  "what-a-note-can-carry",
-];
+import { getNoteSlugs } from "./src/content/load-notes";
 
 const nextConfig: NextConfig = {
   transpilePackages: ["mermaid", "katex"],
@@ -24,7 +15,7 @@ const nextConfig: NextConfig = {
       { source: "/wiki", destination: "/", permanent: false },
       { source: "/wiki/:path*", destination: "/", permanent: false },
       { source: "/contribute", destination: "/", permanent: false },
-      ...NOTE_SLUGS.map((slug) => ({
+      ...getNoteSlugs().map((slug) => ({
         source: `/${slug}`,
         destination: `/notes/${slug}`,
         permanent: false,
