@@ -10,64 +10,51 @@ function readGlobalMermaid(): MermaidApi | undefined {
   return (globalThis as unknown as { mermaid?: MermaidApi }).mermaid;
 }
 
-function loadMermaid(): Promise<MermaidApi> {
-  mermaidPromise ??= new Promise((resolve, reject) => {
-    const existing = readGlobalMermaid();
-    if (existing) {
-      existing.initialize({
-        startOnLoad: false,
-        securityLevel: "strict",
-        theme: "neutral",
-      });
-      resolve(existing);
-      return;
-    }
-
-    const src = "/vendor/mermaid.min.js";
-    const ready = (script: HTMLScriptElement) => {
-      script.addEventListener("load", () => {
-        const mermaid = readGlobalMermaid();
-        if (mermaid == null) {
-          reject(new Error("Mermaid did not attach to the page."));
-          return;
-        }
-        mermaid.initialize({
-          startOnLoad: false,
-          securityLevel: "strict",
-          theme: "neutral",
-        });
-        resolve(mermaid);
-      });
-      script.addEventListener("error", () => {
-        reject(new Error("Failed to load mermaid."));
-      });
-    };
-
-    const prev = document.querySelector<HTMLScriptElement>(
-      'script[data-hpc-mermaid="1"]',
-    );
-    if (prev) {
-      const already = readGlobalMermaid();
-      if (already) {
-        already.initialize({
-          startOnLoad: false,
-          securityLevel: "strict",
-          theme: "neutral",
-        });
-        resolve(already);
-        return;
-      }
-      ready(prev);
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = src;
-    script.async = true;
-    script.dataset.hpcMermaid = "1";
-    ready(script);
-    document.head.appendChild(script);
+function configure(mermaid: MermaidApi) {
+  mermaid.initialize({
+    startOnLoad: false,
+    securityLevel: "strict",
+    theme: "neutral",
   });
+}
+
+function findMermaidScript(): HTMLScriptElement | null {
+  return (
+    document.querySelector<HTMLScriptElement>("script#hpc-mermaid") ??
+    document.querySelector<HTMLScriptElement>('script[src="/vendor/mermaid.min.js"]')
+  );
+}
+
+function injectMermaidScript(): HTMLScriptElement {
+  const script = document.createElement("script");
+  script.id = "hpc-mermaid";
+  script.src = "/vendor/mermaid.min.js";
+  script.async = true;
+  document.head.appendChild(script);
+  return script;
+}
+
+function loadMermaid(): Promise<MermaidApi> {
+  mermaidPromise ??= (async () => {
+    if (readGlobalMermaid() == null && findMermaidScript() == null) {
+      injectMermaidScript();
+    }
+
+    const started = Date.now();
+    while (readGlobalMermaid() == null) {
+      if (Date.now() - started > 20000) {
+        throw new Error("Timed out loading mermaid.");
+      }
+      await new Promise((resolve) => window.setTimeout(resolve, 50));
+    }
+
+    const mermaid = readGlobalMermaid();
+    if (mermaid == null) {
+      throw new Error("Mermaid did not attach to the page.");
+    }
+    configure(mermaid);
+    return mermaid;
+  })();
   return mermaidPromise;
 }
 

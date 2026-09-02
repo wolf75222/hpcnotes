@@ -14,6 +14,7 @@ import { TagLinks } from "@/components/tag-links";
 import { NoteList } from "@/components/note-list";
 import { AdSlot } from "@/components/ad-slot";
 import { PageTrail } from "@/components/page-trail";
+import Script from "next/script";
 
 export function NoteArticle({
   note,
@@ -31,6 +32,13 @@ export function NoteArticle({
 
   const article = (
     <VStack gap={6}>
+      {note.body.includes("```mermaid") ? (
+        <Script
+          id="hpc-mermaid"
+          src="/vendor/mermaid.min.js"
+          strategy="afterInteractive"
+        />
+      ) : null}
       <Section padding={0}>
         <VStack gap={3}>
           <PageTrail
