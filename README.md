@@ -71,4 +71,5 @@ The Chrome extension for collecting Master CHPS alumni profiles is unchanged und
 
 - Next.js (App Router) and React 19
 - Astryx + StyleX tokens (pre-built CSS, no StyleX compiler)
+- KaTeX for maths, Mermaid for diagrams (the browser bundle is copied to `public/vendor/` on install)
 - Optional Google AdSense
