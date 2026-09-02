@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { useDeferredLightbox } from "@/components/media-lightbox";
@@ -10,10 +11,11 @@ const GIF_SRC = /\.gif(\?|$)/i;
 export function MarkdownImage({ src, alt }: { src: string; alt: string }) {
   const isVideo = VIDEO_SRC.test(src);
   const isGif = GIF_SRC.test(src);
-  const { openLightbox, element } = useDeferredLightbox(
-    { src, alt, caption: alt, type: "image" },
-    !isGif,
+  const media = useMemo(
+    () => ({ src, alt, caption: alt, type: "image" as const }),
+    [src, alt],
   );
+  const { openLightbox, element } = useDeferredLightbox(media, !isGif);
 
   return (
     <VStack gap={2} as="figure">

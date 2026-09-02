@@ -4,17 +4,19 @@ import { useEffect, useMemo, useState } from "react";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import {
-  mermaidSvgObjectUrl,
+  mermaidSvgDataUrl,
   prefetchMermaid,
   renderMermaidChart,
 } from "@/lib/load-mermaid";
 import { useDeferredLightbox } from "@/components/media-lightbox";
 
 export function MermaidBlock({ chart }: { chart: string }) {
-  prefetchMermaid();
-
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    prefetchMermaid();
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -43,23 +45,14 @@ export function MermaidBlock({ chart }: { chart: string }) {
   }, [chart]);
 
   const src = useMemo(
-    () => (svg == null ? "" : mermaidSvgObjectUrl(svg)),
+    () => (svg == null ? "" : mermaidSvgDataUrl(svg)),
     [svg],
   );
-
-  useEffect(() => {
-    if (src === "") {
-      return;
-    }
-    return () => {
-      URL.revokeObjectURL(src);
-    };
-  }, [src]);
-
-  const { openLightbox, element } = useDeferredLightbox(
-    { src, alt: "Diagram", caption: "Diagram", type: "image" },
-    true,
+  const media = useMemo(
+    () => ({ src, alt: "Diagram", caption: "Diagram", type: "image" as const }),
+    [src],
   );
+  const { openLightbox, element } = useDeferredLightbox(media, true);
 
   if (error) {
     return <Text color="secondary">{error}</Text>;

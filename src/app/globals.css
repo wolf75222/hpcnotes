@@ -20,11 +20,25 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.note-row {
+  min-width: 0;
+  width: 100%;
+}
+
 .note-leader {
-  border-bottom: 1px dotted var(--color-border-emphasized);
   min-width: var(--spacing-8);
-  height: 0.65em;
-  margin-block-end: 0.2em;
+  height: 1em;
+  margin-block-end: 0.22em;
+  border: 0;
+  color: var(--color-border-emphasized);
+  background-image: radial-gradient(
+    circle closest-side,
+    currentColor 96%,
+    transparent 100%
+  );
+  background-size: 0.4em 0.4em;
+  background-repeat: repeat-x;
+  background-position: 0 50%;
 }
 
 .md-image-trigger {
@@ -32,13 +46,16 @@ body {
   padding: 0;
   border: 0;
   background: transparent;
-  cursor: pointer;
+  cursor: zoom-in;
   text-align: start;
   width: 100%;
+  max-width: 100%;
 }
 
 .md-image,
-.md-image-trigger video {
+.md-image-trigger video,
+.md-image-trigger img,
+.md-image-trigger svg {
   display: block;
   max-width: 100%;
   height: auto;
@@ -47,6 +64,7 @@ body {
 .md-mermaid {
   margin: 0;
   overflow-x: auto;
+  max-width: 100%;
 }
 
 .md-mermaid svg {
@@ -61,6 +79,11 @@ body {
 
 .md-math-display {
   overflow-x: auto;
+  max-width: 100%;
+}
+
+.astryx-markdown-table {
+  max-width: 100%;
 }
 
 .adsbygoogle {

@@ -3,7 +3,8 @@
 import { useCallback, useRef, useState, type MouseEvent } from "react";
 import { Lightbox, type LightboxMedia } from "@astryxdesign/core/Lightbox";
 
-const OPEN_DELAY_MS = 120;
+const OPEN_DELAY_MS = 50;
+const IGNORE_CLOSE_MS = 600;
 
 export function useDeferredLightbox(
   media: LightboxMedia,
@@ -11,26 +12,42 @@ export function useDeferredLightbox(
 ) {
   const [open, setOpen] = useState(false);
   const pending = useRef(false);
+  const ignoreUntil = useRef(0);
 
   const openLightbox = useCallback((event?: MouseEvent) => {
     event?.preventDefault();
     event?.stopPropagation();
+    event?.nativeEvent.stopImmediatePropagation();
     if (pending.current || open) {
       return;
     }
     pending.current = true;
-    // Native <dialog showModal()> treats the opening pointer as a backdrop
-    // dismiss if it is still in flight. Wait until that gesture is done.
+    ignoreUntil.current = Date.now() + IGNORE_CLOSE_MS;
+
+    const swallow = (click: Event) => {
+      click.stopPropagation();
+    };
+    document.addEventListener("click", swallow, true);
+
     window.setTimeout(() => {
+      document.removeEventListener("click", swallow, true);
       pending.current = false;
+      ignoreUntil.current = Date.now() + IGNORE_CLOSE_MS;
       setOpen(true);
     }, OPEN_DELAY_MS);
   }, [open]);
 
+  const onOpenChange = useCallback((next: boolean) => {
+    if (!next && Date.now() < ignoreUntil.current) {
+      return;
+    }
+    setOpen(next);
+  }, []);
+
   const element = (
     <Lightbox
       isOpen={open}
-      onOpenChange={setOpen}
+      onOpenChange={onOpenChange}
       media={media}
       hasZoom={hasZoom}
     />

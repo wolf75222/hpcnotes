@@ -19,6 +19,14 @@ function configure(mermaid: MermaidApi) {
     startOnLoad: false,
     securityLevel: "strict",
     theme: "neutral",
+    fontFamily: "inherit",
+    flowchart: {
+      htmlLabels: false,
+      useMaxWidth: true,
+    },
+    sequence: {
+      useMaxWidth: true,
+    },
   });
 }
 
@@ -185,12 +193,16 @@ export function prepareMermaidSvg(svg: string): string {
       }
     }
   }
-  return trimmed;
+  trimmed = trimmed.replace(
+    /style="[^"]*max-width:[^"]*"/,
+    (style) => style.replace(/max-width:\s*[^;"]*;?/, ""),
+  );
+  return trimmed.replace(
+    /(<svg[^>]*>)/,
+    '$1<rect width="100%" height="100%" fill="#ffffff"/>',
+  );
 }
 
-export function mermaidSvgObjectUrl(svg: string): string {
-  const blob = new Blob([prepareMermaidSvg(svg)], {
-    type: "image/svg+xml;charset=utf-8",
-  });
-  return URL.createObjectURL(blob);
+export function mermaidSvgDataUrl(svg: string): string {
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(prepareMermaidSvg(svg))}`;
 }
