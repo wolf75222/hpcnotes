@@ -14,8 +14,14 @@ body {
 body {
   min-height: 100%;
   font-family: var(--font-family-body);
-  background-color: var(--color-background-surface);
   color: var(--color-text-primary);
+  background-color: var(--color-icon-teal);
+  background-image: linear-gradient(
+    135deg,
+    var(--color-icon-green),
+    var(--color-icon-teal)
+  );
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
 }
 

@@ -3,7 +3,6 @@ import { Heading, Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { MarkdownDoc } from "@/components/markdown-doc";
 import { AdSlot } from "@/components/ad-slot";
-import { SiteBrand } from "@/components/site-brand";
 import { WritingList } from "@/components/writing-list";
 import { getOtherPosts, getPosts, POSTS_BY_SLUG } from "@/content/posts";
 import { formatDate } from "@/lib/dates";
@@ -43,8 +42,7 @@ export default async function PostPage({
   const others = getOtherPosts(post.slug);
 
   return (
-    <VStack gap={8}>
-      <SiteBrand />
+    <VStack gap={6}>
       <VStack gap={3}>
         <Text type="supporting">{formatDate(post.date)}</Text>
         <Heading level={1}>{post.title}</Heading>

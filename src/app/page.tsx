@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Text } from "@astryxdesign/core/Text";
 import { Link } from "@astryxdesign/core/Link";
 import { VStack } from "@astryxdesign/core/Stack";
-import { SiteBrand } from "@/components/site-brand";
 import { WritingList } from "@/components/writing-list";
 import { getPosts } from "@/content/posts";
 
@@ -17,22 +16,19 @@ export default function HomePage() {
 
   return (
     <VStack gap={8}>
-      <VStack gap={4}>
-        <SiteBrand isHeading />
-        <Text>
-          Short notes on high-performance computing. Local docs still own
-          hostnames. These posts own the habits that transfer — the same brief
-          as the{" "}
-          <Link
-            href="https://hpc-wiki.info/hpc/HPC_Wiki"
-            hasUnderline
-            isExternalLink
-          >
-            classic HPC Wiki
-          </Link>
-          , written as dated notes instead of a MediaWiki.
-        </Text>
-      </VStack>
+      <Text>
+        Short notes on high-performance computing. Local docs still own
+        hostnames. These posts own the habits that transfer — the same brief as
+        the{" "}
+        <Link
+          href="https://hpc-wiki.info/hpc/HPC_Wiki"
+          hasUnderline
+          isExternalLink
+        >
+          classic HPC Wiki
+        </Link>
+        , written as dated notes instead of a MediaWiki.
+      </Text>
       <WritingList posts={posts} />
     </VStack>
   );

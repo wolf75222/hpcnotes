@@ -28,7 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   const ads = getAdSenseConfig();
 
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light">
       <body>
         <Providers>
           <SiteShell>{children}</SiteShell>

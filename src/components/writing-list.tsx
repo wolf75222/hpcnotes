@@ -2,11 +2,11 @@ import { Heading, Text } from "@astryxdesign/core/Text";
 import { List, ListItem } from "@astryxdesign/core/List";
 import { VStack } from "@astryxdesign/core/Stack";
 import type { BlogPost } from "@/content/types";
-import { formatMonthYear } from "@/lib/dates";
+import { formatDayMonth } from "@/lib/dates";
 
 export function WritingList({
   posts,
-  heading = "Writing",
+  heading,
 }: {
   posts: BlogPost[];
   heading?: string;
@@ -14,7 +14,7 @@ export function WritingList({
   if (posts.length === 0) {
     return (
       <VStack gap={2}>
-        <Heading level={2}>{heading}</Heading>
+        {heading ? <Heading level={2}>{heading}</Heading> : null}
         <Text color="secondary">When a note ships, it will show up here.</Text>
       </VStack>
     );
@@ -23,21 +23,27 @@ export function WritingList({
   return (
     <List
       header={
-        <Text type="label" color="secondary">
-          {heading}
-        </Text>
+        heading ? (
+          <Text type="label" color="secondary">
+            {heading}
+          </Text>
+        ) : (
+          <Text type="label" color="secondary">
+            Writing
+          </Text>
+        )
       }
-      hasDividers
-      density="compact"
+      density="spacious"
     >
       {posts.map((post) => (
         <ListItem
           key={post.slug}
           label={post.title}
+          description={<Text color="secondary">{post.summary}</Text>}
           href={`/${post.slug}`}
-          endContent={
-            <Text type="supporting" textWrap="nowrap">
-              {formatMonthYear(post.date)}
+          startContent={
+            <Text type="supporting" textWrap="nowrap" hasTabularNumbers>
+              {formatDayMonth(post.date)}
             </Text>
           }
         />
