@@ -1,46 +1,23 @@
 import { Text } from "@astryxdesign/core/Text";
-import { HStack, StackItem, VStack } from "@astryxdesign/core/Stack";
-import { Link } from "@astryxdesign/core/Link";
+import { VStack } from "@astryxdesign/core/Stack";
 import { Section } from "@astryxdesign/core/Section";
 import type { Note } from "@/content/types";
 import { notesByYear } from "@/content/query";
 import { formatDotDate } from "@/lib/dates";
 import { LeaderRow } from "@/components/leader-row";
-import { TagLinks } from "@/components/tag-links";
 import { EmptyNotes } from "@/components/empty-notes";
 
-function NoteRows({
-  notes,
-  numbered,
-}: {
-  notes: Note[];
-  numbered?: boolean;
-}) {
+function NoteRows({ notes }: { notes: Note[] }) {
   return (
     <VStack gap={4}>
-      {notes.map((note, index) => {
-        const row = (
-          <LeaderRow
-            href={`/notes/${note.slug}`}
-            label={note.title}
-            meta={formatDotDate(note.date)}
-            extra={<TagLinks tags={note.tags} />}
-          />
-        );
-
-        if (!numbered) {
-          return <VStack key={note.slug}>{row}</VStack>;
-        }
-
-        return (
-          <HStack key={note.slug} gap={3} align="start">
-            <Text type="supporting" hasTabularNumbers textWrap="nowrap">
-              {String(index + 1).padStart(2, "0")}
-            </Text>
-            <StackItem size="fill">{row}</StackItem>
-          </HStack>
-        );
-      })}
+      {notes.map((note) => (
+        <LeaderRow
+          key={note.slug}
+          href={`/notes/${note.slug}`}
+          label={note.title}
+          meta={formatDotDate(note.date)}
+        />
+      ))}
     </VStack>
   );
 }
@@ -48,21 +25,14 @@ function NoteRows({
 export function NoteList({
   notes,
   grouped = false,
-  numbered = false,
   empty = "No notes in this list yet.",
 }: {
   notes: Note[];
   grouped?: boolean;
-  numbered?: boolean;
   empty?: string;
 }) {
   if (notes.length === 0) {
-    return (
-      <EmptyNotes
-        title="Nothing here"
-        description={empty}
-      />
-    );
+    return <EmptyNotes title="Nothing here" description={empty} />;
   }
 
   if (grouped) {
@@ -71,10 +41,10 @@ export function NoteList({
         {notesByYear(notes).map((group) => (
           <Section key={group.year} padding={0}>
             <VStack gap={3}>
-              <Link href={`/years/${group.year}`} color="secondary" isStandalone>
+              <Text type="supporting" color="secondary">
                 {group.year}
-              </Link>
-              <NoteRows notes={group.notes} numbered={numbered} />
+              </Text>
+              <NoteRows notes={group.notes} />
             </VStack>
           </Section>
         ))}
@@ -82,5 +52,5 @@ export function NoteList({
     );
   }
 
-  return <NoteRows notes={notes} numbered={numbered} />;
+  return <NoteRows notes={notes} />;
 }

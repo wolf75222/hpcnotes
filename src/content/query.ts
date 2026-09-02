@@ -1,5 +1,4 @@
 import type { Note } from "./types";
-import { PLAYLISTS } from "./playlists";
 
 export function filterNotes(notes: Note[], query: string) {
   const needle = query.trim().toLowerCase();
@@ -26,17 +25,4 @@ export function notesByYear(notes: Note[]) {
     }
   }
   return groups;
-}
-
-export function searchPlaylists(query: string) {
-  const needle = query.trim().toLowerCase();
-  if (needle === "") {
-    return [];
-  }
-  return PLAYLISTS.filter((playlist) => {
-    const hay = [playlist.title, playlist.summary, playlist.slug]
-      .join("\n")
-      .toLowerCase();
-    return hay.includes(needle);
-  });
 }

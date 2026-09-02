@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
-import { PageHeading } from "@/components/page-heading";
 import { NoteList } from "@/components/note-list";
 import { EmptyNotes } from "@/components/empty-notes";
 import { getNotesByTag, getTags } from "@/content/catalog";
@@ -17,7 +17,7 @@ export async function generateMetadata({
   const { tag } = await params;
   const decoded = decodeURIComponent(tag);
   return {
-    title: decoded,
+    title: `#${decoded}`,
     description: `Notes tagged ${decoded}.`,
   };
 }
@@ -32,22 +32,12 @@ export default async function TagPage({
   const notes = getNotesByTag(decoded);
 
   return (
-    <VStack gap={8}>
-      <PageHeading
-        title={decoded}
-        summary={`Notes tagged ${decoded}.`}
-        trail={[
-          { href: "/", label: "notes" },
-          { href: "/tags", label: "tags" },
-          { label: decoded, current: true },
-        ]}
-      />
+    <VStack gap={6}>
+      <Text color="secondary">#{decoded}</Text>
       {notes.length === 0 ? (
         <EmptyNotes
           title="Nothing carries that tag yet"
-          description="Tags are short labels on notes. Pick another from the index."
-          actionHref="/tags"
-          actionLabel="All tags"
+          description="Tags live at the end of a note, as #labels."
         />
       ) : (
         <NoteList notes={notes} grouped />

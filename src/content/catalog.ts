@@ -1,9 +1,9 @@
-import type { Note, Playlist } from "./types";
 import { getNoteBySlug, getNotes } from "./load-notes";
 import { PLAYLISTS } from "./playlists";
 import { filterNotes } from "./query";
+import type { Note } from "./types";
 
-export { filterNotes, notesByYear, searchPlaylists } from "./query";
+export { filterNotes, notesByYear } from "./query";
 
 export function getNotesByTag(tag: string) {
   const needle = tag.toLowerCase();
@@ -39,33 +39,51 @@ export function getYears(): { year: string; count: number }[] {
     .sort((a, b) => b.year.localeCompare(a.year));
 }
 
-export function getPlaylistNotes(playlist: Playlist): Note[] {
-  return playlist.slugs
-    .map((slug) => getNoteBySlug(slug))
-    .filter((note): note is Note => note != null);
-}
-
-export function getPlaylists() {
-  return PLAYLISTS;
-}
-
-export function getPlaylistsForNote(slug: string) {
-  return PLAYLISTS.filter((playlist) => playlist.slugs.includes(slug));
-}
-
-export function getRelatedNotes(slug: string, limit = 4) {
+export function getRelatedNotes(slug: string, limit = 5) {
   const note = getNoteBySlug(slug);
   if (note == null) {
     return [];
   }
+
+  const seen = new Set<string>([slug]);
+  const related: Note[] = [];
+
+  for (const playlist of PLAYLISTS) {
+    if (!playlist.slugs.includes(slug)) {
+      continue;
+    }
+    for (const other of playlist.slugs) {
+      if (seen.has(other)) {
+        continue;
+      }
+      const match = getNoteBySlug(other);
+      if (match == null) {
+        continue;
+      }
+      seen.add(other);
+      related.push(match);
+      if (related.length >= limit) {
+        return related;
+      }
+    }
+  }
+
   const tags = new Set(note.tags);
-  return getNotes()
-    .filter(
-      (candidate) =>
-        candidate.slug !== slug &&
-        candidate.tags.some((tag) => tags.has(tag)),
-    )
-    .slice(0, limit);
+  for (const candidate of getNotes()) {
+    if (seen.has(candidate.slug)) {
+      continue;
+    }
+    if (!candidate.tags.some((tag) => tags.has(tag))) {
+      continue;
+    }
+    seen.add(candidate.slug);
+    related.push(candidate);
+    if (related.length >= limit) {
+      return related;
+    }
+  }
+
+  return related;
 }
 
 export function searchNotes(query: string) {

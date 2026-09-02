@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { NoteArticle } from "@/components/note-article";
 import { MissingPost } from "@/components/missing-post";
 import { getNoteBySlug, getNotes } from "@/content/load-notes";
-import { getPlaylistsForNote, getRelatedNotes } from "@/content/catalog";
+import { getRelatedNotes } from "@/content/catalog";
 
 export function generateStaticParams() {
   return getNotes().map((note) => ({ slug: note.slug }));
@@ -36,10 +36,6 @@ export default async function NotePage({
   }
 
   return (
-    <NoteArticle
-      note={note}
-      related={getRelatedNotes(note.slug)}
-      playlists={getPlaylistsForNote(note.slug)}
-    />
+    <NoteArticle note={note} related={getRelatedNotes(note.slug)} />
   );
 }

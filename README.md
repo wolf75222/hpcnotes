@@ -1,6 +1,6 @@
 # hpcnotes.eu
 
-Short notes on high-performance computing. Site-independent, dated, and meant to sit beside a centre handbook — not replace it.
+Short notes on high-performance computing. A white page, a list, a date.
 
 The UI is [Astryx](https://github.com/facebook/astryx) with the **neutral** theme, locked to light mode.
 
@@ -18,6 +18,8 @@ npm run build
 npm start
 ```
 
+Press `/` or `⌘K` / `Ctrl+K` to search. There is no search field on the page until then.
+
 ## Content
 
 Notes are Markdown files in `src/content/notes/`. The filename is the slug (`what-a-note-can-carry.md` → `/notes/what-a-note-can-carry`). Front matter:
@@ -33,18 +35,15 @@ tags: documentation, gpu
 
 Write ordinary Markdown. A `mermaid` fence is a diagram, `$…$` or a `math`
 fence is KaTeX, `![alt](/media/file.gif)` is a figure or gif (files live in
-`public/media/`), and fenced code gets a copy button. Playlists are still
-`src/content/playlists.ts` (ordered lists of slugs).
+`public/media/`), and fenced code gets a copy button. Tags render as `#tag`
+at the end of the note. Similar notes are listed under that.
 ```
 
 | Route | What it is |
 | --- | --- |
 | `/` | All notes, grouped by year |
-| `/notes/[slug]` | A note, with a table of contents when the body has headings |
-| `/tags`, `/tags/[tag]` | Tag index and a filtered list |
-| `/playlists`, `/playlists/[slug]` | Ordered reading lists |
-| `/years`, `/years/[year]` | Archive by date |
-| `/search` | Live search over titles, tags, bodies, and playlist names |
+| `/notes/[slug]` | A note |
+| `/tags/[tag]` | Notes that carry that `#tag` |
 | `/about` | What this site is |
 
 ## Google AdSense

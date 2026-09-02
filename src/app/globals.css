@@ -20,30 +20,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.site-nav-current {
-  font-style: italic;
-}
-
 .note-leader {
   border-bottom: 1px dotted var(--color-border-emphasized);
   min-width: var(--spacing-8);
   height: 0.65em;
   margin-block-end: 0.2em;
-}
-
-.note-toc {
-  position: sticky;
-  top: var(--spacing-8);
-  flex-shrink: 0;
-  align-self: start;
-  max-height: calc(100vh - var(--spacing-12));
-  overflow: auto;
-}
-
-@media (max-width: 64rem) {
-  .note-toc {
-    display: none;
-  }
 }
 
 .md-image-trigger {

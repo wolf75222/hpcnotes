@@ -7,16 +7,23 @@ export function LeaderRow({
   label,
   meta,
   extra,
+  onNavigate,
 }: {
   href: string;
   label: string;
   meta: string;
   extra?: React.ReactNode;
+  onNavigate?: () => void;
 }) {
   return (
     <VStack gap={1}>
       <HStack align="end" gap={2}>
-        <Link href={href} color="primary" isStandalone>
+        <Link
+          href={href}
+          color="primary"
+          isStandalone
+          onClick={onNavigate}
+        >
           {label}
         </Link>
         <StackItem size="fill" className="note-leader" />
