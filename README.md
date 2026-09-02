@@ -1,6 +1,6 @@
-# HPC Wiki
+# hpcnotes.eu
 
-A small blog of site-independent notes on high-performance computing. Same spirit as the classic [HPC Wiki](https://hpc-wiki.info/hpc/HPC_Wiki) — Slurm, MPI, GPUs, the habits that transfer between clusters — written as dated posts instead of a MediaWiki.
+Short notes on high-performance computing. Site-independent, dated, and meant to sit beside a centre handbook — not replace it.
 
 The UI is [Astryx](https://github.com/facebook/astryx) with the **neutral** theme, locked to light mode.
 
@@ -20,7 +20,17 @@ npm start
 
 ## Content
 
-Posts live in `src/content/posts.ts`. Add an object to `POSTS` (slug, title, summary, ISO date, author, tags, Markdown body). The home page lists them newest first; `/[slug]` renders the body.
+Notes live in `src/content/notes.ts`. Add an object to `NOTES` (slug, title, summary, ISO date, author, tags, Markdown body). Playlists live in `src/content/playlists.ts` as ordered lists of slugs.
+
+| Route | What it is |
+| --- | --- |
+| `/` | All notes, grouped by year |
+| `/notes/[slug]` | A note, with a table of contents when the body has headings |
+| `/tags`, `/tags/[tag]` | Tag index and a filtered list |
+| `/playlists`, `/playlists/[slug]` | Ordered reading lists |
+| `/years`, `/years/[year]` | Archive by date |
+| `/search` | Live search over titles, tags, bodies, and playlist names |
+| `/about` | What this site is |
 
 ## Google AdSense
 

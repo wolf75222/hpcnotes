@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <path
-    d="M8 8h3v6.5h10V8h3v16h-3v-6.5H11V24H8V8Z"
-    fill="currentColor"
-  />
+  <rect x="7" y="7" width="7" height="7" fill="currentColor" />
+  <rect x="18" y="7" width="7" height="7" fill="currentColor" />
+  <rect x="7" y="18" width="7" height="7" fill="currentColor" />
+  <rect x="18" y="18" width="7" height="7" fill="currentColor" />
 </svg>

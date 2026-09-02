@@ -1,17 +1,17 @@
-import type { BlogPost } from "./types";
+import type { Note } from "./types";
 
-export const POSTS: BlogPost[] = [
+export const NOTES: Note[] = [
   {
     slug: "site-independent-hpc-docs",
     title: "Why site-independent HPC notes still matter",
     summary:
       "Every centre has a hostname. None of them should have to re-explain MPI ranks from scratch.",
     date: "2026-08-24",
-    author: "HPC Wiki editors",
-    tags: ["documentation"],
+    author: "hpcnotes",
+    tags: ["documentation", "portability"],
     body: `Campus clusters, national machines, and cloud partitions disagree about almost every proper noun: the login host, the GPU partition, the scratch purge. They agree about almost every concept: login nodes are not compute, collectives have to match, and walltime is a contract.
 
-That split is the brief for these notes — the same idea as the [classic HPC Wiki](https://hpc-wiki.info/hpc/HPC_Wiki), written as dated posts instead of a MediaWiki.
+That split is the brief for these notes — dated, site-independent, and meant to sit beside a centre's own handbook.
 
 ## What belongs in a centre's docs
 
@@ -38,8 +38,8 @@ If you maintain a centre handbook, the highest-leverage change is often a dozen 
     summary:
       "The difference between a script that queued and a result you can publish is usually walltime, cwd, and the launcher — not the solver.",
     date: "2026-08-11",
-    author: "HPC Wiki editors",
-    tags: ["slurm"],
+    author: "hpcnotes",
+    tags: ["slurm", "batch"],
     body: `A surprising number of "the cluster is broken" tickets are job scripts that never had a chance: wrong directory, stdout path that does not exist, \`mpirun\` that ignored the allocation, walltime copied from a colleague's 48-hour production run into a compile test.
 
 ## The five lines that matter
@@ -73,8 +73,8 @@ If you \`sbatch ../scripts/run.slurm\` from a random folder, relative paths insi
     summary:
       "A CFD mini-app that was 'MPI bound' until we turned the VTK dumps off. Performance engineering as a habit, not a rewrite.",
     date: "2026-07-28",
-    author: "HPC Wiki editors",
-    tags: ["performance"],
+    author: "hpcnotes",
+    tags: ["performance", "io", "mpi"],
     body: `The first profile on a production mesh is allowed to be embarrassing. The unforgivable part is rewriting the flux kernel before that profile exists.
 
 ## A short true-to-life sequence
@@ -109,11 +109,11 @@ Not the Riemann solver. A single writer rank, larger intervals, and a binary for
     summary:
       "A checklist for the first CUDA or HIP allocation: visibility, a tiny kernel, then the application module — in that order.",
     date: "2026-06-16",
-    author: "HPC Wiki editors",
-    tags: ["gpu"],
+    author: "hpcnotes",
+    tags: ["gpu", "slurm"],
     body: `People skip from "I have a GPU partition" to "I built the full application" and then spend a day debugging a solver that never saw a device.
 
-## 1. Get an allocation that includes a GPU
+## Get an allocation that includes a GPU
 
 \`\`\`bash
 salloc -N 1 --gpus=1 -t 00:20:00 -p gpu-debug
@@ -123,31 +123,81 @@ echo \$CUDA_VISIBLE_DEVICES
 
 If this fails, **stop**. Compiling will not fix the scheduler.
 
-## 2. Run a kernel that is not your code
+## Run a kernel that is not your code
 
 A 20-line vector add, built with the site CUDA/HIP module, launched with \`srun\`. Confirm the device name matches the partition you requested.
 
-## 3. Then load the application
+## Then load the application
 
 Now \`module load gromacs-gpu\` (or whatever you actually wanted). Check that the binary is the GPU build. Run one timestep. Watch \`nvidia-smi\` in a second SSH **inside the allocation** if the site allows \`srun --overlap\`, or dump utilisation at the end of the job.
 
-## 4. Only then scale
+## Only then scale
 
 Multi-GPU and multi-node GPU-aware MPI are where site stacks differ. They are not the first experiment.
 `,
   },
+  {
+    slug: "login-nodes-are-not-compute",
+    title: "Login nodes are not compute",
+    summary:
+      "If the shared login image is swapping, it is because someone compiled the universe there. Don't.",
+    date: "2025-11-04",
+    author: "hpcnotes",
+    tags: ["etiquette", "batch"],
+    body: `A login node is a waiting room with a compiler. It is not a 128-core workstation that happens to have SSH.
+
+## What belongs on login
+
+- Editing job scripts
+- \`sbatch\`, \`squeue\`, \`module spider\`
+- A tiny configure test, if the site asks for it
+
+## What does not
+
+- \`make -j\` on a full application
+- Python that reads the whole mesh into RAM
+- \`mpirun\` "just to see"
+
+## Move the work
+
+\`salloc\` for an interactive compile. A short serial job for a configure. Scratch, not \`$HOME\`, for anything that will be written again in ten minutes.
+
+If you need a rule you can shout across the office: if it would make your laptop fan spin, it does not belong on login.
+`,
+  },
+  {
+    slug: "modules-are-a-contract",
+    title: "Environment modules are a contract",
+    summary:
+      "The modulefile is how the machine tells you which compiler, MPI, and CUDA belong together. Mixing stacks by hand is how you get a weekend of undefined references.",
+    date: "2024-09-18",
+    author: "hpcnotes",
+    tags: ["modules", "portability"],
+    body: `A cluster is not a laptop with extra cores. The software you can see is a set of blessed combinations, and the modulefile is the contract for one of them.
+
+## Load a stack, not a souvenir
+
+\`module load gcc openmpi cuda\` from three different generations is how you get a binary that links and a job that dies in \`MPI_Init\`. Load the site's metapackage, or a versioned toolchain the handbook names. Then stop.
+
+## \`module purge\` is not optional
+
+Login profiles accumulate. Yesterday's PETSc is still in \`LD_LIBRARY_PATH\` when today's GROMACS starts. Purge, then load, in the job script, every time.
+
+## Record what you loaded
+
+\`module list\` in the job log is cheaper than reconstructing a toolchain from memory six months later, after the default GCC has moved. If the site offers \`spack\` or EasyBuild generated modules, pin the hash or the version, not "the default".
+
+## What not to do
+
+Do not \`export PATH=\$HOME/local/bin:\$PATH\` and then file a ticket that "MPI is broken". Your overlay is now the software stack. The helpdesk cannot see it.
+`,
+  },
 ];
 
-export const POSTS_BY_SLUG = Object.fromEntries(
-  POSTS.map((post) => [post.slug, post]),
-) as Record<string, BlogPost>;
+export const NOTES_BY_SLUG = Object.fromEntries(
+  NOTES.map((note) => [note.slug, note]),
+) as Record<string, Note>;
 
-export function getPosts() {
-  return [...POSTS].sort((a, b) => b.date.localeCompare(a.date));
-}
-
-export function getOtherPosts(slug: string, limit = 3) {
-  return getPosts()
-    .filter((post) => post.slug !== slug)
-    .slice(0, limit);
+export function getNotes() {
+  return [...NOTES].sort((a, b) => b.date.localeCompare(a.date));
 }

@@ -1,4 +1,4 @@
-export interface BlogPost {
+export interface Note {
   slug: string;
   title: string;
   summary: string;
@@ -6,4 +6,11 @@ export interface BlogPost {
   author: string;
   tags: string[];
   body: string;
+}
+
+export interface Playlist {
+  slug: string;
+  title: string;
+  summary: string;
+  slugs: string[];
 }

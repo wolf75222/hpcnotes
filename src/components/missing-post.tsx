@@ -5,12 +5,12 @@ import { VStack } from "@astryxdesign/core/Stack";
 export function MissingPost() {
   return (
     <VStack gap={2}>
-      <Heading level={1}>That post is not here</Heading>
+      <Heading level={1}>That note is not here</Heading>
       <Text color="secondary">
         The slug may have moved, or it never existed.
       </Text>
       <Link href="/" hasUnderline>
-        All writing →
+        All notes
       </Link>
     </VStack>
   );

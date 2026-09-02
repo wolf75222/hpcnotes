@@ -7,19 +7,19 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "HPC Wiki",
-    template: "%s · HPC Wiki",
+    default: "hpcnotes.eu",
+    template: "%s · hpcnotes.eu",
   },
   description:
-    "A small blog of site-independent notes on high-performance computing: Slurm, MPI, GPUs, and the habits that transfer between clusters.",
-  applicationName: "HPC Wiki",
+    "Short notes on high-performance computing: Slurm, MPI, GPUs, I/O, and the habits that transfer between clusters.",
+  applicationName: "hpcnotes.eu",
   keywords: [
     "HPC",
     "high-performance computing",
     "Slurm",
     "MPI",
     "GPU",
-    "blog",
+    "notes",
     "cluster",
   ],
 };
