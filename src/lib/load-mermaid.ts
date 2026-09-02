@@ -161,10 +161,36 @@ export function renderMermaidChart(chart: string): Promise<string> {
   return job;
 }
 
-export function svgToDataUrl(svg: string): string {
-  const trimmed = svg.trim();
-  const withNs = /xmlns=/.test(trimmed)
-    ? trimmed
-    : trimmed.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"');
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(withNs)}`;
+export function prepareMermaidSvg(svg: string): string {
+  let trimmed = svg.trim();
+  if (!/xmlns=/.test(trimmed)) {
+    trimmed = trimmed.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"');
+  }
+  const viewBox = trimmed.match(
+    /viewBox="\s*([0-9.eE+-]+)\s+([0-9.eE+-]+)\s+([0-9.eE+-]+)\s+([0-9.eE+-]+)\s*"/,
+  );
+  if (viewBox != null) {
+    const width = viewBox[3];
+    const height = viewBox[4];
+    if (width != null && height != null) {
+      if (/width="/.test(trimmed)) {
+        trimmed = trimmed.replace(/width="[^"]*"/, `width="${width}"`);
+      } else {
+        trimmed = trimmed.replace("<svg", `<svg width="${width}"`);
+      }
+      if (/height="/.test(trimmed)) {
+        trimmed = trimmed.replace(/height="[^"]*"/, `height="${height}"`);
+      } else {
+        trimmed = trimmed.replace(/<svg/, `<svg height="${height}"`);
+      }
+    }
+  }
+  return trimmed;
+}
+
+export function mermaidSvgObjectUrl(svg: string): string {
+  const blob = new Blob([prepareMermaidSvg(svg)], {
+    type: "image/svg+xml;charset=utf-8",
+  });
+  return URL.createObjectURL(blob);
 }

@@ -4,9 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import {
+  mermaidSvgObjectUrl,
   prefetchMermaid,
   renderMermaidChart,
-  svgToDataUrl,
 } from "@/lib/load-mermaid";
 import { useDeferredLightbox } from "@/components/media-lightbox";
 
@@ -42,7 +42,20 @@ export function MermaidBlock({ chart }: { chart: string }) {
     };
   }, [chart]);
 
-  const src = useMemo(() => (svg == null ? "" : svgToDataUrl(svg)), [svg]);
+  const src = useMemo(
+    () => (svg == null ? "" : mermaidSvgObjectUrl(svg)),
+    [svg],
+  );
+
+  useEffect(() => {
+    if (src === "") {
+      return;
+    }
+    return () => {
+      URL.revokeObjectURL(src);
+    };
+  }, [src]);
+
   const { openLightbox, element } = useDeferredLightbox(
     { src, alt: "Diagram", caption: "Diagram", type: "image" },
     true,
