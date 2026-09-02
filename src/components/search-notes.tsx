@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Text } from "@astryxdesign/core/Text";
 import { TextInput } from "@astryxdesign/core/TextInput";
 import { VStack } from "@astryxdesign/core/Stack";
@@ -19,7 +18,6 @@ export function SearchNotes({
   notes: Note[];
   initialQuery: string;
 }) {
-  const router = useRouter();
   const [query, setQuery] = useState(initialQuery);
   const trimmed = query.trim();
   const results = useMemo(() => filterNotes(notes, query), [notes, query]);
@@ -34,11 +32,19 @@ export function SearchNotes({
         trimmed === "" ? "/search" : `/search?q=${encodeURIComponent(trimmed)}`;
       const current = `${window.location.pathname}${window.location.search}`;
       if (current !== next) {
-        router.replace(next, { scroll: false });
+        window.history.replaceState(window.history.state, "", next);
       }
     }, 250);
     return () => window.clearTimeout(handle);
-  }, [router, trimmed]);
+  }, [trimmed]);
+
+  useEffect(() => {
+    const onPopState = () => {
+      setQuery(new URLSearchParams(window.location.search).get("q") ?? "");
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
 
   return (
     <VStack gap={6}>
@@ -46,7 +52,7 @@ export function SearchNotes({
         label="Search notes"
         isLabelHidden
         value={query}
-        onChange={setQuery}
+        onChange={(value) => setQuery(value)}
         placeholder="Titles, tags, bodies"
         hasClear
         htmlName="q"
