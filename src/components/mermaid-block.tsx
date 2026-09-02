@@ -49,7 +49,7 @@ export function MermaidBlock({ chart }: { chart: string }) {
     [svg],
   );
   const media = useMemo(
-    () => ({ src, alt: "Diagram", caption: "Diagram", type: "image" as const }),
+    () => ({ src, alt: "Diagram", type: "image" as const }),
     [src],
   );
   const { openLightbox, element } = useDeferredLightbox(media, true);
