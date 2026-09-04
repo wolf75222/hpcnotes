@@ -70,9 +70,16 @@ export function SearchPalette({ notes }: { notes: Note[] }) {
     router.push(`/notes/${slug}`);
   };
 
+  // Unmount when closed. Astryx Dialog restores focus to the element that was
+  // active at open; with `/` that is often the field inside the dialog, which
+  // leaves a stray input on the page after Escape.
+  if (!open) {
+    return null;
+  }
+
   return (
     <Dialog
-      isOpen={open}
+      isOpen
       onOpenChange={(next) => {
         setOpen(next);
         if (!next) {
