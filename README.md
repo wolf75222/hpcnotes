@@ -18,7 +18,7 @@ npm run build
 npm start
 ```
 
-Press `/` or `⌘K` / `Ctrl+K`, or the search icon, to open the command palette. Filter thoughts by text, tag, or most recent.
+Press `/` or `⌘K` / `Ctrl+K`, or the search mark, to search in the page. Type a title, a `#tag`, or a few words. Escape closes it.
 
 ## Content
 

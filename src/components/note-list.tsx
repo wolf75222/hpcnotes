@@ -9,9 +9,11 @@ import { EmptyNotes } from "@/components/empty-notes";
 function NoteRows({
   notes,
   showSummary,
+  onNavigate,
 }: {
   notes: Note[];
   showSummary: boolean;
+  onNavigate?: () => void;
 }) {
   return (
     <VStack gap={5}>
@@ -21,6 +23,7 @@ function NoteRows({
           href={`/notes/${note.slug}`}
           label={note.title}
           meta={formatDotDate(note.date)}
+          onNavigate={onNavigate}
           extra={
             showSummary && note.summary ? (
               <Text color="secondary">{note.summary}</Text>
@@ -37,11 +40,13 @@ export function NoteList({
   grouped = false,
   showSummary = false,
   empty = "No notes in this list yet.",
+  onNavigate,
 }: {
   notes: Note[];
   grouped?: boolean;
   showSummary?: boolean;
   empty?: string;
+  onNavigate?: () => void;
 }) {
   if (notes.length === 0) {
     return <EmptyNotes title="Nothing here" description={empty} />;
@@ -53,12 +58,22 @@ export function NoteList({
         {notesByYear(notes).map((group) => (
           <VStack key={group.year} gap={3}>
             <Text type="supporting">{group.year}</Text>
-            <NoteRows notes={group.notes} showSummary={showSummary} />
+            <NoteRows
+              notes={group.notes}
+              showSummary={showSummary}
+              onNavigate={onNavigate}
+            />
           </VStack>
         ))}
       </VStack>
     );
   }
 
-  return <NoteRows notes={notes} showSummary={showSummary} />;
+  return (
+    <NoteRows
+      notes={notes}
+      showSummary={showSummary}
+      onNavigate={onNavigate}
+    />
+  );
 }

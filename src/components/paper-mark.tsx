@@ -8,13 +8,24 @@ import { SearchPalette } from "@/components/search-palette";
 import { SearchMark } from "@/components/paper-icons";
 import type { Note } from "@/content/types";
 
-export function PaperMark({ notes }: { notes: Note[] }) {
+export function PaperMark({
+  notes,
+  children,
+}: {
+  notes: Note[];
+  children: React.ReactNode;
+}) {
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <>
       <HStack align="center" justify="between" gap={3} className="note-row">
-        <Link href="/" color="secondary" type="supporting">
+        <Link
+          href="/"
+          color="secondary"
+          type="supporting"
+          onClick={() => setSearchOpen(false)}
+        >
           hpcnotes
         </Link>
         <HStack align="center" gap={3}>
@@ -22,7 +33,7 @@ export function PaperMark({ notes }: { notes: Note[] }) {
             color="secondary"
             type="supporting"
             label="Search thoughts"
-            onClick={() => setSearchOpen(true)}
+            onClick={() => setSearchOpen((current) => !current)}
           >
             <Icon icon={SearchMark} size="sm" color="secondary" />
           </Link>
@@ -35,7 +46,9 @@ export function PaperMark({ notes }: { notes: Note[] }) {
         notes={notes}
         open={searchOpen}
         onOpenChange={setSearchOpen}
-      />
+      >
+        {children}
+      </SearchPalette>
     </>
   );
 }

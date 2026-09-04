@@ -12,7 +12,7 @@ export function EmptyNotes({
   title: string;
   description: string;
   actionHref?: string;
-  actionLabel?: string;
+  actionLabel?: string | null;
   headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
 }) {
   return (
@@ -23,9 +23,11 @@ export function EmptyNotes({
         <Text>{title}</Text>
       )}
       <Text type="supporting">{description}</Text>
-      <Link href={actionHref} color="secondary" type="supporting" isStandalone>
-        {actionLabel}
-      </Link>
+      {actionLabel != null ? (
+        <Link href={actionHref} color="secondary" type="supporting" isStandalone>
+          {actionLabel}
+        </Link>
+      ) : null}
     </VStack>
   );
 }

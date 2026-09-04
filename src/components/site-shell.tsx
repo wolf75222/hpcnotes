@@ -15,8 +15,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       content={
         <LayoutContent>
           <VStack gap={10} paddingBlockStart={6} paddingBlockEnd={10}>
-            <PaperMark notes={notes} />
-            {children}
+          <PaperMark notes={notes}>{children}</PaperMark>
           </VStack>
         </LayoutContent>
       }
