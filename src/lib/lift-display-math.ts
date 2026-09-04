@@ -1,4 +1,5 @@
-const FENCE = /(```[\s\S]*?```|~~~[\s\S]*?~~~)/g;
+const PROTECTED =
+  /```[\s\S]*?```|~~~[\s\S]*?~~~|``[\s\S]*?``|`[^`\n]+`/g;
 
 function rewriteDisplayMath(text: string) {
   return text
@@ -14,7 +15,7 @@ function rewriteDisplayMath(text: string) {
 export function liftDisplayMath(source: string) {
   const parts: string[] = [];
   let last = 0;
-  for (const match of source.matchAll(FENCE)) {
+  for (const match of source.matchAll(PROTECTED)) {
     const index = match.index ?? 0;
     parts.push(rewriteDisplayMath(source.slice(last, index)));
     parts.push(match[0]);
