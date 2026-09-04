@@ -31,14 +31,12 @@ body {
   height: 1em;
   margin-block-end: var(--spacing-0-5);
   border: 0;
-  color: var(--color-border-emphasized);
-  background-image: radial-gradient(
-    circle closest-side,
-    currentColor 96%,
-    transparent 100%
+  background-image: linear-gradient(
+    var(--color-border-emphasized),
+    var(--color-border-emphasized)
   );
-  background-size: var(--spacing-1-5) var(--spacing-1-5);
-  background-repeat: repeat-x;
+  background-size: 100% var(--border-width);
+  background-repeat: no-repeat;
   background-position: 0 50%;
 }
 
