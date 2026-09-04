@@ -12,11 +12,13 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <VStack gap={10}>
-      <Text type="supporting" color="primary">
-        Short notes on high-performance computing, and personal thoughts around
-        HPC.
-      </Text>
+    <VStack gap={0}>
+      <div className="home-intro">
+        <Text type="supporting" color="primary">
+          Short notes on high-performance computing, and personal thoughts
+          around HPC.
+        </Text>
+      </div>
       <NoteList notes={getNotes()} showSummary />
     </VStack>
   );

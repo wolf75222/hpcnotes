@@ -18,7 +18,7 @@ export function PaperMark({
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <VStack gap={8}>
+    <VStack gap={0}>
       <HStack align="center" justify="between" gap={3} className="note-row">
         <Link
           href="/"
@@ -48,13 +48,15 @@ export function PaperMark({
           </Link>
         </HStack>
       </HStack>
-      <SearchPalette
-        notes={notes}
-        open={searchOpen}
-        onOpenChange={setSearchOpen}
-      >
-        {children}
-      </SearchPalette>
+      <div className="paper-below-mark">
+        <SearchPalette
+          notes={notes}
+          open={searchOpen}
+          onOpenChange={setSearchOpen}
+        >
+          {children}
+        </SearchPalette>
+      </div>
     </VStack>
   );
 }

@@ -124,7 +124,17 @@ body {
   overflow-x: auto;
 }
 
-.note-row {
+.paper-sheet {
+  padding-block-start: clamp(2.75rem, 10vh, 5.5rem);
+}
+
+.paper-below-mark {
+  padding-block-start: 3rem;
+}
+
+.home-intro {
+  padding-block-end: 3rem;
+}
   min-width: 0;
   width: 100%;
 }
