@@ -1,6 +1,5 @@
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
-import { Section } from "@astryxdesign/core/Section";
 import type { Note } from "@/content/types";
 import { notesByYear } from "@/content/query";
 import { formatDotDate } from "@/lib/dates";
@@ -52,12 +51,10 @@ export function NoteList({
     return (
       <VStack gap={10}>
         {notesByYear(notes).map((group) => (
-          <Section key={group.year} variant="transparent" padding={0}>
-            <VStack gap={3}>
-              <Text type="supporting">{group.year}</Text>
-              <NoteRows notes={group.notes} showSummary={showSummary} />
-            </VStack>
-          </Section>
+          <VStack key={group.year} gap={3}>
+            <Text type="supporting">{group.year}</Text>
+            <NoteRows notes={group.notes} showSummary={showSummary} />
+          </VStack>
         ))}
       </VStack>
     );

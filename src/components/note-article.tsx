@@ -2,7 +2,6 @@
 
 import { Heading, Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
-import { Section } from "@astryxdesign/core/Section";
 import type { Note } from "@/content/types";
 import { formatDotDate } from "@/lib/dates";
 import { formatReadingTime } from "@/lib/reading-time";
@@ -20,14 +19,12 @@ export function NoteArticle({
 }) {
   return (
     <VStack gap={10}>
-      <Section variant="transparent" padding={0}>
-        <VStack gap={1}>
-          <Text type="supporting" hasTabularNumbers>
-            {formatDotDate(note.date)} · {formatReadingTime(note.body)}
-          </Text>
-          <Heading level={1}>{note.title}</Heading>
-        </VStack>
-      </Section>
+      <VStack gap={1}>
+        <Text type="supporting" hasTabularNumbers>
+          {formatDotDate(note.date)} · {formatReadingTime(note.body)}
+        </Text>
+        <Heading level={1}>{note.title}</Heading>
+      </VStack>
       <MarkdownDoc>{note.body}</MarkdownDoc>
       <AdSlot placement="article" />
       <VStack gap={6}>
