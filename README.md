@@ -41,7 +41,7 @@ at the end of the note. Similar notes are listed under that.
 
 | Route | What it is |
 | --- | --- |
-| `/` | All notes, grouped by year |
+| `/` | Thoughts: intro, then every note |
 | `/notes/[slug]` | A note |
 | `/explore` | All `#tags`, with counts |
 | `/tags/[tag]` | Notes that carry that `#tag` |

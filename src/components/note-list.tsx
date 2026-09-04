@@ -14,7 +14,7 @@ function NoteRows({
   showSummary: boolean;
 }) {
   return (
-    <VStack gap={5}>
+    <VStack gap={0}>
       {notes.map((note) => (
         <LeaderRow
           key={note.slug}
