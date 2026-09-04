@@ -2,11 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { TextInput } from "@astryxdesign/core/TextInput";
 import { VStack } from "@astryxdesign/core/Stack";
 import type { Note } from "@/content/types";
-import { formatDotDate } from "@/lib/dates";
-import { SearchMark } from "@/components/paper-icons";
 import { LeaderRow } from "@/components/leader-row";
 import { NoteList } from "@/components/note-list";
 import { EmptyNotes } from "@/components/empty-notes";
@@ -102,25 +99,33 @@ function SearchPanel({
     );
   }, [needle, notes]);
 
+  const openFirst = () => {
+    const first = thoughts[0];
+    if (first == null) {
+      return;
+    }
+    onClose();
+    router.push(`/notes/${first.slug}`);
+  };
+
   return (
     <VStack gap={8}>
-      <TextInput
-        label="Search thoughts"
-        isLabelHidden
+      <input
+        className="paper-search-field"
         value={query}
-        onChange={setQuery}
-        hasAutoFocus
-        hasClear
-        startIcon={SearchMark}
-        placeholder="A title, a #tag, a few words"
-        onEnter={() => {
-          const first = thoughts[0];
-          if (first == null) {
-            return;
+        onChange={(event) => setQuery(event.target.value)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            openFirst();
           }
-          onClose();
-          router.push(`/notes/${first.slug}`);
         }}
+        aria-label="Search thoughts"
+        autoComplete="off"
+        autoCorrect="off"
+        spellCheck={false}
+        autoFocus
+        placeholder="Title, #tag, or a few words"
       />
       {thoughts.length === 0 && tags.length === 0 ? (
         <EmptyNotes
