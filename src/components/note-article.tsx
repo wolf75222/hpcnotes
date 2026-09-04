@@ -20,15 +20,13 @@ export function NoteArticle({
 }) {
   return (
     <VStack gap={10}>
-      <VStack gap={6}>
-        <VStack gap={1}>
-          <Text type="supporting" hasTabularNumbers>
-            {formatDotDate(note.date)} · {formatReadingTime(note.body)}
-          </Text>
-          <Heading level={1}>{note.title}</Heading>
-        </VStack>
-        <ArticleToc markdown={note.body} />
+      <VStack gap={1}>
+        <Text type="supporting" hasTabularNumbers>
+          {formatDotDate(note.date)} · {formatReadingTime(note.body)}
+        </Text>
+        <Heading level={1}>{note.title}</Heading>
       </VStack>
+      <ArticleToc markdown={note.body} />
       <MarkdownDoc>{note.body}</MarkdownDoc>
       <AdSlot placement="article" />
       <VStack gap={6}>
