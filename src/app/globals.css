@@ -47,6 +47,11 @@ body {
   margin-block-start: 0;
 }
 
+.home-intro {
+  padding-block-start: var(--spacing-12);
+  padding-block-end: var(--spacing-12);
+}
+
 .article-heading {
   scroll-margin-top: calc(
     var(--article-toc-height, var(--spacing-12)) + var(--spacing-4)

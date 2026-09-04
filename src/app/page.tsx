@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <VStack gap={10}>
-      <VStack gap={5}>
+    <VStack>
+      <VStack gap={6} className="home-intro">
         <Text>
           Short notes on high-performance computing. Hostnames, partitions, and
           module names stay in the centre handbook.
