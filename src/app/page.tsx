@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <VStack gap={8}>
-      <Text>
+      <Text type="supporting" color="primary">
         Short notes on high-performance computing. Hostnames, partitions, and
         module names stay in the centre handbook. These thoughts cover the
         habits that transfer: batch, MPI, GPUs, I/O, and the etiquette of a

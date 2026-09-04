@@ -26,7 +26,7 @@ function NoteRows({
           onNavigate={onNavigate}
           extra={
             showSummary && note.summary ? (
-              <Text color="secondary">{note.summary}</Text>
+              <Text type="supporting" color="secondary">{note.summary}</Text>
             ) : undefined
           }
         />
