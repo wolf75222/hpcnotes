@@ -1,6 +1,7 @@
 import { getNoteBySlug, getNotes } from "./load-notes";
 import { PLAYLISTS } from "./playlists";
 import { filterNotes } from "./query";
+import { isIsoDate } from "../lib/dates";
 import type { Note } from "./types";
 
 export { filterNotes, notesByYear } from "./query";
@@ -31,6 +32,9 @@ export function getTags(): { tag: string; count: number }[] {
 export function getYears(): { year: string; count: number }[] {
   const counts = new Map<string, number>();
   for (const note of getNotes()) {
+    if (!isIsoDate(note.date)) {
+      continue;
+    }
     const year = note.date.slice(0, 4);
     counts.set(year, (counts.get(year) ?? 0) + 1);
   }

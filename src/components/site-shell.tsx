@@ -1,10 +1,10 @@
 import { Layout, LayoutContent } from "@astryxdesign/core/Layout";
 import { VStack } from "@astryxdesign/core/Stack";
 import { PaperMark } from "@/components/paper-mark";
-import { getNotes } from "@/content/load-notes";
+import { getNoteIndex } from "@/content/load-notes";
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
-  const notes = getNotes();
+  const notes = getNoteIndex();
 
   return (
     <Layout

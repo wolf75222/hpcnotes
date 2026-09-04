@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { NoteArticle } from "@/components/note-article";
 import { MissingPost } from "@/components/missing-post";
-import { getNoteBySlug, getNotes } from "@/content/load-notes";
+import { getNoteBySlug, getNotes, toNoteIndex } from "@/content/load-notes";
 import { getRelatedNotes } from "@/content/catalog";
 
 export function generateStaticParams() {
@@ -40,7 +40,7 @@ export default async function NotePage({
       {note.body.includes("```mermaid") ? (
         <link rel="preload" href="/vendor/mermaid.min.js" as="script" />
       ) : null}
-      <NoteArticle note={note} related={getRelatedNotes(note.slug)} />
+      <NoteArticle note={note} related={getRelatedNotes(note.slug).map(toNoteIndex)} />
     </>
   );
 }

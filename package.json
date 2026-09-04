@@ -9,6 +9,7 @@
     "dev": "next dev --port 43123 --hostname 0.0.0.0",
     "build": "next build",
     "start": "next start --port 43123 --hostname 0.0.0.0",
+    "new": "node scripts/new-note.mjs",
     "lint": "eslint",
     "astryx": "node node_modules/@astryxdesign/cli/clients/cli/bin/astryx.mjs"
   },

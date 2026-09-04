@@ -2,8 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
-import type { Note } from "@/content/types";
+import type { NoteIndex } from "@/content/types";
+import { filterNotes } from "@/content/query";
 import { LeaderRow } from "@/components/leader-row";
 import { NoteList } from "@/components/note-list";
 import { EmptyNotes } from "@/components/empty-notes";
@@ -15,18 +17,6 @@ function isTypingTarget(target: EventTarget | null) {
   return (
     target.closest("input, textarea, select, [contenteditable='true']") != null
   );
-}
-
-function matchesNote(note: Note, query: string) {
-  const hay = [
-    note.title,
-    note.summary,
-    note.tags.map((tag) => `#${tag}`).join(" "),
-    note.body,
-  ]
-    .join("\n")
-    .toLowerCase();
-  return hay.includes(query);
 }
 
 function useSearchHotkeys(
@@ -69,7 +59,7 @@ function SearchPanel({
   notes,
   onClose,
 }: {
-  notes: Note[];
+  notes: NoteIndex[];
   onClose: () => void;
 }) {
   const router = useRouter();
@@ -77,10 +67,10 @@ function SearchPanel({
   const needle = query.trim().toLowerCase();
 
   const thoughts = useMemo(() => {
-    const rows =
-      needle === "" ? notes : notes.filter((note) => matchesNote(note, needle));
-    return [...rows].sort((a, b) => b.date.localeCompare(a.date));
-  }, [needle, notes]);
+    return [...filterNotes(notes, query)].sort((a, b) =>
+      b.date.localeCompare(a.date),
+    );
+  }, [notes, query]);
 
   const tags = useMemo(() => {
     if (needle === "") {
@@ -127,7 +117,11 @@ function SearchPanel({
         autoFocus
         placeholder="Title, #tag, or a few words"
       />
-      {thoughts.length === 0 && tags.length === 0 ? (
+      {needle === "" ? (
+        <Text type="supporting" color="secondary">
+          Type a title, a #tag, or a few words.
+        </Text>
+      ) : thoughts.length === 0 && tags.length === 0 ? (
         <EmptyNotes
           title="Nothing matches"
           description="Try another word, or a #tag."
@@ -163,7 +157,7 @@ export function SearchPalette({
   onOpenChange,
   children,
 }: {
-  notes: Note[];
+  notes: NoteIndex[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
   children: React.ReactNode;

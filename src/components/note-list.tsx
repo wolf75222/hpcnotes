@@ -1,6 +1,6 @@
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
-import type { Note } from "@/content/types";
+import type { NoteIndex } from "@/content/types";
 import { notesByYear } from "@/content/query";
 import { formatDotDate } from "@/lib/dates";
 import { LeaderRow } from "@/components/leader-row";
@@ -11,7 +11,7 @@ function NoteRows({
   showSummary,
   onNavigate,
 }: {
-  notes: Note[];
+  notes: NoteIndex[];
   showSummary: boolean;
   onNavigate?: () => void;
 }) {
@@ -42,7 +42,7 @@ export function NoteList({
   empty = "No notes in this list yet.",
   onNavigate,
 }: {
-  notes: Note[];
+  notes: NoteIndex[];
   grouped?: boolean;
   showSummary?: boolean;
   empty?: string;

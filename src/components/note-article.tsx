@@ -2,7 +2,7 @@
 
 import { Heading, Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
-import type { Note } from "@/content/types";
+import type { Note, NoteIndex } from "@/content/types";
 import { formatDotDate } from "@/lib/dates";
 import { formatReadingTime } from "@/lib/reading-time";
 import { MarkdownDoc } from "@/components/markdown-doc";
@@ -16,7 +16,7 @@ export function NoteArticle({
   related,
 }: {
   note: Note;
-  related: Note[];
+  related: NoteIndex[];
 }) {
   return (
     <VStack gap={10}>

@@ -6,13 +6,13 @@ import { Icon } from "@astryxdesign/core/Icon";
 import { HStack, VStack } from "@astryxdesign/core/Stack";
 import { SearchPalette } from "@/components/search-palette";
 import { ExploreMark, SearchMark } from "@/components/paper-icons";
-import type { Note } from "@/content/types";
+import type { NoteIndex } from "@/content/types";
 
 export function PaperMark({
   notes,
   children,
 }: {
-  notes: Note[];
+  notes: NoteIndex[];
   children: React.ReactNode;
 }) {
   const [searchOpen, setSearchOpen] = useState(false);

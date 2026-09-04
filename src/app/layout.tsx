@@ -29,6 +29,11 @@ export const metadata: Metadata = {
     "notes",
     "cluster",
   ],
+  alternates: {
+    types: {
+      "application/rss+xml": "/feed.xml",
+    },
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

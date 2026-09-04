@@ -152,6 +152,20 @@ body {
   width: 100%;
 }
 
+.note-title {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note-title a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .note-leader {
   flex: 1 1 0%;
   min-width: var(--spacing-8);

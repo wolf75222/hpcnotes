@@ -59,7 +59,7 @@ export function MermaidBlock({ chart }: { chart: string }) {
     return <Text color="secondary">{error}</Text>;
   }
 
-  if (svg == null) {
+  if (svg == null || src === "") {
     return null;
   }
 
@@ -72,13 +72,13 @@ export function MermaidBlock({ chart }: { chart: string }) {
         aria-label="Open diagram"
         onClick={openLightbox}
       >
-        <figure
-          className="md-mermaid"
-          aria-hidden="true"
-          dangerouslySetInnerHTML={{ __html: svg }}
-        />
+        <figure className="md-mermaid">
+          {/* Sandboxed SVG via data URL; never inject mermaid markup. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={src} alt="Diagram" className="md-image" />
+        </figure>
       </button>
-      {src ? element : null}
+      {element}
     </VStack>
   );
 }

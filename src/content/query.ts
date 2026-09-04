@@ -1,22 +1,23 @@
-import type { Note } from "./types";
+import type { NoteIndex } from "./types";
+import { noteYear } from "../lib/dates";
 
-export function filterNotes(notes: Note[], query: string) {
+export function filterNotes(notes: NoteIndex[], query: string) {
   const needle = query.trim().toLowerCase();
   if (needle === "") {
-    return notes;
+    return [];
   }
   return notes.filter((note) => {
-    const hay = [note.title, note.summary, note.body, note.tags.join(" ")]
+    const hay = [note.title, note.summary, note.tags.map((tag) => `#${tag}`).join(" ")]
       .join("\n")
       .toLowerCase();
     return hay.includes(needle);
   });
 }
 
-export function notesByYear(notes: Note[]) {
-  const groups: { year: string; notes: Note[] }[] = [];
+export function notesByYear(notes: NoteIndex[]) {
+  const groups: { year: string; notes: NoteIndex[] }[] = [];
   for (const note of notes) {
-    const year = note.date.slice(0, 4);
+    const year = noteYear(note.date);
     const last = groups[groups.length - 1];
     if (last && last.year === year) {
       last.notes.push(note);

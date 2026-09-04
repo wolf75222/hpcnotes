@@ -14,6 +14,7 @@ export function MathText({
   const html = katex.renderToString(expr.trim(), {
     displayMode: display,
     throwOnError: false,
+    trust: false,
     output: "html",
   });
 
