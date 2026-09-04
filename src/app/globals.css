@@ -4,6 +4,10 @@
 
 html {
   color-scheme: light;
+  --font-family-body: var(--font-sans), system-ui, sans-serif;
+  --font-family-heading: var(--font-sans), system-ui, sans-serif;
+  --text-body-size: var(--font-size-lg);
+  --text-body-leading: 1.5;
 }
 
 html,
@@ -99,18 +103,14 @@ body {
   margin: 0;
   border: 0;
   padding: 0;
-  color: color-mix(
-    in srgb,
-    var(--color-text-primary) 72%,
-    var(--color-text-secondary)
-  );
+  color: var(--color-text-secondary);
   background-color: transparent;
   background-image: radial-gradient(
-    circle calc(var(--border-width) / 2) at 50% 50%,
-    currentColor 100%,
+    circle closest-side,
+    currentColor 96%,
     transparent 100%
   );
-  background-size: var(--spacing-1) 1em;
+  background-size: 0.4em 0.4em;
   background-repeat: repeat-x;
   background-position: 0 50%;
 }
