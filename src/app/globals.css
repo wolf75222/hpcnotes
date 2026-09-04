@@ -6,8 +6,8 @@ html {
   color-scheme: light;
   --font-family-body: var(--font-sans), system-ui, sans-serif;
   --font-family-heading: var(--font-sans), system-ui, sans-serif;
-  --text-body-size: var(--font-size-lg);
-  --text-body-leading: 1.5;
+  --text-body-size: var(--text-supporting-size);
+  --text-body-leading: var(--text-supporting-leading);
 }
 
 html,
