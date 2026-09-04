@@ -12,17 +12,13 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <VStack>
-      <VStack gap={6} className="home-intro">
-        <Text>
-          Short notes on high-performance computing. Hostnames, partitions, and
-          module names stay in the centre handbook.
-        </Text>
-        <Text>
-          These thoughts cover the habits that transfer: batch, MPI, GPUs, I/O,
-          and the etiquette of a shared machine.
-        </Text>
-      </VStack>
+    <VStack gap={8}>
+      <Text>
+        Short notes on high-performance computing. Hostnames, partitions, and
+        module names stay in the centre handbook. These thoughts cover the
+        habits that transfer: batch, MPI, GPUs, I/O, and the etiquette of a
+        shared machine.
+      </Text>
       <NoteList notes={getNotes()} showSummary />
     </VStack>
   );

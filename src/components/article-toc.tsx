@@ -97,6 +97,7 @@ export function ArticleToc({ markdown }: { markdown: string }) {
             key={item.id}
             href={`#${item.id}`}
             color={item.id === activeId ? "primary" : "secondary"}
+            type="supporting"
             onClick={(event) => {
               event.preventDefault();
               jumpToHeading(item.id);

@@ -10,12 +10,12 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
     <Layout
       height="auto"
       contentWidth={640}
-      padding={8}
+      padding={6}
       defaultHasDividers={false}
       content={
         <LayoutContent>
-          <VStack gap={10} paddingBlockStart={8} paddingBlockEnd={10}>
-            <PaperMark notes={notes}>{children}</PaperMark>
+          <VStack gap={10} paddingBlockStart={6} paddingBlockEnd={10}>
+          <PaperMark notes={notes}>{children}</PaperMark>
           </VStack>
         </LayoutContent>
       }

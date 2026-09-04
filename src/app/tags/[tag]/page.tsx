@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Heading } from "@astryxdesign/core/Text";
+import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { NoteList } from "@/components/note-list";
 import { EmptyNotes } from "@/components/empty-notes";
@@ -33,7 +33,7 @@ export default async function TagPage({
 
   return (
     <VStack gap={6}>
-      <Heading level={1}>#{decoded}</Heading>
+      <Text type="supporting">#{decoded}</Text>
       {notes.length === 0 ? (
         <EmptyNotes
           title="Nothing carries that tag yet"

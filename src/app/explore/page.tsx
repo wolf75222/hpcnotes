@@ -24,7 +24,7 @@ export default function ExplorePage() {
   }
 
   return (
-    <VStack gap={8}>
+    <VStack gap={5}>
       {tags.map(({ tag, count }) => (
         <LeaderRow
           key={tag}
