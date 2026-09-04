@@ -23,7 +23,6 @@ export function PaperMark({
         <Link
           href="/"
           color="secondary"
-          type="supporting"
           onClick={() => setSearchOpen(false)}
         >
           hpcnotes
@@ -31,13 +30,12 @@ export function PaperMark({
         <HStack align="center" gap={3}>
           <Link
             color="secondary"
-            type="supporting"
             label="Search thoughts"
             onClick={() => setSearchOpen((current) => !current)}
           >
             <Icon icon={SearchMark} size="sm" color="secondary" />
           </Link>
-          <Link href="/explore" color="secondary" type="supporting">
+          <Link href="/explore" color="secondary">
             explore
           </Link>
         </HStack>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Text } from "@astryxdesign/core/Text";
+import { Heading } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { NoteList } from "@/components/note-list";
 import { EmptyNotes } from "@/components/empty-notes";
@@ -31,7 +31,7 @@ export default async function YearPage({
 
   return (
     <VStack gap={6}>
-      <Text type="supporting">{year}</Text>
+      <Heading level={1}>{year}</Heading>
       {notes.length === 0 ? (
         <EmptyNotes
           title="No notes in that year"

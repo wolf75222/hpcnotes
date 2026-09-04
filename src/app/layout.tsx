@@ -1,9 +1,22 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Source_Sans_3, Source_Serif_4 } from "next/font/google";
 import { Providers } from "./providers";
 import { SiteShell } from "@/components/site-shell";
 import { getAdSenseConfig } from "@/lib/ads";
 import "./globals.css";
+
+const sans = Source_Sans_3({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
+});
+
+const serif = Source_Serif_4({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-serif",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -28,7 +41,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   const ads = getAdSenseConfig();
 
   return (
-    <html lang="en" data-theme="light">
+    <html
+      lang="en"
+      data-theme="light"
+      className={`${sans.variable} ${serif.variable}`}
+    >
       <body>
         <Providers>
           <SiteShell>{children}</SiteShell>

@@ -22,7 +22,7 @@ export function NoteArticle({
     <VStack gap={10}>
       <VStack gap={6}>
         <VStack gap={1}>
-          <Text type="supporting" hasTabularNumbers>
+          <Text color="secondary" hasTabularNumbers>
             {formatDotDate(note.date)} · {formatReadingTime(note.body)}
           </Text>
           <Heading level={1}>{note.title}</Heading>

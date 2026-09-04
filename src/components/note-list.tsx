@@ -16,7 +16,7 @@ function NoteRows({
   onNavigate?: () => void;
 }) {
   return (
-    <VStack gap={5}>
+    <VStack gap={8}>
       {notes.map((note) => (
         <LeaderRow
           key={note.slug}
@@ -57,7 +57,7 @@ export function NoteList({
       <VStack gap={10}>
         {notesByYear(notes).map((group) => (
           <VStack key={group.year} gap={3}>
-            <Text type="supporting">{group.year}</Text>
+            <Text color="secondary">{group.year}</Text>
             <NoteRows
               notes={group.notes}
               showSummary={showSummary}

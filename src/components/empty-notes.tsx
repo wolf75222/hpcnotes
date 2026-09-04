@@ -22,9 +22,9 @@ export function EmptyNotes({
       ) : (
         <Text>{title}</Text>
       )}
-      <Text type="supporting">{description}</Text>
+      <Text color="secondary">{description}</Text>
       {actionLabel != null ? (
-        <Link href={actionHref} color="secondary" type="supporting" isStandalone>
+        <Link href={actionHref} color="secondary" isStandalone>
           {actionLabel}
         </Link>
       ) : null}
