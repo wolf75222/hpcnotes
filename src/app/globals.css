@@ -71,14 +71,18 @@ body {
   margin: 0;
   border: 0;
   padding: 0;
-  color: var(--color-text-secondary);
+  color: color-mix(
+    in srgb,
+    var(--color-text-primary) 72%,
+    var(--color-text-secondary)
+  );
   background-color: transparent;
   background-image: radial-gradient(
-    circle var(--border-width) at 50% 50%,
+    circle calc(var(--border-width) / 2) at 50% 50%,
     currentColor 100%,
     transparent 100%
   );
-  background-size: var(--spacing-1-5) 1em;
+  background-size: var(--spacing-1) 1em;
   background-repeat: repeat-x;
   background-position: 0 50%;
 }
