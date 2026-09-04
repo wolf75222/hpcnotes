@@ -17,7 +17,7 @@ export function LeaderRow({
 }) {
   return (
     <VStack gap={1} className="note-row">
-      <HStack align="end" gap={2} className="note-row">
+      <HStack align="center" gap={2} className="note-row">
         <Link href={href} color="primary" isStandalone onClick={onNavigate}>
           {label}
         </Link>
