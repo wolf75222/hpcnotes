@@ -76,16 +76,12 @@ A Markdown image is a figure. Put files in `public/media/` and link them with `/
 
 ![A pulse you should not run on the login node](/media/heartbeat.gif)
 
-## Tables and checklists
+## Tables
 
 | Probe | What it answers |
 | --- | --- |
 | `sacct -j` | TIMEOUT, OOM, or a traceback |
 | `nvidia-smi` | Whether the allocation saw a GPU |
 | A timer around VTK | Whether the "MPI problem" is output |
-
-- [x] Tiny kernel on one GPU
-- [x] One production timestep
-- [ ] Multi-node GPU-aware MPI
 
 None of this replaces the centre handbook. It is just what a short note is allowed to hold. For the habit behind the gif, start with [Login nodes are not compute](/notes/login-nodes-are-not-compute).
