@@ -22,10 +22,7 @@ export default function HomePage() {
           habits that transfer: batch, MPI, GPUs, I/O, and the etiquette of a
           shared machine.
         </Text>
-        <VStack gap={2}>
-          <Text type="supporting">Thoughts</Text>
-          <NoteList notes={getNotes()} />
-        </VStack>
+        <NoteList notes={getNotes()} showSummary />
       </VStack>
     </>
   );

@@ -22,7 +22,7 @@ export function LeaderRow({
           {label}
         </Link>
         <StackItem size="fill" className="note-leader" aria-hidden="true" />
-        <Text type="supporting" textWrap="nowrap" hasTabularNumbers>
+        <Text color="secondary" textWrap="nowrap" hasTabularNumbers>
           {meta}
         </Text>
       </HStack>

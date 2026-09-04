@@ -66,19 +66,13 @@ body {
 
 .note-leader {
   min-width: var(--spacing-8);
-  height: 1em;
+  height: var(--border-width);
   align-self: center;
   margin: 0;
   border: 0;
   padding: 0;
-  background-image: radial-gradient(
-    circle closest-side,
-    var(--color-border) 55%,
-    transparent 100%
-  );
-  background-size: var(--spacing-1) var(--spacing-1);
-  background-repeat: repeat-x;
-  background-position: 0 50%;
+  background-color: var(--color-border-emphasized);
+  background-image: none;
 }
 
 body.paper-home {
