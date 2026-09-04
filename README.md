@@ -18,7 +18,7 @@ npm run build
 npm start
 ```
 
-Press `/` or `⌘K` / `Ctrl+K`, or the search icon, to search. Explore lists every `#tag`; open one to see the notes that carry it.
+Press `/` or `⌘K` / `Ctrl+K`, or the search icon, to open the command palette. Filter thoughts by text, tag, or most recent.
 
 ## Content
 

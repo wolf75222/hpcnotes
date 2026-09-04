@@ -2,14 +2,39 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Dialog } from "@astryxdesign/core/Dialog";
-import { TextInput } from "@astryxdesign/core/TextInput";
+import { CommandPalette } from "@astryxdesign/core/CommandPalette";
+import { PowerSearch, createPowerSearchConfig } from "@astryxdesign/core/PowerSearch";
+import type { PowerSearchFilter } from "@astryxdesign/core/PowerSearch";
+import { createStaticSource } from "@astryxdesign/core/Typeahead";
+import type { SearchableItem } from "@astryxdesign/core/Typeahead";
 import { Text } from "@astryxdesign/core/Text";
-import { VStack } from "@astryxdesign/core/Stack";
+import { HStack } from "@astryxdesign/core/Stack";
 import type { Note } from "@/content/types";
-import { filterNotes } from "@/content/query";
-import { LeaderRow } from "@/components/leader-row";
 import { formatDotDate } from "@/lib/dates";
+
+type SortKey = "newest" | "oldest" | "title";
+
+type ThoughtRow = {
+  text: string;
+  tags: readonly string[];
+  slug: string;
+  title: string;
+  date: string;
+};
+
+type PaletteItem = SearchableItem<{
+  group: string;
+  kind: "thought" | "tag";
+  slug?: string;
+  tag?: string;
+  date?: string;
+}>;
+
+const SORT_VALUES = [
+  { value: "newest", label: "Most recent" },
+  { value: "oldest", label: "Oldest" },
+  { value: "title", label: "Title" },
+] as const;
 
 function isTypingTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) {
@@ -20,23 +45,27 @@ function isTypingTarget(target: EventTarget | null) {
   );
 }
 
-function matchingTags(notes: Note[], query: string) {
-  const needle = query.replace(/^#/, "").toLowerCase();
-  if (needle === "") {
-    return [];
-  }
-  const counts = new Map<string, number>();
-  for (const note of notes) {
-    for (const tag of note.tags) {
-      if (tag.toLowerCase().includes(needle)) {
-        counts.set(tag, (counts.get(tag) ?? 0) + 1);
-      }
+function sortFromFilters(filters: ReadonlyArray<PowerSearchFilter>): SortKey {
+  const entry = filters.find((filter) => filter.field === "sort");
+  if (entry?.value.type === "enum") {
+    const value = entry.value.value;
+    if (value === "oldest" || value === "title" || value === "newest") {
+      return value;
     }
   }
-  return [...counts.entries()]
-    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-    .slice(0, 6)
-    .map(([tag, count]) => ({ tag, count }));
+  return "newest";
+}
+
+function sortRows(rows: ThoughtRow[], sort: SortKey) {
+  const next = [...rows];
+  if (sort === "oldest") {
+    next.sort((a, b) => a.date.localeCompare(b.date));
+  } else if (sort === "title") {
+    next.sort((a, b) => a.title.localeCompare(b.title));
+  } else {
+    next.sort((a, b) => b.date.localeCompare(a.date));
+  }
+  return next;
 }
 
 export function SearchPalette({
@@ -49,22 +78,124 @@ export function SearchPalette({
   onOpenChange: (open: boolean) => void;
 }) {
   const router = useRouter();
-  const [query, setQuery] = useState("");
-  const trimmed = query.trim();
-  const searchNeedle = trimmed.replace(/^#/, "");
-  const results = useMemo(
-    () => filterNotes(notes, searchNeedle).slice(0, 8),
-    [notes, searchNeedle],
-  );
-  const tags = useMemo(
-    () => matchingTags(notes, trimmed),
-    [notes, trimmed],
+  const [filters, setFilters] = useState<PowerSearchFilter[]>([]);
+
+  const tagEnums = useMemo(() => {
+    const tags = new Set<string>();
+    for (const note of notes) {
+      for (const tag of note.tags) {
+        tags.add(tag);
+      }
+    }
+    return [...tags]
+      .sort((a, b) => a.localeCompare(b))
+      .map((tag) => ({ value: tag, label: `#${tag}` }));
+  }, [notes]);
+
+  const { config, applyFilters } = useMemo(() => {
+    const built = createPowerSearchConfig(
+      [
+        { key: "text", type: "string", label: "Text" },
+        {
+          key: "tags",
+          type: "enum_list",
+          label: "Tag",
+          enumValues: tagEnums,
+        },
+      ] as const,
+      "thoughts",
+    );
+    return {
+      applyFilters: built.applyFilters,
+      config: {
+        ...built.config,
+        contentSearchFieldKey: "text",
+        fields: [
+          ...built.config.fields,
+          {
+            key: "sort",
+            label: "Sort",
+            defaultOperator: "is",
+            operators: [
+              {
+                key: "is",
+                label: "is",
+                value: { type: "enum" as const, values: [...SORT_VALUES] },
+              },
+            ],
+          },
+        ],
+      },
+    };
+  }, [tagEnums]);
+
+  const rows = useMemo<ThoughtRow[]>(
+    () =>
+      notes.map((note) => ({
+        text: [note.title, note.summary, note.body, note.tags.join(" ")].join(
+          "\n",
+        ),
+        tags: note.tags,
+        slug: note.slug,
+        title: note.title,
+        date: note.date,
+      })),
+    [notes],
   );
 
-  const close = () => {
-    onOpenChange(false);
-    setQuery("");
-  };
+  const visibleRows = useMemo(() => {
+    const dataFilters = filters.filter((filter) => filter.field !== "sort");
+    return sortRows(applyFilters(dataFilters, rows), sortFromFilters(filters));
+  }, [applyFilters, filters, rows]);
+
+  const items = useMemo<PaletteItem[]>(() => {
+    const thoughts: PaletteItem[] = visibleRows.slice(0, 12).map((row) => ({
+      id: `thought:${row.slug}`,
+      label: row.title,
+      auxiliaryData: {
+        group: "Thoughts",
+        kind: "thought" as const,
+        slug: row.slug,
+        date: row.date,
+      },
+    }));
+
+    const counts = new Map<string, number>();
+    for (const row of visibleRows) {
+      for (const tag of row.tags) {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      }
+    }
+    const tags: PaletteItem[] = [...counts.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .slice(0, 12)
+      .map(([tag, count]) => ({
+        id: `tag:${tag}`,
+        label: `#${tag}`,
+        auxiliaryData: {
+          group: "Tags",
+          kind: "tag" as const,
+          tag,
+          date: String(count),
+        },
+      }));
+
+    return [...thoughts, ...tags];
+  }, [visibleRows]);
+
+  const source = useMemo(
+    () =>
+      createStaticSource(items, {
+        keywords: (item) => {
+          if (item.auxiliaryData?.kind === "thought") {
+            const row = visibleRows.find((entry) => entry.slug === item.auxiliaryData?.slug);
+            return row ? [row.text, ...row.tags] : [];
+          }
+          return [item.auxiliaryData?.tag ?? ""];
+        },
+      }),
+    [items, visibleRows],
+  );
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -74,9 +205,6 @@ export function SearchPalette({
       ) {
         event.preventDefault();
         onOpenChange(!open);
-        if (open) {
-          setQuery("");
-        }
         return;
       }
       if (
@@ -94,86 +222,75 @@ export function SearchPalette({
     return () => window.removeEventListener("keydown", onKeyDown, true);
   }, [open, onOpenChange]);
 
-  const goNote = (slug: string) => {
-    close();
-    router.push(`/notes/${slug}`);
-  };
-
-  const goTag = (tag: string) => {
-    close();
-    router.push(`/tags/${encodeURIComponent(tag)}`);
-  };
-
   if (!open) {
     return null;
   }
 
-  const hasHits = tags.length > 0 || results.length > 0;
-
   return (
-    <Dialog
+    <CommandPalette
+      key={
+        filters
+          .map(
+            (filter) =>
+              `${filter.field}:${filter.operator}:${JSON.stringify(filter.value)}`,
+          )
+          .join("|") || "none"
+      }
       isOpen
       onOpenChange={(next) => {
         onOpenChange(next);
         if (!next) {
-          setQuery("");
+          setFilters([]);
         }
       }}
+      searchSource={source}
+      label="Search thoughts"
       width={560}
-      purpose="info"
-      padding={4}
-      aria-label="Search notes"
-    >
-      <VStack gap={4}>
-        <TextInput
-          label="Search notes"
-          isLabelHidden
-          value={query}
-          onChange={(value) => setQuery(value)}
-          placeholder="a tool, a tag, a phrase"
-          hasClear
+      emptySearchText="Nothing matches."
+      emptyBootstrapText="Add a tag, sort by most recent, or type some text."
+      onValueChange={(value) => {
+        if (value.startsWith("thought:")) {
+          router.push(`/notes/${value.slice("thought:".length)}`);
+          return;
+        }
+        if (value.startsWith("tag:")) {
+          router.push(`/tags/${encodeURIComponent(value.slice("tag:".length))}`);
+        }
+      }}
+      input={
+        <PowerSearch
+          className="note-row"
+          config={config}
+          filters={filters}
+          onChange={(next) => setFilters([...next])}
+          label="Search thoughts"
+          placeholder="Text, tag, or sort…"
           hasAutoFocus
-          width="100%"
-          onEnter={() => {
-            const firstTag = tags[0];
-            const firstNote = results[0];
-            if (trimmed === "") {
-              return;
-            }
-            if (firstTag != null) {
-              goTag(firstTag.tag);
-              return;
-            }
-            if (firstNote != null) {
-              goNote(firstNote.slug);
-            }
-          }}
+          hasClear
+          startIcon="search"
+          resultCount={visibleRows.length}
+          size="md"
         />
-        {trimmed === "" ? null : !hasHits ? (
-          <Text type="supporting">Nothing matches.</Text>
-        ) : (
-          <VStack gap={3}>
-            {tags.map(({ tag, count }) => (
-              <LeaderRow
-                key={`tag-${tag}`}
-                href={`/tags/${encodeURIComponent(tag)}`}
-                label={`#${tag}`}
-                meta={String(count)}
-                onNavigate={close}
-              />
-            ))}
-            {results.map((note) => (
-              <LeaderRow
-                key={note.slug}
-                href={`/notes/${note.slug}`}
-                label={note.title}
-                meta={formatDotDate(note.date)}
-                onNavigate={close}
-              />
-            ))}
-          </VStack>
-        )}
-      </VStack>
-    </Dialog>
+      }
+      renderItem={(item) => {
+        const meta = item.auxiliaryData;
+        const trailing =
+          meta?.kind === "thought" && meta.date != null
+            ? formatDotDate(meta.date)
+            : meta?.kind === "tag" && meta.date != null
+              ? meta.date
+              : "";
+        return (
+          <HStack justify="between" gap={3} align="center" className="note-row">
+            <Text>{item.label}</Text>
+            {trailing !== "" ? (
+              <Text type="supporting" textWrap="nowrap" hasTabularNumbers>
+                {trailing}
+              </Text>
+            ) : null}
+          </HStack>
+        );
+      }}
+    />
   );
 }
