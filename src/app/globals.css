@@ -135,6 +135,8 @@ body {
 .home-intro {
   padding-block-end: 3rem;
 }
+
+.note-row {
   min-width: 0;
   width: 100%;
 }
