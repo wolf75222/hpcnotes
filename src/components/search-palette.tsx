@@ -11,6 +11,7 @@ import { Text } from "@astryxdesign/core/Text";
 import { HStack } from "@astryxdesign/core/Stack";
 import type { Note } from "@/content/types";
 import { formatDotDate } from "@/lib/dates";
+import { SearchMark } from "@/components/paper-icons";
 
 type SortKey = "newest" | "oldest" | "title";
 
@@ -267,7 +268,7 @@ export function SearchPalette({
           placeholder="Text, tag, or sort…"
           hasAutoFocus
           hasClear
-          startIcon="search"
+          startIcon={SearchMark}
           resultCount={visibleRows.length}
           size="md"
         />

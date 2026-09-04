@@ -1,6 +1,6 @@
 import type { SVGProps } from "react";
 
-/** Lens with a glass ring — quieter than the default fat loupe. */
+/** A small lens with a glass ring, instead of the default fat loupe. */
 export function SearchMark(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
@@ -30,20 +30,6 @@ export function SearchMark(props: SVGProps<SVGSVGElement>) {
         d="m14.85 14.85 5.35 5.35"
         stroke="currentColor"
         strokeWidth="1.7"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-/** Octothorpe — the same mark as the #tags in the notes. */
-export function TagsMark(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-      <path
-        d="M9.4 4.5 7.35 19.5M16.65 4.5 14.6 19.5M4.75 9.2h14.5M4.75 14.8h14.5"
-        stroke="currentColor"
-        strokeWidth="1.6"
         strokeLinecap="round"
       />
     </svg>

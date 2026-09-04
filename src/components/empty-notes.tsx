@@ -23,7 +23,7 @@ export function EmptyNotes({
         <Text>{title}</Text>
       )}
       <Text type="supporting">{description}</Text>
-      <Link href={actionHref} color="secondary" isStandalone>
+      <Link href={actionHref} color="secondary" type="supporting" isStandalone>
         {actionLabel}
       </Link>
     </VStack>

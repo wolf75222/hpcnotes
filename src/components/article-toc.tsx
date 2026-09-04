@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Outline, useOutlineFromMarkdown } from "@astryxdesign/core/Outline";
+import { useOutlineFromMarkdown } from "@astryxdesign/core/Outline";
+import { Link } from "@astryxdesign/core/Link";
 import { VStack } from "@astryxdesign/core/Stack";
 
 const MIN_HEADINGS = 3;
@@ -25,7 +26,6 @@ export function ArticleToc({ markdown }: { markdown: string }) {
       {
         root: root instanceof Element ? root : null,
         threshold: 0,
-        rootMargin: "0px 0px 0px 0px",
       },
     );
     observer.observe(sentinel);
@@ -42,7 +42,11 @@ export function ArticleToc({ markdown }: { markdown: string }) {
         className={stuck ? "article-toc article-toc-stuck" : "article-toc"}
         gap={2}
       >
-        <Outline items={items} density="compact" label="On this page" />
+        {items.map((item) => (
+          <Link key={item.id} href={`#${item.id}`} color="secondary">
+            {item.label}
+          </Link>
+        ))}
       </VStack>
       <VStack ref={sentinelRef} gap={0} className="article-toc-sentinel" />
     </>

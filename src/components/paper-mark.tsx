@@ -6,7 +6,7 @@ import { Icon } from "@astryxdesign/core/Icon";
 import { IconButton } from "@astryxdesign/core/IconButton";
 import { HStack } from "@astryxdesign/core/Stack";
 import { SearchPalette } from "@/components/search-palette";
-import { SearchMark, TagsMark } from "@/components/paper-icons";
+import { SearchMark } from "@/components/paper-icons";
 import type { Note } from "@/content/types";
 
 export function PaperMark({ notes }: { notes: Note[] }) {
@@ -15,26 +15,20 @@ export function PaperMark({ notes }: { notes: Note[] }) {
   return (
     <>
       <HStack align="center" justify="between" gap={3} className="note-row">
-        <Link href="/" color="secondary" display="block">
+        <Link href="/" color="secondary" type="supporting" display="block">
           hpcnotes
         </Link>
-        <HStack align="center" gap={1}>
+        <HStack align="center" gap={3}>
           <IconButton
             label="Search thoughts"
-            tooltip="Search"
             variant="ghost"
             size="sm"
             icon={<Icon icon={SearchMark} size="sm" color="secondary" />}
             onClick={() => setSearchOpen(true)}
           />
-          <IconButton
-            label="Browse tags"
-            tooltip="Tags"
-            variant="ghost"
-            size="sm"
-            href="/explore"
-            icon={<Icon icon={TagsMark} size="sm" color="secondary" />}
-          />
+          <Link href="/explore" color="secondary" type="supporting">
+            explore
+          </Link>
         </HStack>
       </HStack>
       <SearchPalette

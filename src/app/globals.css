@@ -62,11 +62,21 @@ body {
   width: 100%;
 }
 
-.note-rule {
-  width: 100%;
-  min-width: 0;
-  padding-block: var(--spacing-3);
-  border-block-start: var(--border-width) solid var(--color-border-emphasized);
+.note-leader {
+  min-width: var(--spacing-8);
+  height: 1em;
+  align-self: center;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background-image: radial-gradient(
+    circle closest-side,
+    var(--color-border) 55%,
+    transparent 100%
+  );
+  background-size: var(--spacing-1) var(--spacing-1);
+  background-repeat: repeat-x;
+  background-position: 0 50%;
 }
 
 body.paper-home {
