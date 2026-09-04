@@ -13,7 +13,6 @@ export function HashTags({ tags }: { tags: string[] }) {
           key={tag}
           href={`/tags/${encodeURIComponent(tag)}`}
           color="secondary"
-          size="sm"
           isStandalone
         >
           #{tag}

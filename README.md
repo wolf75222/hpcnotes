@@ -42,10 +42,8 @@ at the end of the note. Similar notes are listed under that.
 | Route | What it is |
 | --- | --- |
 | `/` | Thoughts: intro, then every note |
-| `/notes/[slug]` | A note |
+| `/notes/[slug]` | A note. Long notes keep an in-column table of contents that stays at the top of the page while you scroll |
 | `/explore` | All `#tags`, with counts |
-| `/tags/[tag]` | Notes that carry that `#tag` |
-| `/about` | What this site is |
 
 ## Google AdSense
 

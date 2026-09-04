@@ -38,7 +38,7 @@ const mathPlugins: MarkdownInlinePlugin[] = [
 export function MarkdownDoc({ children }: { children: string }) {
   return (
     <Markdown
-      headingLevelStart={2}
+      headingLevelStart={1}
       contentWidth={640}
       autolink="gfm"
       inlinePlugins={mathPlugins}
@@ -47,8 +47,10 @@ export function MarkdownDoc({ children }: { children: string }) {
         code: MarkdownCode,
         inlineCode: ({ children: code }) => <Code>{code}</Code>,
         image: MarkdownImage,
-        heading: ({ children: heading }) => (
-          <Heading level={2}>{heading}</Heading>
+        heading: ({ children: heading, id, level }) => (
+          <Heading level={level} id={id} className="article-heading">
+            {heading}
+          </Heading>
         ),
         hr: () => null,
       }}
