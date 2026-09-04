@@ -102,7 +102,7 @@ export function SearchPalette({ notes }: { notes: Note[] }) {
           }}
         />
         {trimmed === "" ? null : results.length === 0 ? (
-          <Text color="secondary">Nothing matches.</Text>
+          <Text type="supporting">Nothing matches.</Text>
         ) : (
           <VStack gap={3}>
             {results.map((note) => (

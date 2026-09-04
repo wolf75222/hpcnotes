@@ -16,7 +16,7 @@ export default function AboutPage() {
         that transfer: batch, MPI, GPUs, I/O, and the etiquette of a shared
         machine.
       </Text>
-      <Text color="secondary">
+      <Text type="supporting">
         Nothing here is a substitute for the machine you are about to log into.
       </Text>
     </VStack>

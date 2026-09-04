@@ -54,7 +54,7 @@ export function NoteList({
         {notesByYear(notes).map((group) => (
           <Section key={group.year} variant="transparent" padding={0}>
             <VStack gap={3}>
-              <Text color="secondary">{group.year}</Text>
+              <Text type="supporting">{group.year}</Text>
               <NoteRows notes={group.notes} showSummary={showSummary} />
             </VStack>
           </Section>

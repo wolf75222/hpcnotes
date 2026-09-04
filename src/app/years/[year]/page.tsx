@@ -31,7 +31,7 @@ export default async function YearPage({
 
   return (
     <VStack gap={6}>
-      <Text color="secondary">{year}</Text>
+      <Text type="supporting">{year}</Text>
       {notes.length === 0 ? (
         <EmptyNotes
           title="No notes in that year"

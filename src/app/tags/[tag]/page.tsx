@@ -33,7 +33,7 @@ export default async function TagPage({
 
   return (
     <VStack gap={6}>
-      <Text color="secondary">#{decoded}</Text>
+      <Text type="supporting">#{decoded}</Text>
       {notes.length === 0 ? (
         <EmptyNotes
           title="Nothing carries that tag yet"

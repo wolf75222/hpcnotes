@@ -5,6 +5,7 @@ import { VStack } from "@astryxdesign/core/Stack";
 import { Section } from "@astryxdesign/core/Section";
 import type { Note } from "@/content/types";
 import { formatDotDate } from "@/lib/dates";
+import { formatReadingTime } from "@/lib/reading-time";
 import { MarkdownDoc } from "@/components/markdown-doc";
 import { HashTags } from "@/components/hash-tags";
 import { NoteList } from "@/components/note-list";
@@ -21,8 +22,8 @@ export function NoteArticle({
     <VStack gap={10}>
       <Section variant="transparent" padding={0}>
         <VStack gap={1}>
-          <Text color="secondary" hasTabularNumbers>
-            {formatDotDate(note.date)}
+          <Text type="supporting" hasTabularNumbers>
+            {formatDotDate(note.date)} · {formatReadingTime(note.body)}
           </Text>
           <Heading level={1}>{note.title}</Heading>
         </VStack>
