@@ -125,15 +125,15 @@ body {
 }
 
 .paper-sheet {
-  padding-block-start: clamp(2.75rem, 10vh, 5.5rem);
+  padding-block-start: clamp(3.5rem, 12vh, 7rem);
 }
 
 .paper-below-mark {
-  padding-block-start: 3rem;
+  padding-block-start: 4rem;
 }
 
 .home-intro {
-  padding-block-end: 3rem;
+  padding-block-end: 4rem;
 }
 
 .note-row {
