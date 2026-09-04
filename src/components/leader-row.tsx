@@ -1,6 +1,6 @@
 import { Link } from "@astryxdesign/core/Link";
 import { Text } from "@astryxdesign/core/Text";
-import { HStack, StackItem, VStack } from "@astryxdesign/core/Stack";
+import { HStack, VStack } from "@astryxdesign/core/Stack";
 
 export function LeaderRow({
   href,
@@ -21,13 +21,8 @@ export function LeaderRow({
         <Link href={href} color="primary" isStandalone onClick={onNavigate}>
           {label}
         </Link>
-        <StackItem size="fill" className="note-leader" aria-hidden="true" />
-        <Text
-          type="supporting"
-          color="secondary"
-          textWrap="nowrap"
-          hasTabularNumbers
-        >
+        <span className="note-leader" aria-hidden="true" />
+        <Text type="supporting" color="disabled" textWrap="nowrap" hasTabularNumbers>
           {meta}
         </Text>
       </HStack>
