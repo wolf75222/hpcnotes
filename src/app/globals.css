@@ -34,7 +34,9 @@ body {
 }
 
 .article-heading {
-  scroll-margin-top: calc(var(--spacing-12) * 3);
+  scroll-margin-top: calc(
+    var(--article-toc-height, var(--spacing-12)) + var(--spacing-4)
+  );
 }
 
 .article-toc {
