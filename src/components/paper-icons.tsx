@@ -35,3 +35,32 @@ export function SearchMark(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+/** A thin compass, paired with the search lens in the paper chrome. */
+export function ExploreMark(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <circle
+        cx="12"
+        cy="12"
+        r="8.1"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
+      <path
+        d="M14.85 9.15 11.2 11.2 9.15 14.85 12.8 12.8 14.85 9.15Z"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="12" r="0.85" fill="currentColor" />
+      <path
+        d="M12 4.9v1.45"
+        stroke="currentColor"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+        opacity="0.45"
+      />
+    </svg>
+  );
+}

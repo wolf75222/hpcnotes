@@ -5,7 +5,7 @@ import { Link } from "@astryxdesign/core/Link";
 import { Icon } from "@astryxdesign/core/Icon";
 import { HStack } from "@astryxdesign/core/Stack";
 import { SearchPalette } from "@/components/search-palette";
-import { SearchMark } from "@/components/paper-icons";
+import { ExploreMark, SearchMark } from "@/components/paper-icons";
 import type { Note } from "@/content/types";
 
 export function PaperMark({
@@ -37,8 +37,14 @@ export function PaperMark({
           >
             <Icon icon={SearchMark} size="sm" color="secondary" />
           </Link>
-          <Link href="/explore" color="secondary" type="supporting">
-            explore
+          <Link
+            href="/explore"
+            color="secondary"
+            type="supporting"
+            label="Explore"
+            onClick={() => setSearchOpen(false)}
+          >
+            <Icon icon={ExploreMark} size="sm" color="secondary" />
           </Link>
         </HStack>
       </HStack>
