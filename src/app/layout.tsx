@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s · hpcnotes.eu",
   },
   description:
-    "Short notes on high-performance computing: Slurm, MPI, GPUs, I/O, and the habits that transfer between clusters.",
+    "Short notes on high-performance computing, and personal thoughts around HPC.",
   applicationName: "hpcnotes.eu",
   keywords: [
     "HPC",

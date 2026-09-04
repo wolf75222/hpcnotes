@@ -1,6 +1,6 @@
 # hpcnotes.eu
 
-Short notes on high-performance computing. A white page, a list, a date.
+Short notes on high-performance computing, and personal thoughts around HPC. A white page, a list, a date.
 
 The UI is [Astryx](https://github.com/facebook/astryx) with the **neutral** theme, locked to light mode.
 

@@ -7,17 +7,15 @@ import { getNotes } from "@/content/load-notes";
 export const metadata: Metadata = {
   title: { absolute: "hpcnotes.eu" },
   description:
-    "Short notes on high-performance computing: Slurm, MPI, GPUs, I/O, and the habits that transfer between clusters.",
+    "Short notes on high-performance computing, and personal thoughts around HPC.",
 };
 
 export default function HomePage() {
   return (
-    <VStack gap={8}>
+    <VStack gap={10}>
       <Text type="supporting" color="primary">
-        Short notes on high-performance computing. Hostnames, partitions, and
-        module names stay in the centre handbook. These thoughts cover the
-        habits that transfer: batch, MPI, GPUs, I/O, and the etiquette of a
-        shared machine.
+        Short notes on high-performance computing, and personal thoughts around
+        HPC.
       </Text>
       <NoteList notes={getNotes()} showSummary />
     </VStack>

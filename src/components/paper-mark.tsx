@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Link } from "@astryxdesign/core/Link";
 import { Icon } from "@astryxdesign/core/Icon";
-import { HStack } from "@astryxdesign/core/Stack";
+import { HStack, VStack } from "@astryxdesign/core/Stack";
 import { SearchPalette } from "@/components/search-palette";
 import { ExploreMark, SearchMark } from "@/components/paper-icons";
 import type { Note } from "@/content/types";
@@ -18,7 +18,7 @@ export function PaperMark({
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <>
+    <VStack gap={8}>
       <HStack align="center" justify="between" gap={3} className="note-row">
         <Link
           href="/"
@@ -55,6 +55,6 @@ export function PaperMark({
       >
         {children}
       </SearchPalette>
-    </>
+    </VStack>
   );
 }
