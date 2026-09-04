@@ -18,7 +18,7 @@ npm run build
 npm start
 ```
 
-Press `/` or `⌘K` / `Ctrl+K` to search. There is no search field on the page until then.
+Press `/` or `⌘K` / `Ctrl+K`, or the search icon, to search. Explore lists every `#tag`; open one to see the notes that carry it.
 
 ## Content
 
@@ -43,6 +43,7 @@ at the end of the note. Similar notes are listed under that.
 | --- | --- |
 | `/` | All notes, grouped by year |
 | `/notes/[slug]` | A note |
+| `/explore` | All `#tags`, with counts |
 | `/tags/[tag]` | Notes that carry that `#tag` |
 | `/about` | What this site is |
 

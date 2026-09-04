@@ -20,18 +20,49 @@ function isTypingTarget(target: EventTarget | null) {
   );
 }
 
-export function SearchPalette({ notes }: { notes: Note[] }) {
+function matchingTags(notes: Note[], query: string) {
+  const needle = query.replace(/^#/, "").toLowerCase();
+  if (needle === "") {
+    return [];
+  }
+  const counts = new Map<string, number>();
+  for (const note of notes) {
+    for (const tag of note.tags) {
+      if (tag.toLowerCase().includes(needle)) {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      }
+    }
+  }
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, 6)
+    .map(([tag, count]) => ({ tag, count }));
+}
+
+export function SearchPalette({
+  notes,
+  open,
+  onOpenChange,
+}: {
+  notes: Note[];
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const results = useMemo(
-    () => filterNotes(notes, query).slice(0, 8),
-    [notes, query],
-  );
   const trimmed = query.trim();
+  const searchNeedle = trimmed.replace(/^#/, "");
+  const results = useMemo(
+    () => filterNotes(notes, searchNeedle).slice(0, 8),
+    [notes, searchNeedle],
+  );
+  const tags = useMemo(
+    () => matchingTags(notes, trimmed),
+    [notes, trimmed],
+  );
 
   const close = () => {
-    setOpen(false);
+    onOpenChange(false);
     setQuery("");
   };
 
@@ -42,12 +73,10 @@ export function SearchPalette({ notes }: { notes: Note[] }) {
         (event.metaKey || event.ctrlKey)
       ) {
         event.preventDefault();
-        setOpen((current) => {
-          if (current) {
-            setQuery("");
-          }
-          return !current;
-        });
+        onOpenChange(!open);
+        if (open) {
+          setQuery("");
+        }
         return;
       }
       if (
@@ -58,30 +87,34 @@ export function SearchPalette({ notes }: { notes: Note[] }) {
         !isTypingTarget(event.target)
       ) {
         event.preventDefault();
-        setOpen(true);
+        onOpenChange(true);
       }
     };
     window.addEventListener("keydown", onKeyDown, true);
     return () => window.removeEventListener("keydown", onKeyDown, true);
-  }, []);
+  }, [open, onOpenChange]);
 
-  const go = (slug: string) => {
+  const goNote = (slug: string) => {
     close();
     router.push(`/notes/${slug}`);
   };
 
-  // Unmount when closed. Astryx Dialog restores focus to the element that was
-  // active at open; with `/` that is often the field inside the dialog, which
-  // leaves a stray input on the page after Escape.
+  const goTag = (tag: string) => {
+    close();
+    router.push(`/tags/${encodeURIComponent(tag)}`);
+  };
+
   if (!open) {
     return null;
   }
+
+  const hasHits = tags.length > 0 || results.length > 0;
 
   return (
     <Dialog
       isOpen
       onOpenChange={(next) => {
-        setOpen(next);
+        onOpenChange(next);
         if (!next) {
           setQuery("");
         }
@@ -102,16 +135,33 @@ export function SearchPalette({ notes }: { notes: Note[] }) {
           hasAutoFocus
           width="100%"
           onEnter={() => {
-            const first = results[0];
-            if (trimmed !== "" && first != null) {
-              go(first.slug);
+            const firstTag = tags[0];
+            const firstNote = results[0];
+            if (trimmed === "") {
+              return;
+            }
+            if (firstTag != null) {
+              goTag(firstTag.tag);
+              return;
+            }
+            if (firstNote != null) {
+              goNote(firstNote.slug);
             }
           }}
         />
-        {trimmed === "" ? null : results.length === 0 ? (
+        {trimmed === "" ? null : !hasHits ? (
           <Text type="supporting">Nothing matches.</Text>
         ) : (
           <VStack gap={3}>
+            {tags.map(({ tag, count }) => (
+              <LeaderRow
+                key={`tag-${tag}`}
+                href={`/tags/${encodeURIComponent(tag)}`}
+                label={`#${tag}`}
+                meta={String(count)}
+                onNavigate={close}
+              />
+            ))}
             {results.map((note) => (
               <LeaderRow
                 key={note.slug}

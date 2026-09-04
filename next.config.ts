@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
       { source: "/playlists", destination: "/", permanent: false },
       { source: "/playlists/:slug", destination: "/", permanent: false },
       { source: "/search", destination: "/", permanent: false },
-      { source: "/tags", destination: "/", permanent: false },
+      { source: "/tags", destination: "/explore", permanent: false },
       { source: "/years", destination: "/", permanent: false },
       ...getNoteSlugs().map((slug) => ({
         source: `/${slug}`,
