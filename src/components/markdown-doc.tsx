@@ -37,25 +37,27 @@ const mathPlugins: MarkdownInlinePlugin[] = [
 
 export function MarkdownDoc({ children }: { children: string }) {
   return (
-    <Markdown
-      headingLevelStart={1}
-      contentWidth={640}
-      autolink="gfm"
-      inlinePlugins={mathPlugins}
-      components={{
-        link: MarkdownLink,
-        code: MarkdownCode,
-        inlineCode: ({ children: code }) => <Code>{code}</Code>,
-        image: MarkdownImage,
-        heading: ({ children: heading, id, level }) => (
-          <Heading level={level} id={id} className="article-heading">
-            {heading}
-          </Heading>
-        ),
-        hr: () => null,
-      }}
-    >
-      {liftDisplayMath(children)}
-    </Markdown>
+    <div className="md-doc">
+      <Markdown
+        headingLevelStart={1}
+        contentWidth={640}
+        autolink="gfm"
+        inlinePlugins={mathPlugins}
+        components={{
+          link: MarkdownLink,
+          code: MarkdownCode,
+          inlineCode: ({ children: code }) => <Code>{code}</Code>,
+          image: MarkdownImage,
+          heading: ({ children: heading, id, level }) => (
+            <Heading level={level} id={id} className="article-heading">
+              {heading}
+            </Heading>
+          ),
+          hr: () => null,
+        }}
+      >
+        {liftDisplayMath(children)}
+      </Markdown>
+    </div>
   );
 }

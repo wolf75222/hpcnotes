@@ -6,13 +6,15 @@ author: hpcnotes
 tags: documentation
 ---
 
-A note is a `.md` file with a short header. The body is ordinary Markdown: headings, lists, tables, quotes, code, diagrams, maths, images, and gifs.
+A note is a `.md` file with a short header. The body is ordinary Markdown: headings, lists, tables, quotes, code, diagrams, maths, images, and gifs. Nest them as in LaTeX: section, subsection, subsubsection.
 
 > Walltime is a contract. The login node is not a workstation.
 
 ## Code
 
-Fence a block and name the language. Copy sits on the block.
+Fence a block and name the language. Copy sits on the block. Long lines scroll inside the fence; they do not push the column.
+
+### Fences
 
 ```bash
 #!/bin/bash
@@ -21,6 +23,8 @@ Fence a block and name the language. Copy sits on the block.
 #SBATCH --time=00:10:00
 srun ./a.out
 ```
+
+### Inline names
 
 Inline names stay in a code span: `srun`, `MPI_Init`, `$SLURM_NTASKS`.
 
@@ -32,9 +36,15 @@ int main(int argc, char** argv) {
 }
 ```
 
+#### A rank that only starts
+
+That `MPI_Init` / `MPI_Finalize` pair is a subsubsection: enough to compile, not a solver.
+
 ## Diagrams
 
 A `mermaid` fence becomes a figure. Flowcharts, sequence charts, and the rest of the Mermaid dialects are fair game.
+
+### Flow
 
 ```mermaid
 flowchart LR
@@ -43,6 +53,8 @@ flowchart LR
   alloc --> srun[srun]
   srun --> ranks[Ranks]
 ```
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -56,7 +68,13 @@ sequenceDiagram
 
 ## Maths
 
-Inline TeX sits in dollar signs: a naive GEMM is $2n^3$ flops. Displayed expressions use a `math` fence, `$$…$$`, or `\[…\]`.
+### Inline
+
+Inline TeX sits in dollar signs: a naive GEMM is $2n^3$ flops.
+
+### Display
+
+Displayed expressions use a `math` fence, `$$…$$`, or `\[…\]`.
 
 ```math
 E(p) = \frac{T_1}{p \, T_p}
@@ -65,6 +83,8 @@ E(p) = \frac{T_1}{p \, T_p}
 $$
 T_p = T_{\text{comp}} + T_{\text{comm}} + T_{\text{I/O}}
 $$
+
+##### Paragraph
 
 Strong scaling is the ratio of serial time to $p$ times parallel time. If $E(p)$ falls over while the solver is "MPI bound", time the I/O.
 

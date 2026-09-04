@@ -24,13 +24,15 @@ export function MarkdownCode({
   }
 
   return (
-    <CodeBlock
-      code={code}
-      language={language || "plaintext"}
-      hasCopyButton
-      hasLanguageLabel={false}
-      width="100%"
-      container="section"
-    />
+    <div className="md-code">
+      <CodeBlock
+        code={code}
+        language={language || "plaintext"}
+        hasCopyButton
+        hasLanguageLabel={false}
+        width="100%"
+        container="section"
+      />
+    </div>
   );
 }

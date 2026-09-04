@@ -39,42 +39,48 @@ body {
 
 .article-heading {
   scroll-margin-top: var(--spacing-6);
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
 .article-toc-dock {
   position: fixed;
   inset-block: 0;
   inset-inline-start: 0;
-  z-index: 8;
-  width: var(--spacing-3);
+  z-index: 5;
+  width: var(--spacing-2);
+  overflow: hidden;
 }
 
 .article-toc-panel {
   position: absolute;
   inset-block-start: 50%;
-  inset-inline-start: var(--spacing-3);
+  inset-inline-start: 0;
   box-sizing: border-box;
-  width: min(16rem, calc(100vw - var(--spacing-8)));
+  width: 100%;
   max-height: min(36rem, calc(100vh - var(--spacing-12)));
   padding-block: var(--spacing-4);
-  padding-inline: var(--spacing-4);
+  padding-inline: var(--spacing-3);
   overflow: auto;
-  background-color: var(--color-background-surface);
+  background: transparent;
+  visibility: hidden;
   opacity: 0;
-  transform: translate(-0.75rem, -50%);
+  transform: translate(-0.5rem, -50%);
   pointer-events: none;
-  transition-property: opacity, transform;
+  transition-property: opacity, transform, visibility;
   transition-duration: var(--duration-medium);
   transition-timing-function: ease;
 }
 
 .article-toc-dock:hover,
 .article-toc-dock:focus-within {
-  width: min(18rem, 72vw);
+  width: min(16rem, max(var(--spacing-2), calc((100vw - 640px) / 2 - var(--spacing-4))));
+  overflow: hidden;
 }
 
 .article-toc-dock:hover .article-toc-panel,
 .article-toc-dock:focus-within .article-toc-panel {
+  visibility: visible;
   opacity: 1;
   transform: translate(0, -50%);
   pointer-events: auto;
@@ -89,6 +95,33 @@ body {
   .article-toc-panel {
     transition: none;
   }
+}
+
+@media (max-width: 64rem) {
+  .article-toc-dock {
+    display: none;
+  }
+}
+
+.md-doc {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.md-code,
+.md-table,
+.md-doc pre,
+.astryx-markdown,
+.astryx-markdown-table {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.md-code,
+.md-table,
+.md-doc pre,
+.astryx-markdown-table {
+  overflow-x: auto;
 }
 
 .note-row {
