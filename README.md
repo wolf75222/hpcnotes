@@ -1,24 +1,50 @@
 # hpcnotes.eu
 
-Short notes on high-performance computing, and personal thoughts around HPC. A white page, a list, a date.
+Private notes site for [hpcnotes.eu](https://hpcnotes.eu): short notes on high-performance computing, and personal thoughts around HPC. A white page, a list, a date.
 
-The UI is [Astryx](https://github.com/facebook/astryx) with the **neutral** theme, locked to light mode.
+This repository is meant to stay **private**. It holds the Next.js site, the Markdown notes, and a separate Chrome extension under `document/`.
+
+## Requirements
+
+- Node.js 20 or newer
+- npm (comes with Node)
 
 ## Run locally
 
 ```bash
+git clone <this-repo-url>
+cd hpcnotes
 npm install
 npm run dev
 ```
 
-The app listens on [http://127.0.0.1:43123](http://127.0.0.1:43123).
+The app listens on [http://127.0.0.1:43123](http://127.0.0.1:43123). Press `/` or `⌘K` / `Ctrl+K`, or the search mark, to search in the page. Type a title, a `#tag`, or a few words. Escape closes it. Search looks at titles, summaries, and tags — not the full note body.
+
+Production build:
 
 ```bash
 npm run build
 npm start
 ```
 
-Press `/` or `⌘K` / `Ctrl+K`, or the search mark, to search in the page. Type a title, a `#tag`, or a few words. Escape closes it. Search looks at titles, summaries, and tags — not the full note body.
+| Script | What it does |
+| --- | --- |
+| `npm run dev` | Dev server on port 43123 |
+| `npm run build` | Production build |
+| `npm start` | Serve the production build on 43123 |
+| `npm run new -- my-note-slug` | Scaffold a draft Markdown note |
+| `npm run lint` | ESLint |
+
+## Repository layout
+
+```
+src/content/notes/     Markdown notes (filename = URL slug)
+src/content/           Loaders, thought tree, search index
+src/app/               Next.js App Router pages and RSS
+src/components/        Paper UI
+public/media/          Images and gifs referenced as /media/…
+document/              Chrome extension (Master CHPS alumni collector)
+```
 
 ## Write a note
 
@@ -26,7 +52,7 @@ Press `/` or `⌘K` / `Ctrl+K`, or the search mark, to search in the page. Type 
 npm run new -- my-note-slug
 ```
 
-That scaffolds `src/content/notes/my-note-slug.md` with today’s date and `draft: true`. The filename is the slug (`what-a-note-can-carry.md` → `/notes/what-a-note-can-carry`). Front matter:
+That scaffolds `src/content/notes/my-note-slug.md` with today’s date and `draft: true`. The filename is the slug (`what-a-note-can-carry.md` → `/notes/what-a-note-can-carry`).
 
 ```md
 ---
@@ -44,7 +70,15 @@ fence is KaTeX, `![alt](/media/file.gif)` is a figure or gif (files live in
 at the end of the note. Similar notes are listed under that.
 ```
 
-`tags` may be a comma list (`mpi, slurm`) or a bracket list (`[mpi, slurm]`). Dates must be `YYYY-MM-DD`.
+| Field | Notes |
+| --- | --- |
+| `title` | Required. Shown on the home list and the article. |
+| `summary` | One line for search and similar-note cards. |
+| `date` | `YYYY-MM-DD`. Invalid dates render as `—`. |
+| `tags` | Comma list (`mpi, slurm`) or brackets (`[mpi, slurm]`). |
+| `draft` | `true` / `yes` / `1` hides the note in production. Visible in `npm run dev`. |
+| `parent` | Slug of the parent thought. Omit on a root note. |
+| `order` | Integer used to order siblings under the same parent. |
 
 A thought can split into smaller notes. Set `parent` to the parent slug and `order` to keep children in a fixed sequence:
 
@@ -58,26 +92,22 @@ tags: slurm, batch
 ---
 ```
 
-The home list shows each parent thought, not every fragment. Opening a parent lists the parts as titles. On a note that has sub-thoughts, a table of contents sits in the left margin — not on the home page, and not over the paper. Along a thought, the previous and next notes sit under the body so you can read the pieces in order.
+The home list shows each parent thought, not every fragment. Opening a parent lists the parts as titles. On a note that belongs to a decomposed thought, a table of contents sits in the **left page margin** on wide screens — never on the home page, and never over the 640px paper column. On narrower screens the in-column child list is the fallback. Along a thought, previous and next sit under the body so you can read the pieces in order.
 
-`draft: true` (also `yes` / `1`) keeps the note out of the production list, tag pages, search, and the RSS feed. In `npm run dev` drafts stay visible so you can preview them. A broken Markdown file is skipped with a warning; it does not fail the build.
+A broken Markdown file is skipped with a warning; it does not fail the build.
 
 Images and videos must be paths under `/media/…`. Remote URLs and anything that leaves that folder are not rendered.
 
 | Route | What it is |
 | --- | --- |
 | `/` | Intro, then published thoughts. Child notes live inside their parent |
-| `/notes/[slug]` | A note. If it has sub-thoughts, their table of contents sits in the left margin |
+| `/notes/[slug]` | A note. If it is part of a decomposed thought, the tree sits in the left margin |
 | `/explore` | All `#tags`, with counts |
 | `/feed.xml` | RSS of published notes |
 
-## Hosting
+## Environment
 
-Push the git repository to [Vercel](https://vercel.com). The default Node runtime is enough. Set `NEXT_PUBLIC_SITE_URL` to the public origin so feed links are absolute.
-
-## Google AdSense
-
-Copy `.env.example` to `.env.local` and fill in a client and slot IDs:
+Copy `.env.example` to `.env.local`. None of these are required to run the site.
 
 ```bash
 NEXT_PUBLIC_ADSENSE_CLIENT=ca-pub-xxxxxxxxxxxxxxxx
@@ -86,19 +116,24 @@ NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE=
 NEXT_PUBLIC_SITE_URL=https://hpcnotes.eu
 ```
 
-Without those AdSense values the site still runs and ad regions stay hidden. Do not click your own ads.
+Without the AdSense values the site still runs and ad regions stay hidden. Do not click your own ads. `NEXT_PUBLIC_SITE_URL` should be the public origin so RSS links are absolute.
+
+## Hosting
+
+Push this private repository to [Vercel](https://vercel.com) and import it with a GitHub connection that can read private repos. The default Node runtime is enough. Set `NEXT_PUBLIC_SITE_URL` to the public origin.
 
 ## Design system
 
-Agent conventions live in `AGENTS.md`. Look up components with `npm run astryx -- component Button`.
+The UI is [Astryx](https://github.com/facebook/astryx) with the **neutral** theme, locked to light mode. Agent conventions live in `AGENTS.md`. Look up components with `npm run astryx -- component Button`.
 
 ## LinkedIn alumni collector
 
-The Chrome extension for collecting Master CHPS alumni profiles is unchanged under `document/`.
+The Chrome extension for collecting Master CHPS alumni profiles is unchanged under `document/`. See `document/GUIDE_RAPIDE.md` and `document/CHECKLIST.md`.
 
 ## Stack
 
-- Next.js (App Router) and React 19
+- Next.js 16 (App Router) and React 19
+- TypeScript
 - Astryx + StyleX tokens (pre-built CSS, no StyleX compiler)
 - KaTeX for maths, Mermaid for diagrams (the browser bundle is copied to `public/vendor/` on install)
 - Optional Google AdSense
