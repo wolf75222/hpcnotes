@@ -43,74 +43,83 @@ body {
   overflow-wrap: break-word;
 }
 
-.article-toc-dock {
+.thought-sidebar {
   position: fixed;
   inset-block: 0;
   inset-inline-start: 0;
-  z-index: 5;
-  width: var(--spacing-2);
+  z-index: 8;
+  width: var(--spacing-4);
   overflow: hidden;
 }
 
-.article-toc-panel {
+.thought-sidebar-panel {
   position: absolute;
-  inset-block-start: 50%;
+  inset-block: 0;
   inset-inline-start: 0;
   box-sizing: border-box;
-  width: 100%;
-  max-height: min(36rem, calc(100vh - var(--spacing-12)));
-  padding-block: var(--spacing-4);
-  padding-inline: var(--spacing-3);
+  width: min(18rem, calc(100vw - var(--spacing-8)));
+  padding-block: var(--spacing-8);
+  padding-inline: var(--spacing-5);
   overflow: auto;
-  background: transparent;
+  background: var(--color-background-surface);
+  border-inline-end: var(--border-width) solid var(--color-border-muted);
+  transform: translateX(-100%);
   visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
+  transition: transform 0.16s ease, visibility 0.16s ease;
 }
 
-.article-toc-dock:hover,
-.article-toc-dock:focus-within {
-  width: min(16rem, max(var(--spacing-2), calc((100vw - 640px) / 2 - var(--spacing-4))));
-  overflow: hidden;
+.thought-sidebar:hover,
+.thought-sidebar:focus-within {
+  width: min(18rem, calc(100vw - var(--spacing-8)));
 }
 
-.article-toc-dock:hover .article-toc-panel,
-.article-toc-dock:focus-within .article-toc-panel {
+.thought-sidebar:hover .thought-sidebar-panel,
+.thought-sidebar:focus-within .thought-sidebar-panel {
+  transform: none;
   visibility: visible;
-  opacity: 1;
-  pointer-events: auto;
 }
 
-.article-toc-link {
+.thought-sidebar-link {
   display: block;
-  color: var(--color-text-disabled);
+  color: var(--color-text-secondary);
   font-family: var(--font-family-body);
   font-size: var(--text-supporting-size);
   line-height: var(--text-supporting-leading);
   text-decoration: none;
   background: transparent;
   box-shadow: none;
+  padding-block: var(--spacing-1);
 }
 
-.article-toc-link[data-depth="1"] {
-  padding-inline-start: var(--spacing-4);
-}
-
-.article-toc-link[data-depth="2"] {
-  padding-inline-start: var(--spacing-8);
-}
-
-.article-toc-link[data-depth="3"] {
-  padding-inline-start: var(--spacing-12);
-}
-
-.article-toc-link[data-active="true"] {
+.thought-sidebar-link[data-depth="0"] {
   color: var(--color-text-primary);
 }
 
-@media (max-width: 64rem) {
-  .article-toc-dock {
+.thought-sidebar-link[data-depth="1"] {
+  padding-inline-start: var(--spacing-4);
+}
+
+.thought-sidebar-link[data-depth="2"] {
+  padding-inline-start: var(--spacing-8);
+}
+
+.thought-sidebar-link[data-depth="3"] {
+  padding-inline-start: var(--spacing-12);
+}
+
+.thought-sidebar-link[data-active="true"] {
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 64rem), (hover: none) {
+  .thought-sidebar {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thought-sidebar-panel {
+    transition: none;
   }
 }
 

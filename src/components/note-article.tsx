@@ -3,10 +3,10 @@
 import { Heading, Text } from "@astryxdesign/core/Text";
 import { Link } from "@astryxdesign/core/Link";
 import { VStack } from "@astryxdesign/core/Stack";
-import type { Note, NoteIndex, ThoughtRef } from "@/content/types";
+import type { Note, NoteIndex } from "@/content/types";
 import { formatDotDate } from "@/lib/dates";
 import { MarkdownDoc } from "@/components/markdown-doc";
-import { PaperDock } from "@/components/paper-dock";
+import { PaperHeadings } from "@/components/paper-sidebar";
 import { HashTags } from "@/components/hash-tags";
 import { NoteList } from "@/components/note-list";
 import { LeaderRow } from "@/components/leader-row";
@@ -19,7 +19,6 @@ export function NoteArticle({
   childrenNotes,
   previous,
   next,
-  thoughts,
   readingLabel,
 }: {
   note: Note;
@@ -28,7 +27,6 @@ export function NoteArticle({
   childrenNotes: NoteIndex[];
   previous: NoteIndex | null;
   next: NoteIndex | null;
-  thoughts: ThoughtRef[];
   readingLabel: string;
 }) {
   return (
@@ -49,11 +47,7 @@ export function NoteArticle({
         </Text>
         <Heading level={1}>{note.title}</Heading>
       </VStack>
-      <PaperDock
-        markdown={note.body}
-        thoughts={thoughts}
-        activeSlug={note.slug}
-      />
+      <PaperHeadings markdown={note.body} />
       <MarkdownDoc>{note.body}</MarkdownDoc>
       {childrenNotes.length > 0 ? (
         <NoteList notes={childrenNotes} showDate={false} />

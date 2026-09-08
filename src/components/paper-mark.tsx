@@ -6,6 +6,7 @@ import { Icon } from "@astryxdesign/core/Icon";
 import { HStack, VStack } from "@astryxdesign/core/Stack";
 import { SearchPalette } from "@/components/search-palette";
 import { ExploreMark, SearchMark } from "@/components/paper-icons";
+import { PaperSidebar } from "@/components/paper-sidebar";
 import type { NoteIndex } from "@/content/types";
 
 export function PaperMark({
@@ -18,7 +19,8 @@ export function PaperMark({
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <VStack gap={0}>
+    <PaperSidebar notes={notes}>
+      <VStack gap={0}>
       <HStack align="center" justify="between" gap={3} className="note-row">
         <Link
           href="/"
@@ -57,6 +59,7 @@ export function PaperMark({
           {children}
         </SearchPalette>
       </div>
-    </VStack>
+      </VStack>
+    </PaperSidebar>
   );
 }

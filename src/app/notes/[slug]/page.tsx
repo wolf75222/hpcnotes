@@ -6,7 +6,6 @@ import { getRelatedNotes } from "@/content/catalog";
 import {
   buildThoughtForest,
   findThoughtPath,
-  flattenThoughtRefs,
   thoughtNeighbors,
 } from "@/content/thoughts";
 import { formatReadingTime, readingMinutes } from "@/lib/reading-time";
@@ -55,7 +54,6 @@ export default async function NotePage({
   const parent =
     path != null && path.length > 1 ? (path[path.length - 2]?.note ?? null) : null;
   const childrenNotes = current?.children.map((child) => child.note) ?? [];
-  const thoughts = path?.[0] != null ? flattenThoughtRefs(path[0]) : [];
   const { previous, next } = thoughtNeighbors(path);
   const readingLabel =
     current != null && current.children.length > 0
@@ -74,7 +72,6 @@ export default async function NotePage({
         childrenNotes={childrenNotes}
         previous={previous}
         next={next}
-        thoughts={thoughts}
         readingLabel={readingLabel}
       />
     </>
