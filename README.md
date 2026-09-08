@@ -58,7 +58,7 @@ tags: slurm, batch
 ---
 ```
 
-The home list nests those children under the parent. Opening a parent lists them after the note. On a wide screen, hover the left edge of the window for the same tree, plus in-page headings when a note has enough of them.
+The home list shows each parent thought, not every fragment. Opening a parent lists the parts as titles. On a wide screen, hover the left edge of the window for the tree, plus in-page headings when a note has enough of them. Along a thought, the previous and next notes sit under the body so you can read the pieces in order.
 
 `draft: true` (also `yes` / `1`) keeps the note out of the production list, tag pages, search, and the RSS feed. In `npm run dev` drafts stay visible so you can preview them. A broken Markdown file is skipped with a warning; it does not fail the build.
 
@@ -66,7 +66,7 @@ Images and videos must be paths under `/media/…`. Remote URLs and anything tha
 
 | Route | What it is |
 | --- | --- |
-| `/` | Intro, then published notes. A parent thought lists its children underneath |
+| `/` | Intro, then published thoughts. Child notes live inside their parent |
 | `/notes/[slug]` | A note. Hover the left edge on a wide screen for the thought tree and, when the note is long, its headings |
 | `/explore` | All `#tags`, with counts |
 | `/feed.xml` | RSS of published notes |

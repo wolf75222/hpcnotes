@@ -3,6 +3,7 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { NoteList } from "@/components/note-list";
 import { getNotes } from "@/content/load-notes";
+import { buildThoughtForest } from "@/content/thoughts";
 
 export const metadata: Metadata = {
   title: { absolute: "hpcnotes.eu" },
@@ -11,6 +12,8 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  const roots = buildThoughtForest(getNotes()).map((node) => node.note);
+
   return (
     <VStack gap={0}>
       <div className="home-intro">
@@ -19,7 +22,7 @@ export default function HomePage() {
           around HPC.
         </Text>
       </div>
-      <NoteList notes={getNotes()} showSummary tree />
+      <NoteList notes={roots} showSummary />
     </VStack>
   );
 }

@@ -109,3 +109,27 @@ export function flattenThoughtRefs(node: ThoughtNode, depth = 0): ThoughtRef[] {
 export function thoughtSlugs(node: ThoughtNode): string[] {
   return flattenThoughts(node).map((item) => item.note.slug);
 }
+
+export function thoughtNeighbors(path: ThoughtNode[] | null): {
+  previous: NoteIndex | null;
+  next: NoteIndex | null;
+} {
+  if (path == null || path.length < 2) {
+    return { previous: null, next: null };
+  }
+  const parent = path[path.length - 2];
+  const current = path[path.length - 1];
+  if (parent == null || current == null) {
+    return { previous: null, next: null };
+  }
+  const index = parent.children.findIndex(
+    (node) => node.note.slug === current.note.slug,
+  );
+  if (index < 0) {
+    return { previous: null, next: null };
+  }
+  const previous =
+    index === 0 ? parent.note : (parent.children[index - 1]?.note ?? null);
+  const next = parent.children[index + 1]?.note ?? null;
+  return { previous, next };
+}

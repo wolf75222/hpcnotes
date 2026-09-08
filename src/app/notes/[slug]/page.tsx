@@ -7,7 +7,10 @@ import {
   buildThoughtForest,
   findThoughtPath,
   flattenThoughtRefs,
+  thoughtNeighbors,
 } from "@/content/thoughts";
+import { formatReadingTime, readingMinutes } from "@/lib/reading-time";
+import type { ThoughtNode } from "@/content/types";
 
 export function generateStaticParams() {
   return getNotes().map((note) => ({ slug: note.slug }));
@@ -29,6 +32,12 @@ export async function generateMetadata({
   return { title: note.title, description: note.summary };
 }
 
+function minutesForTree(node: ThoughtNode): number {
+  const full = getNoteBySlug(node.note.slug);
+  const self = readingMinutes(full?.body ?? "");
+  return node.children.reduce((sum, child) => sum + minutesForTree(child), self);
+}
+
 export default async function NotePage({
   params,
 }: {
@@ -43,9 +52,15 @@ export default async function NotePage({
   const forest = buildThoughtForest(getNotes().map(toNoteIndex));
   const path = findThoughtPath(forest, note.slug);
   const current = path?.[path.length - 1] ?? null;
-  const parent = path != null && path.length > 1 ? (path[path.length - 2]?.note ?? null) : null;
+  const parent =
+    path != null && path.length > 1 ? (path[path.length - 2]?.note ?? null) : null;
   const childrenNotes = current?.children.map((child) => child.note) ?? [];
   const thoughts = path?.[0] != null ? flattenThoughtRefs(path[0]) : [];
+  const { previous, next } = thoughtNeighbors(path);
+  const readingLabel =
+    current != null && current.children.length > 0
+      ? `${minutesForTree(current)} min`
+      : formatReadingTime(note.body);
 
   return (
     <>
@@ -57,7 +72,10 @@ export default async function NotePage({
         related={getRelatedNotes(note.slug).map(toNoteIndex)}
         parent={parent}
         childrenNotes={childrenNotes}
+        previous={previous}
+        next={next}
         thoughts={thoughts}
+        readingLabel={readingLabel}
       />
     </>
   );

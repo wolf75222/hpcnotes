@@ -14,7 +14,7 @@ export function LeaderRow({
 }: {
   href: string;
   label: string;
-  meta: string;
+  meta?: string;
   extra?: React.ReactNode;
   depth?: number;
   onNavigate?: () => void;
@@ -33,12 +33,16 @@ export function LeaderRow({
             {label}
           </Link>
         </span>
-        <span className="note-leader" aria-hidden="true">
-          {DOTS}
-        </span>
-        <Text type="supporting" color="disabled" textWrap="nowrap" hasTabularNumbers>
-          {meta}
-        </Text>
+        {meta != null && meta !== "" ? (
+          <>
+            <span className="note-leader" aria-hidden="true">
+              {DOTS}
+            </span>
+            <Text type="supporting" color="disabled" textWrap="nowrap" hasTabularNumbers>
+              {meta}
+            </Text>
+          </>
+        ) : null}
       </HStack>
       {extra}
     </VStack>
