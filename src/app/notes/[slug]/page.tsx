@@ -3,6 +3,11 @@ import { NoteArticle } from "@/components/note-article";
 import { MissingPost } from "@/components/missing-post";
 import { getNoteBySlug, getNotes, toNoteIndex } from "@/content/load-notes";
 import { getRelatedNotes } from "@/content/catalog";
+import {
+  buildThoughtForest,
+  findThoughtPath,
+  flattenThoughtRefs,
+} from "@/content/thoughts";
 
 export function generateStaticParams() {
   return getNotes().map((note) => ({ slug: note.slug }));
@@ -35,12 +40,25 @@ export default async function NotePage({
     return <MissingPost />;
   }
 
+  const forest = buildThoughtForest(getNotes().map(toNoteIndex));
+  const path = findThoughtPath(forest, note.slug);
+  const current = path?.[path.length - 1] ?? null;
+  const parent = path != null && path.length > 1 ? (path[path.length - 2]?.note ?? null) : null;
+  const childrenNotes = current?.children.map((child) => child.note) ?? [];
+  const thoughts = path?.[0] != null ? flattenThoughtRefs(path[0]) : [];
+
   return (
     <>
       {note.body.includes("```mermaid") ? (
         <link rel="preload" href="/vendor/mermaid.min.js" as="script" />
       ) : null}
-      <NoteArticle note={note} related={getRelatedNotes(note.slug).map(toNoteIndex)} />
+      <NoteArticle
+        note={note}
+        related={getRelatedNotes(note.slug).map(toNoteIndex)}
+        parent={parent}
+        childrenNotes={childrenNotes}
+        thoughts={thoughts}
+      />
     </>
   );
 }

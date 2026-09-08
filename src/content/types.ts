@@ -6,6 +6,8 @@ export interface NoteIndex {
   author: string;
   tags: string[];
   draft: boolean;
+  parent: string | null;
+  order: number;
 }
 
 export interface Note extends NoteIndex {
@@ -17,4 +19,15 @@ export interface Playlist {
   title: string;
   summary: string;
   slugs: string[];
+}
+
+export interface ThoughtNode {
+  note: NoteIndex;
+  children: ThoughtNode[];
+}
+
+export interface ThoughtRef {
+  slug: string;
+  title: string;
+  depth: number;
 }

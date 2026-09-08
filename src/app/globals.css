@@ -152,6 +152,18 @@ body {
   width: 100%;
 }
 
+.note-row[data-depth="1"] {
+  padding-inline-start: var(--spacing-6);
+}
+
+.note-row[data-depth="2"] {
+  padding-inline-start: var(--spacing-10);
+}
+
+.note-row[data-depth="3"] {
+  padding-inline-start: var(--spacing-12);
+}
+
 .note-title {
   flex: 0 1 auto;
   min-width: 0;

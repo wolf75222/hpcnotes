@@ -46,14 +46,28 @@ at the end of the note. Similar notes are listed under that.
 
 `tags` may be a comma list (`mpi, slurm`) or a bracket list (`[mpi, slurm]`). Dates must be `YYYY-MM-DD`.
 
+A thought can split into smaller notes. Set `parent` to the parent slug and `order` to keep children in a fixed sequence:
+
+```md
+---
+title: Anatomy of a Slurm job that actually finishes
+date: 2026-08-11
+parent: working-on-a-cluster
+order: 3
+tags: slurm, batch
+---
+```
+
+The home list nests those children under the parent. Opening a parent lists them after the note. On a wide screen, hover the left edge of the window for the same tree, plus in-page headings when a note has enough of them.
+
 `draft: true` (also `yes` / `1`) keeps the note out of the production list, tag pages, search, and the RSS feed. In `npm run dev` drafts stay visible so you can preview them. A broken Markdown file is skipped with a warning; it does not fail the build.
 
 Images and videos must be paths under `/media/…`. Remote URLs and anything that leaves that folder are not rendered.
 
 | Route | What it is |
 | --- | --- |
-| `/` | Intro, then every published note: title, date, one-line summary |
-| `/notes/[slug]` | A note. Long notes keep a contents list on the left edge of the window; it appears on hover, in supporting type, and only on wide screens |
+| `/` | Intro, then published notes. A parent thought lists its children underneath |
+| `/notes/[slug]` | A note. Hover the left edge on a wide screen for the thought tree and, when the note is long, its headings |
 | `/explore` | All `#tags`, with counts |
 | `/feed.xml` | RSS of published notes |
 

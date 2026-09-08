@@ -2,6 +2,7 @@ import { getNoteBySlug, getNotes } from "./load-notes";
 import { PLAYLISTS } from "./playlists";
 import { filterNotes } from "./query";
 import { isIsoDate } from "../lib/dates";
+import { buildThoughtForest, findThoughtPath, thoughtSlugs } from "./thoughts";
 import type { Note } from "./types";
 
 export { filterNotes, notesByYear } from "./query";
@@ -49,7 +50,11 @@ export function getRelatedNotes(slug: string, limit = 5) {
     return [];
   }
 
-  const seen = new Set<string>([slug]);
+  const forest = buildThoughtForest(getNotes());
+  const path = findThoughtPath(forest, slug);
+  const root = path?.[0];
+  const sameTree = new Set(root != null ? thoughtSlugs(root) : [slug]);
+  const seen = new Set<string>(sameTree);
   const related: Note[] = [];
 
   for (const playlist of PLAYLISTS) {

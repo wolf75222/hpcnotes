@@ -19,7 +19,7 @@ export default function HomePage() {
           around HPC.
         </Text>
       </div>
-      <NoteList notes={getNotes()} showSummary />
+      <NoteList notes={getNotes()} showSummary tree />
     </VStack>
   );
 }

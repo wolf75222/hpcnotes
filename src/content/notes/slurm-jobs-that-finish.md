@@ -4,6 +4,8 @@ summary: The difference between a script that queued and a result you can publis
 date: 2026-08-11
 author: hpcnotes
 tags: slurm, batch
+parent: working-on-a-cluster
+order: 3
 ---
 
 A surprising number of "the cluster is broken" tickets are job scripts that never had a chance: wrong directory, stdout path that does not exist, `mpirun` that ignored the allocation, walltime copied from a colleague's 48-hour production run into a compile test.

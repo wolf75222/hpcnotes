@@ -4,6 +4,8 @@ summary: A checklist for the first CUDA or HIP allocation: visibility, a tiny ke
 date: 2026-06-16
 author: hpcnotes
 tags: gpu, slurm
+parent: working-on-a-cluster
+order: 4
 ---
 
 People skip from "I have a GPU partition" to "I built the full application" and then spend a day debugging a solver that never saw a device.

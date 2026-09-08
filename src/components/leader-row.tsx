@@ -9,16 +9,18 @@ export function LeaderRow({
   label,
   meta,
   extra,
+  depth = 0,
   onNavigate,
 }: {
   href: string;
   label: string;
   meta: string;
   extra?: React.ReactNode;
+  depth?: number;
   onNavigate?: () => void;
 }) {
   return (
-    <VStack gap={1} className="note-row">
+    <VStack gap={1} className="note-row" data-depth={String(Math.min(depth, 3))}>
       <HStack align="center" gap={2} className="note-row">
         <span className="note-title">
           <Link

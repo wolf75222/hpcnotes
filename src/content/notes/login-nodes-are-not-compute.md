@@ -4,6 +4,8 @@ summary: If the shared login image is swapping, it is because someone compiled t
 date: 2025-11-04
 author: hpcnotes
 tags: etiquette, batch
+parent: working-on-a-cluster
+order: 1
 ---
 
 A login node is a waiting room with a compiler. It is not a 128-core workstation that happens to have SSH.

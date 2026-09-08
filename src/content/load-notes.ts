@@ -59,6 +59,8 @@ export function toNoteIndex(note: Note): NoteIndex {
     author: note.author,
     tags: note.tags,
     draft: note.draft,
+    parent: note.parent,
+    order: note.order,
   };
 }
 

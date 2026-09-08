@@ -4,6 +4,8 @@ summary: The modulefile is how the machine tells you which compiler, MPI, and CU
 date: 2024-09-18
 author: hpcnotes
 tags: modules, portability
+parent: working-on-a-cluster
+order: 2
 ---
 
 A cluster is not a laptop with extra cores. The software you can see is a set of blessed combinations, and the modulefile is the contract for one of them.

@@ -19,6 +19,25 @@ function parseDraft(value: string | undefined) {
   return normalized === "true" || normalized === "yes" || normalized === "1";
 }
 
+function parseParent(value: string | undefined, slug: string) {
+  if (value == null) {
+    return null;
+  }
+  const parent = value.trim();
+  if (parent === "" || parent === slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(parent)) {
+    return null;
+  }
+  return parent;
+}
+
+function parseOrder(value: string | undefined) {
+  if (value == null || value.trim() === "") {
+    return 0;
+  }
+  const order = Number.parseInt(value.trim(), 10);
+  return Number.isFinite(order) ? order : 0;
+}
+
 function splitTagString(raw: string) {
   let value = raw.trim();
   if (value.startsWith("[") && value.endsWith("]")) {
@@ -106,6 +125,8 @@ export function parseNoteMarkdown(slug: string, source: string): Note {
   const summary = typeof fields.summary === "string" ? fields.summary : "";
   const authorRaw = typeof fields.author === "string" ? fields.author.trim() : "";
   const draftRaw = typeof fields.draft === "string" ? fields.draft : undefined;
+  const parentRaw = typeof fields.parent === "string" ? fields.parent : undefined;
+  const orderRaw = typeof fields.order === "string" ? fields.order : undefined;
 
   return {
     slug,
@@ -115,6 +136,8 @@ export function parseNoteMarkdown(slug: string, source: string): Note {
     author: authorRaw === "" ? "hpcnotes" : authorRaw,
     tags: parseTags(fields.tags),
     draft: parseDraft(draftRaw),
+    parent: parseParent(parentRaw, slug),
+    order: parseOrder(orderRaw),
     body: (match[2] ?? "").trim(),
   };
 }
