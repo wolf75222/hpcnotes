@@ -61,6 +61,7 @@ function ThoughtSidebar({
   );
   const items = useOutlineFromMarkdown(markdown);
   const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(true);
   const [activeId, setActiveId] = useState(items[0]?.id ?? "");
   const minLevel = items.reduce(
     (lowest, item) => Math.min(lowest, item.level),
@@ -108,7 +109,12 @@ function ThoughtSidebar({
   }
 
   return createPortal(
-    <aside className="thought-sidebar">
+    <aside
+      className="thought-sidebar"
+      data-open={open ? "true" : "false"}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
       <nav className="thought-sidebar-panel" aria-label="Table of contents">
         <VStack gap={8}>
           {showTree ? (
