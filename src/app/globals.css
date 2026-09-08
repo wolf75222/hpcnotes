@@ -111,7 +111,7 @@ body {
   color: var(--color-text-primary);
 }
 
-@media (max-width: 64rem), (hover: none) {
+@media (max-width: 64rem) {
   .thought-sidebar {
     display: none;
   }
