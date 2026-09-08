@@ -58,7 +58,7 @@ tags: slurm, batch
 ---
 ```
 
-The home list shows each parent thought, not every fragment. Opening a parent lists the parts as titles. A table of contents of nested thoughts sits on the left; it folds to a thin strip when the pointer leaves it. Long notes also list in-page headings there. Along a thought, the previous and next notes sit under the body so you can read the pieces in order.
+The home list shows each parent thought, not every fragment. Opening a parent lists the parts as titles. On a note that has sub-thoughts, a table of contents sits in the left margin — not on the home page, and not over the paper. Along a thought, the previous and next notes sit under the body so you can read the pieces in order.
 
 `draft: true` (also `yes` / `1`) keeps the note out of the production list, tag pages, search, and the RSS feed. In `npm run dev` drafts stay visible so you can preview them. A broken Markdown file is skipped with a warning; it does not fail the build.
 
@@ -67,7 +67,7 @@ Images and videos must be paths under `/media/…`. Remote URLs and anything tha
 | Route | What it is |
 | --- | --- |
 | `/` | Intro, then published thoughts. Child notes live inside their parent |
-| `/notes/[slug]` | A note. Nested thoughts sit in a left table of contents that folds when the pointer leaves |
+| `/notes/[slug]` | A note. If it has sub-thoughts, their table of contents sits in the left margin |
 | `/explore` | All `#tags`, with counts |
 | `/feed.xml` | RSS of published notes |
 

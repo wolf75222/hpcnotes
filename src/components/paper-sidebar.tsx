@@ -13,7 +13,11 @@ import { useOutlineFromMarkdown } from "@astryxdesign/core/Outline";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import type { NoteIndex } from "@/content/types";
-import { buildThoughtForest, flattenThoughtRefs } from "@/content/thoughts";
+import {
+  buildThoughtForest,
+  findThoughtPath,
+  flattenThoughtRefs,
+} from "@/content/thoughts";
 
 const MIN_HEADINGS = 3;
 
@@ -52,24 +56,26 @@ function ThoughtSidebar({
 }) {
   const pathname = usePathname();
   const activeSlug = activeSlugFromPath(pathname);
-  const thoughts = useMemo(
-    () =>
-      buildThoughtForest(notes)
-        .filter((node) => node.children.length > 0)
-        .flatMap((node) => flattenThoughtRefs(node)),
-    [notes],
-  );
+  const thoughts = useMemo(() => {
+    if (activeSlug === "") {
+      return [];
+    }
+    const path = findThoughtPath(buildThoughtForest(notes), activeSlug);
+    const root = path?.[0];
+    if (root == null || root.children.length === 0) {
+      return [];
+    }
+    return flattenThoughtRefs(root);
+  }, [notes, activeSlug]);
   const items = useOutlineFromMarkdown(markdown);
   const [mounted, setMounted] = useState(false);
-  const [open, setOpen] = useState(true);
   const [activeId, setActiveId] = useState(items[0]?.id ?? "");
   const minLevel = items.reduce(
     (lowest, item) => Math.min(lowest, item.level),
     6,
   );
-  const showHeadings = items.length >= MIN_HEADINGS;
+  const showHeadings = thoughts.length >= 2 && items.length >= MIN_HEADINGS;
   const showTree = thoughts.length >= 2;
-  const showDock = showTree || showHeadings;
 
   useEffect(() => {
     setMounted(true);
@@ -104,34 +110,27 @@ function ThoughtSidebar({
     };
   }, [items, showHeadings]);
 
-  if (!showDock || !mounted) {
+  if (!mounted || !showTree) {
     return null;
   }
 
   return createPortal(
-    <aside
-      className="thought-sidebar"
-      data-open={open ? "true" : "false"}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-    >
+    <aside className="thought-sidebar">
       <nav className="thought-sidebar-panel" aria-label="Table of contents">
         <VStack gap={8}>
-          {showTree ? (
-            <VStack gap={1}>
-              {thoughts.map((item) => (
-                <a
-                  key={item.slug}
-                  href={`/notes/${item.slug}`}
-                  className="thought-sidebar-link"
-                  data-depth={String(Math.min(item.depth, 3))}
-                  data-active={item.slug === activeSlug ? "true" : "false"}
-                >
-                  {item.title}
-                </a>
-              ))}
-            </VStack>
-          ) : null}
+          <VStack gap={1}>
+            {thoughts.map((item) => (
+              <a
+                key={item.slug}
+                href={`/notes/${item.slug}`}
+                className="thought-sidebar-link"
+                data-depth={String(Math.min(item.depth, 3))}
+                data-active={item.slug === activeSlug ? "true" : "false"}
+              >
+                {item.title}
+              </a>
+            ))}
+          </VStack>
           {showHeadings ? (
             <VStack gap={1}>
               <Text type="supporting" color="secondary">
