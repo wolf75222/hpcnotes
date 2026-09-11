@@ -95,7 +95,7 @@ tags: slurm, batch
 
 A **thought** is a short standalone article (`kind: thought`, the default).
 
-The home list shows notes and thoughts as two groups. Child pages stay inside their parent note. On a wide screen, a note opens with a real table of contents on the **right** (the pages of the note, then on-this-page headings). On narrower screens the in-column page list is the fallback. Previous and next sit under the body so you can read the pages in order.
+The home list shows notes and thoughts as two groups. Child pages stay inside their parent note. On a wide screen, a note uses **one contents bar on the left** — the pages of the note, with search and explore in that same bar. The article has no second header. On narrower screens the in-column page list is the fallback. Previous and next sit under the body so you can read the pages in order.
 
 A broken Markdown file is skipped with a warning; it does not fail the build.
 
@@ -104,7 +104,7 @@ Images and videos must be paths under `/media/…`. Remote URLs and anything tha
 | Route | What it is |
 | --- | --- |
 | `/` | Intro, then notes, then thoughts. Pages of a note live inside their parent |
-| `/notes/[slug]` | A page. Notes get a table of contents on the right on wide screens |
+| `/notes/[slug]` | A page. Notes get one contents bar on the left on wide screens |
 | `/explore` | All `#tags`, with counts |
 | `/feed.xml` | RSS of published notes |
 

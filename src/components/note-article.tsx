@@ -6,7 +6,6 @@ import { VStack } from "@astryxdesign/core/Stack";
 import type { Note, NoteIndex } from "@/content/types";
 import { formatDotDate } from "@/lib/dates";
 import { MarkdownDoc } from "@/components/markdown-doc";
-import { PaperHeadings } from "@/components/paper-frame";
 import { HashTags } from "@/components/hash-tags";
 import { NoteList } from "@/components/note-list";
 import { LeaderRow } from "@/components/leader-row";
@@ -38,6 +37,7 @@ export function NoteArticle({
             color="secondary"
             type="supporting"
             isStandalone
+            className="note-parent-inline"
           >
             {parent.title}
           </Link>
@@ -47,7 +47,6 @@ export function NoteArticle({
         </Text>
         <Heading level={1}>{note.title}</Heading>
       </VStack>
-      <PaperHeadings markdown={note.body} />
       <MarkdownDoc>{note.body}</MarkdownDoc>
       {childrenNotes.length > 0 ? (
         <VStack gap={5} className="note-pages-inline">
