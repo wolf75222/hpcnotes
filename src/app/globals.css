@@ -44,12 +44,21 @@ body {
   overflow-wrap: break-word;
 }
 
+.note-frame {
+  min-height: 100dvh;
+}
+
 .note-toc-panel {
-  align-self: start;
-  position: sticky;
-  top: 0;
-  max-height: 100dvh;
-  border-inline-end: var(--border-width) solid var(--color-border);
+  align-self: stretch;
+  height: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+  background-color: var(--color-background-muted);
+}
+
+.note-article-column {
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .note-toc-page {
@@ -57,7 +66,8 @@ body {
   overflow-wrap: break-word;
   word-break: normal;
   hyphens: none;
-  padding-block: var(--spacing-1);
+  text-wrap: pretty;
+  padding-block: var(--spacing-2);
 }
 
 .note-toc-page[data-depth="1"] {
@@ -73,8 +83,18 @@ body {
 }
 
 @media (min-width: 64rem) {
+  .note-wordmark-inline {
+    display: none;
+  }
+
   .note-pages-inline,
   .note-parent-inline {
+    display: none;
+  }
+}
+
+@media not all and (min-width: 64rem) {
+  .note-toc-panel {
     display: none;
   }
 }

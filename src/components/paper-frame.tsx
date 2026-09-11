@@ -2,10 +2,14 @@
 
 import { useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Layout, LayoutContent, LayoutPanel } from "@astryxdesign/core/Layout";
+import {
+  Layout,
+  LayoutContent,
+  LayoutHeader,
+  LayoutPanel,
+} from "@astryxdesign/core/Layout";
 import { Link } from "@astryxdesign/core/Link";
-import { VStack } from "@astryxdesign/core/Stack";
-import { useMediaQuery } from "@astryxdesign/core/hooks";
+import { HStack, StackItem, VStack } from "@astryxdesign/core/Stack";
 import type { NoteIndex } from "@/content/types";
 import {
   buildThoughtForest,
@@ -14,11 +18,9 @@ import {
   isNoteDocument,
 } from "@/content/thoughts";
 import { isNoteSlug, safeDecodeParam } from "@/lib/slugs";
-import { PaperChrome } from "@/components/paper-chrome";
+import { PaperTools, PaperWordmark } from "@/components/paper-chrome";
 import { PaperMark } from "@/components/paper-mark";
 import { SearchPalette } from "@/components/search-palette";
-
-const TOC_QUERY = "(min-width: 64rem)";
 
 function activeSlugFromPath(pathname: string) {
   const match = pathname.match(/^\/notes\/([^/]+)\/?$/);
@@ -29,39 +31,33 @@ function activeSlugFromPath(pathname: string) {
 function NoteBar({
   pages,
   activeSlug,
-  searchOpen,
-  onSearchOpenChange,
-  searchButtonRef,
 }: {
   pages: { slug: string; title: string; depth: number }[];
   activeSlug: string;
-  searchOpen: boolean;
-  onSearchOpenChange: (open: boolean) => void;
-  searchButtonRef: React.Ref<HTMLButtonElement | HTMLAnchorElement>;
 }) {
   return (
-    <VStack gap={6}>
-      <PaperChrome
-        searchOpen={searchOpen}
-        onSearchOpenChange={onSearchOpenChange}
-        searchButtonRef={searchButtonRef}
-      />
+    <VStack gap={8}>
+      <PaperWordmark />
       <nav aria-label="Contents">
         <VStack gap={0}>
-          {pages.map((page) => (
-            <Link
-              key={page.slug}
-              href={`/notes/${page.slug}`}
-              color={page.slug === activeSlug ? "primary" : "secondary"}
-              type="supporting"
-              display="block"
-              className="note-toc-page"
-              data-depth={String(Math.min(page.depth, 3))}
-              data-active={page.slug === activeSlug ? "true" : "false"}
-            >
-              {page.title}
-            </Link>
-          ))}
+          {pages.map((page) => {
+            const active = page.slug === activeSlug;
+            return (
+              <Link
+                key={page.slug}
+                href={`/notes/${page.slug}`}
+                color={active || page.depth === 0 ? "primary" : "secondary"}
+                type="supporting"
+                weight={active || page.depth === 0 ? "semibold" : "normal"}
+                display="block"
+                className="note-toc-page"
+                data-depth={String(Math.min(page.depth, 3))}
+                data-active={active ? "true" : "false"}
+              >
+                {page.title}
+              </Link>
+            );
+          })}
         </VStack>
       </nav>
     </VStack>
@@ -78,7 +74,6 @@ export function PaperFrame({
   const pathname = usePathname();
   const [searchOpen, setSearchOpen] = useState(false);
   const searchButtonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
-  const wide = useMediaQuery(TOC_QUERY);
   const activeSlug = activeSlugFromPath(pathname);
   const pages = useMemo(() => {
     if (activeSlug === "") {
@@ -91,7 +86,7 @@ export function PaperFrame({
     }
     return flattenThoughtRefs(root);
   }, [notes, activeSlug]);
-  const showNoteBar = wide && pages.length >= 2;
+  const isNoteDoc = pages.length >= 2;
 
   const onSearchOpenChange = (open: boolean) => {
     setSearchOpen(open);
@@ -100,47 +95,82 @@ export function PaperFrame({
     }
   };
 
+  const tools = (
+    <PaperTools
+      searchOpen={searchOpen}
+      onSearchOpenChange={onSearchOpenChange}
+      searchButtonRef={searchButtonRef}
+    />
+  );
+
+  if (!isNoteDoc) {
+    return (
+      <Layout
+        height="auto"
+        contentWidth={640}
+        padding={6}
+        defaultHasDividers={false}
+        content={
+          <LayoutContent isScrollable={false}>
+            <VStack gap={10} className="paper-sheet" paddingBlockEnd={10}>
+              <PaperMark notes={notes}>{children}</PaperMark>
+            </VStack>
+          </LayoutContent>
+        }
+      />
+    );
+  }
+
   return (
     <Layout
-      height="auto"
-      contentWidth={640}
-      padding={6}
+      height="fill"
+      padding={0}
       defaultHasDividers={false}
+      className="note-frame"
       start={
-        showNoteBar ? (
-          <LayoutPanel
-            width={260}
-            hasDivider={false}
-            padding={5}
-            isScrollable
-            label="Contents"
-            className="note-toc-panel"
-          >
-            <NoteBar
-              pages={pages}
-              activeSlug={activeSlug}
-              searchOpen={searchOpen}
-              onSearchOpenChange={onSearchOpenChange}
-              searchButtonRef={searchButtonRef}
-            />
-          </LayoutPanel>
-        ) : undefined
+        <LayoutPanel
+          width={280}
+          hasDivider
+          padding={6}
+          isScrollable
+          role="navigation"
+          label="Contents"
+          className="note-toc-panel"
+        >
+          <NoteBar pages={pages} activeSlug={activeSlug} />
+        </LayoutPanel>
       }
       content={
-        <LayoutContent isScrollable={false}>
-          <VStack gap={10} className="paper-sheet" paddingBlockEnd={10}>
-            {showNoteBar ? (
-              <SearchPalette
-                notes={notes}
-                open={searchOpen}
-                onOpenChange={onSearchOpenChange}
-              >
-                {children}
-              </SearchPalette>
-            ) : (
-              <PaperMark notes={notes}>{children}</PaperMark>
-            )}
-          </VStack>
+        <LayoutContent padding={0} isScrollable={false}>
+          <Layout
+            height="fill"
+            padding={0}
+            defaultHasDividers={false}
+            header={
+              <LayoutHeader hasDivider={false} className="note-article-header">
+                <HStack align="center" paddingInline={8} paddingBlockStart={4}>
+                  <HStack className="note-wordmark-inline">
+                    <PaperWordmark onHome={() => onSearchOpenChange(false)} />
+                  </HStack>
+                  <StackItem size="fill" />
+                  {tools}
+                </HStack>
+              </LayoutHeader>
+            }
+            content={
+              <LayoutContent padding={8} isScrollable>
+                <VStack maxWidth={640} className="note-article-column">
+                  <SearchPalette
+                    notes={notes}
+                    open={searchOpen}
+                    onOpenChange={onSearchOpenChange}
+                  >
+                    {children}
+                  </SearchPalette>
+                </VStack>
+              </LayoutContent>
+            }
+          />
         </LayoutContent>
       }
     />
