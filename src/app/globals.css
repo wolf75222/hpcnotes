@@ -44,16 +44,33 @@ body {
   overflow-wrap: break-word;
 }
 
-.note-frame {
-  min-height: 100dvh;
+.note-toc-hotspot {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--spacing-6);
+  z-index: 2;
+  overflow: visible;
+  border-inline-start: var(--border-width) solid var(--color-border);
+}
+
+.note-toc-hotspot:hover,
+.note-toc-hotspot:focus-within {
+  width: 280px;
 }
 
 .note-toc-panel {
-  align-self: stretch;
-  height: 100%;
-  min-height: 100%;
   box-sizing: border-box;
-  background-color: var(--color-background-muted);
+  height: 100%;
+  min-height: 100dvh;
+  background-color: var(--color-background-surface);
+  box-shadow: var(--shadow-med);
+  pointer-events: none;
+}
+
+.note-toc-hotspot:hover .note-toc-panel,
+.note-toc-hotspot:focus-within .note-toc-panel {
+  pointer-events: auto;
 }
 
 .note-article-column {
@@ -75,7 +92,7 @@ body {
 }
 
 .note-toc-page[data-active="true"] {
-  background-color: var(--color-background-surface);
+  background-color: var(--color-background-muted);
 }
 
 .note-toc-page[data-depth="1"] {
@@ -90,11 +107,7 @@ body {
   padding-inline-start: var(--spacing-12);
 }
 
-@media (min-width: 64rem) {
-  .note-wordmark-inline {
-    display: none;
-  }
-
+@media (hover: hover) and (min-width: 64rem) {
   .note-pages-inline,
   .note-parent-inline,
   .note-pager-inline {
@@ -102,8 +115,8 @@ body {
   }
 }
 
-@media not all and (min-width: 64rem) {
-  .note-toc-panel {
+@media not all and (hover: hover), not all and (min-width: 64rem) {
+  .note-toc-hotspot {
     display: none;
   }
 }
