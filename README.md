@@ -95,7 +95,7 @@ tags: slurm, batch
 
 A **thought** is a short standalone article (`kind: thought`, the default).
 
-The home list shows notes and thoughts as two groups. Child pages stay inside their parent note. The cover of a note is the table of contents: the intro, then the pages as a leader list. A page inside the note links back to that cover, shows `2 of 4` in the date line, and a Next row after the body.
+The home list shows notes and thoughts as two groups. Child pages stay inside their parent note. Pages of a note use the same leader rows as the home list: a numbered table of contents (current page as text), then Previous and Next after the body. The cover lists those pages after the intro.
 
 A broken Markdown file is skipped with a warning; it does not fail the build.
 
@@ -104,7 +104,7 @@ Images and videos must be paths under `/media/…`. Remote URLs and anything tha
 | Route | What it is |
 | --- | --- |
 | `/` | Intro, then notes, then thoughts. Pages of a note live inside their parent |
-| `/notes/[slug]` | A page. A note cover lists its pages after the intro; inner pages link to the cover and to Next |
+| `/notes/[slug]` | A page. Cover: intro then numbered contents. Inner pages: the same contents, then Previous / Next |
 | `/explore` | All `#tags`, with counts |
 | `/feed.xml` | RSS of published notes |
 

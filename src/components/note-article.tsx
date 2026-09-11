@@ -9,21 +9,48 @@ import { NoteList } from "@/components/note-list";
 import { LeaderRow } from "@/components/leader-row";
 import { AdSlot } from "@/components/ad-slot";
 
+function NoteContents({
+  pages,
+  activeSlug,
+}: {
+  pages: NoteIndex[];
+  activeSlug?: string;
+}) {
+  if (pages.length < 2) {
+    return null;
+  }
+
+  return (
+    <nav aria-label="Contents">
+      <VStack gap={5}>
+        {pages.map((page, index) => (
+          <LeaderRow
+            key={page.slug}
+            href={page.slug === activeSlug ? undefined : `/notes/${page.slug}`}
+            label={page.title}
+            meta={String(index + 1)}
+          />
+        ))}
+      </VStack>
+    </nav>
+  );
+}
+
 export function NoteArticle({
   note,
   related,
   parent,
   pages,
+  previous,
   next,
-  pageOf,
   readingLabel,
 }: {
   note: Note;
   related: NoteIndex[];
   parent: NoteIndex | null;
   pages: NoteIndex[];
+  previous: NoteIndex | null;
   next: NoteIndex | null;
-  pageOf: string | null;
   readingLabel: string;
 }) {
   const isCover = parent == null && pages.length > 0;
@@ -59,18 +86,27 @@ export function NoteArticle({
           <Text type="supporting" color="secondary">
             · {readingLabel}
           </Text>
-          {pageOf != null ? (
-            <Text type="supporting" color="secondary" hasTabularNumbers>
-              · {pageOf}
-            </Text>
-          ) : null}
         </HStack>
         <Heading level={1}>{note.title}</Heading>
       </VStack>
+      {isCover ? null : <NoteContents pages={pages} activeSlug={note.slug} />}
       <MarkdownDoc>{note.body}</MarkdownDoc>
-      {isCover ? <NoteList notes={pages} showSummary showDate={false} /> : null}
-      {next != null ? (
-        <LeaderRow href={`/notes/${next.slug}`} label={next.title} meta="Next" />
+      {isCover ? <NoteContents pages={pages} /> : null}
+      {previous != null || next != null ? (
+        <nav aria-label="Previous and next">
+          <VStack gap={5}>
+            {previous != null ? (
+              <LeaderRow
+                href={`/notes/${previous.slug}`}
+                label={previous.title}
+                meta="Previous"
+              />
+            ) : null}
+            {next != null ? (
+              <LeaderRow href={`/notes/${next.slug}`} label={next.title} meta="Next" />
+            ) : null}
+          </VStack>
+        </nav>
       ) : null}
       <AdSlot placement="article" />
       <VStack gap={6}>
