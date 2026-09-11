@@ -7,7 +7,6 @@ import { getRelatedNotes } from "@/content/catalog";
 import {
   buildThoughtForest,
   findThoughtPath,
-  thoughtNeighbors,
 } from "@/content/thoughts";
 import { formatReadingTime, readingMinutes } from "@/lib/reading-time";
 import { isNoteSlug, safeDecodeParam } from "@/lib/slugs";
@@ -71,8 +70,7 @@ export default async function NotePage({
   const current = path?.[path.length - 1] ?? null;
   const parent =
     path != null && path.length > 1 ? (path[path.length - 2]?.note ?? null) : null;
-  const childrenNotes = current?.children.map((child) => child.note) ?? [];
-  const { previous, next } = thoughtNeighbors(path);
+  const pages = path?.[0]?.children.map((child) => child.note) ?? [];
   const readingLabel =
     current != null && current.children.length > 0
       ? `${minutesForTree(current)} min`
@@ -87,9 +85,7 @@ export default async function NotePage({
       note={note}
       related={getRelatedNotes(note.slug).map(toNoteIndex)}
       parent={parent}
-      childrenNotes={childrenNotes}
-      previous={previous}
-      next={next}
+      pages={pages}
       readingLabel={readingLabel}
     />
   );

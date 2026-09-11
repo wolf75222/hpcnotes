@@ -13,7 +13,7 @@ export function LeaderRow({
   onNavigate,
   ariaLabel,
 }: {
-  href: string;
+  href?: string;
   label: string;
   meta?: string;
   extra?: React.ReactNode;
@@ -25,16 +25,22 @@ export function LeaderRow({
     <VStack gap={1} className="note-row" data-depth={String(Math.min(depth, 3))}>
       <HStack align="center" gap={2} className="note-row">
         <span className="note-title">
-          <Link
-            href={href}
-            color="primary"
-            type="supporting"
-            isStandalone
-            {...(ariaLabel ? { label: ariaLabel } : {})}
-            onClick={onNavigate}
-          >
-            {label}
-          </Link>
+          {href != null ? (
+            <Link
+              href={href}
+              color="primary"
+              type="supporting"
+              isStandalone
+              {...(ariaLabel ? { label: ariaLabel } : {})}
+              onClick={onNavigate}
+            >
+              {label}
+            </Link>
+          ) : (
+            <Text type="supporting" weight="semibold">
+              {label}
+            </Text>
+          )}
         </span>
         {meta != null && meta !== "" ? (
           <>

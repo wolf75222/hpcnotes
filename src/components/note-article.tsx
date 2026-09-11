@@ -11,21 +11,43 @@ import { NoteList } from "@/components/note-list";
 import { LeaderRow } from "@/components/leader-row";
 import { AdSlot } from "@/components/ad-slot";
 
+function NotePages({
+  pages,
+  activeSlug,
+}: {
+  pages: NoteIndex[];
+  activeSlug: string;
+}) {
+  if (pages.length < 2) {
+    return null;
+  }
+
+  return (
+    <nav aria-label="Contents">
+      <VStack gap={5}>
+        {pages.map((page) => (
+          <LeaderRow
+            key={page.slug}
+            href={page.slug === activeSlug ? undefined : `/notes/${page.slug}`}
+            label={page.title}
+          />
+        ))}
+      </VStack>
+    </nav>
+  );
+}
+
 export function NoteArticle({
   note,
   related,
   parent,
-  childrenNotes,
-  previous,
-  next,
+  pages,
   readingLabel,
 }: {
   note: Note;
   related: NoteIndex[];
   parent: NoteIndex | null;
-  childrenNotes: NoteIndex[];
-  previous: NoteIndex | null;
-  next: NoteIndex | null;
+  pages: NoteIndex[];
   readingLabel: string;
 }) {
   return (
@@ -37,7 +59,6 @@ export function NoteArticle({
             color="secondary"
             type="supporting"
             isStandalone
-            className="note-parent-inline"
           >
             {parent.title}
           </Link>
@@ -63,40 +84,8 @@ export function NoteArticle({
         </HStack>
         <Heading level={1}>{note.title}</Heading>
       </VStack>
+      <NotePages pages={pages} activeSlug={note.slug} />
       <MarkdownDoc>{note.body}</MarkdownDoc>
-      {childrenNotes.length > 0 ? (
-        <VStack gap={5} className="note-pages-inline">
-          <NoteList notes={childrenNotes} showDate={false} />
-        </VStack>
-      ) : null}
-      {previous != null || next != null ? (
-        <VStack gap={6} className="note-pager-inline">
-          {previous != null ? (
-            <VStack gap={1}>
-              <Text type="supporting" color="secondary">
-                Previous
-              </Text>
-              <LeaderRow
-                href={`/notes/${previous.slug}`}
-                label={previous.title}
-                ariaLabel={`Previous: ${previous.title}`}
-              />
-            </VStack>
-          ) : null}
-          {next != null ? (
-            <VStack gap={1}>
-              <Text type="supporting" color="secondary">
-                Next
-              </Text>
-              <LeaderRow
-                href={`/notes/${next.slug}`}
-                label={next.title}
-                ariaLabel={`Next: ${next.title}`}
-              />
-            </VStack>
-          ) : null}
-        </VStack>
-      ) : null}
       <AdSlot placement="article" />
       <VStack gap={6}>
         <HashTags tags={note.tags} />
