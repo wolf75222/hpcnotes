@@ -76,7 +76,12 @@ function NoteTocReveal({
   return (
     <VStack
       className={cx("note-toc-hotspot", container.className)}
-      style={container.style}
+      style={{
+        ...container.style,
+        position: "fixed",
+        insetBlock: 0,
+        insetInlineStart: 0,
+      }}
     >
       <LayoutPanel
         width={280}
