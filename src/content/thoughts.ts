@@ -110,6 +110,23 @@ export function thoughtSlugs(node: ThoughtNode): string[] {
   return flattenThoughts(node).map((item) => item.note.slug);
 }
 
+export function isNoteDocument(node: ThoughtNode) {
+  return node.children.length > 0 || node.note.kind === "note";
+}
+
+export function splitHomeLists(forest: ThoughtNode[]) {
+  const notes: NoteIndex[] = [];
+  const thoughts: NoteIndex[] = [];
+  for (const node of forest) {
+    if (isNoteDocument(node)) {
+      notes.push(node.note);
+    } else {
+      thoughts.push(node.note);
+    }
+  }
+  return { notes, thoughts };
+}
+
 export function thoughtNeighbors(path: ThoughtNode[] | null): {
   previous: NoteIndex | null;
   next: NoteIndex | null;

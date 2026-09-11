@@ -32,6 +32,7 @@ fs.writeFileSync(
   `---
 title: ${title}
 date: ${today}
+kind: thought
 parent:
 order:
 tags:

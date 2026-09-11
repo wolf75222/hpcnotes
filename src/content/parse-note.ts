@@ -31,6 +31,14 @@ function parseParent(value: string | undefined, slug: string) {
   return parent;
 }
 
+function parseKind(value: string | undefined): "thought" | "note" {
+  const normalized = value?.trim().toLowerCase() ?? "";
+  if (normalized === "note" || normalized === "notes") {
+    return "note";
+  }
+  return "thought";
+}
+
 function parseOrder(value: string | undefined) {
   if (value == null || value.trim() === "") {
     return 0;
@@ -128,6 +136,9 @@ export function parseNoteMarkdown(slug: string, source: string): Note {
   const draftRaw = typeof fields.draft === "string" ? fields.draft : undefined;
   const parentRaw = typeof fields.parent === "string" ? fields.parent : undefined;
   const orderRaw = typeof fields.order === "string" ? fields.order : undefined;
+  const kindRaw = typeof fields.kind === "string" ? fields.kind : undefined;
+  const parent = parseParent(parentRaw, slug);
+  const kind = parent != null ? "note" : parseKind(kindRaw);
 
   return {
     slug,
@@ -137,8 +148,9 @@ export function parseNoteMarkdown(slug: string, source: string): Note {
     author: authorRaw === "" ? "hpcnotes" : authorRaw,
     tags: parseTags(fields.tags),
     draft: parseDraft(draftRaw),
-    parent: parseParent(parentRaw, slug),
+    parent,
     order: parseOrder(orderRaw),
+    kind,
     body: (match[2] ?? "").trim(),
   };
 }

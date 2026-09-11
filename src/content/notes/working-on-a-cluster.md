@@ -1,8 +1,9 @@
 ---
 title: Working on a shared cluster
-summary: Login, modules, a job that finishes, then a first GPU kernel. One thought, four notes.
+summary: Login, modules, a job that finishes, then a first GPU kernel. One note, four pages.
 date: 2026-09-08
 author: hpcnotes
+kind: note
 tags: batch, slurm
 ---
 

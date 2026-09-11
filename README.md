@@ -77,10 +77,11 @@ at the end of the note. Similar notes are listed under that.
 | `date` | `YYYY-MM-DD`. Invalid dates render as `—`. |
 | `tags` | Comma list (`mpi, slurm`) or brackets (`[mpi, slurm]`). |
 | `draft` | `true` / `yes` / `1` hides the note in production. Visible in `npm run dev`. |
-| `parent` | Slug of the parent thought. Omit on a root note. |
-| `order` | Integer used to order siblings under the same parent. |
+| `kind` | `note` for a multi-page document, `thought` for a short article. Children of a note are pages. |
+| `parent` | Slug of the parent note. Omit on a root. |
+| `order` | Integer used to order sibling pages under the same parent. |
 
-A thought can split into smaller notes. Set `parent` to the parent slug and `order` to keep children in a fixed sequence:
+A **note** is a document that can span several pages. Set `kind: note` on the root, then `parent` and `order` on each page:
 
 ```md
 ---
@@ -92,7 +93,9 @@ tags: slurm, batch
 ---
 ```
 
-The home list shows each parent thought, not every fragment. Opening a parent lists the parts as titles. On a note that belongs to a decomposed thought, a table of contents sits in the **left page margin** on wide screens — never on the home page, and never over the 640px paper column. On narrower screens the in-column child list is the fallback. Along a thought, previous and next sit under the body so you can read the pieces in order.
+A **thought** is a short standalone article (`kind: thought`, the default).
+
+The home list shows notes and thoughts as two groups. Child pages stay inside their parent note. On a wide screen, a note opens with a real table of contents on the **right** (the pages of the note, then on-this-page headings). On narrower screens the in-column page list is the fallback. Previous and next sit under the body so you can read the pages in order.
 
 A broken Markdown file is skipped with a warning; it does not fail the build.
 
@@ -100,8 +103,8 @@ Images and videos must be paths under `/media/…`. Remote URLs and anything tha
 
 | Route | What it is |
 | --- | --- |
-| `/` | Intro, then published thoughts. Child notes live inside their parent |
-| `/notes/[slug]` | A note. If it is part of a decomposed thought, the tree sits in the left margin |
+| `/` | Intro, then notes, then thoughts. Pages of a note live inside their parent |
+| `/notes/[slug]` | A page. Notes get a table of contents on the right on wide screens |
 | `/explore` | All `#tags`, with counts |
 | `/feed.xml` | RSS of published notes |
 

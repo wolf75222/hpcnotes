@@ -66,6 +66,7 @@ export function toNoteIndex(note: Note): NoteIndex {
     draft: note.draft,
     parent: note.parent,
     order: note.order,
+    kind: note.kind,
   };
 }
 

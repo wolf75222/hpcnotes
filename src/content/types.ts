@@ -1,3 +1,5 @@
+export type ContentKind = "thought" | "note";
+
 export interface NoteIndex {
   slug: string;
   title: string;
@@ -8,6 +10,7 @@ export interface NoteIndex {
   draft: boolean;
   parent: string | null;
   order: number;
+  kind: ContentKind;
 }
 
 export interface Note extends NoteIndex {

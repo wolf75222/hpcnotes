@@ -114,7 +114,7 @@ function SearchPanel({
             openFirst();
           }
         }}
-        aria-label="Search thoughts"
+        aria-label="Search notes"
         autoComplete="off"
         autoCorrect="off"
         autoCapitalize="off"
