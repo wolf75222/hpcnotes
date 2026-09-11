@@ -1,5 +1,3 @@
-"use client";
-
 import { Heading, Text } from "@astryxdesign/core/Text";
 import { Link } from "@astryxdesign/core/Link";
 import { HStack, VStack } from "@astryxdesign/core/Stack";
@@ -11,45 +9,25 @@ import { NoteList } from "@/components/note-list";
 import { LeaderRow } from "@/components/leader-row";
 import { AdSlot } from "@/components/ad-slot";
 
-function NotePages({
-  pages,
-  activeSlug,
-}: {
-  pages: NoteIndex[];
-  activeSlug: string;
-}) {
-  if (pages.length < 2) {
-    return null;
-  }
-
-  return (
-    <nav aria-label="Contents">
-      <VStack gap={5}>
-        {pages.map((page) => (
-          <LeaderRow
-            key={page.slug}
-            href={page.slug === activeSlug ? undefined : `/notes/${page.slug}`}
-            label={page.title}
-          />
-        ))}
-      </VStack>
-    </nav>
-  );
-}
-
 export function NoteArticle({
   note,
   related,
   parent,
   pages,
+  next,
+  pageOf,
   readingLabel,
 }: {
   note: Note;
   related: NoteIndex[];
   parent: NoteIndex | null;
   pages: NoteIndex[];
+  next: NoteIndex | null;
+  pageOf: string | null;
   readingLabel: string;
 }) {
+  const isCover = parent == null && pages.length > 0;
+
   return (
     <VStack gap={10}>
       <VStack gap={1}>
@@ -81,11 +59,19 @@ export function NoteArticle({
           <Text type="supporting" color="secondary">
             · {readingLabel}
           </Text>
+          {pageOf != null ? (
+            <Text type="supporting" color="secondary" hasTabularNumbers>
+              · {pageOf}
+            </Text>
+          ) : null}
         </HStack>
         <Heading level={1}>{note.title}</Heading>
       </VStack>
-      <NotePages pages={pages} activeSlug={note.slug} />
       <MarkdownDoc>{note.body}</MarkdownDoc>
+      {isCover ? <NoteList notes={pages} showSummary showDate={false} /> : null}
+      {next != null ? (
+        <LeaderRow href={`/notes/${next.slug}`} label={next.title} meta="Next" />
+      ) : null}
       <AdSlot placement="article" />
       <VStack gap={6}>
         <HashTags tags={note.tags} />
