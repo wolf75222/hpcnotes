@@ -99,11 +99,61 @@ export function flattenThoughts(node: ThoughtNode): ThoughtNode[] {
   return [node, ...node.children.flatMap(flattenThoughts)];
 }
 
-export function flattenThoughtRefs(node: ThoughtNode, depth = 0): ThoughtRef[] {
+function nestedLabel(parentLabel: string, index: number) {
+  return `${parentLabel}.${index + 1}`;
+}
+
+function chapterLabels(children: ThoughtNode[]): string[] {
+  const prefaceFirst = children[0]?.note.title === "Preface";
+  return children.map((_, index) =>
+    prefaceFirst ? String(index) : String(index + 1),
+  );
+}
+
+export function flattenThoughtRefs(
+  node: ThoughtNode,
+  depth = 0,
+  label = "1",
+): ThoughtRef[] {
   return [
-    { slug: node.note.slug, title: node.note.title, depth },
-    ...node.children.flatMap((child) => flattenThoughtRefs(child, depth + 1)),
+    { slug: node.note.slug, title: node.note.title, depth, label },
+    ...node.children.flatMap((child, index) =>
+      flattenThoughtRefs(child, depth + 1, nestedLabel(label, index)),
+    ),
   ];
+}
+
+export function noteContents(path: ThoughtNode[] | null): ThoughtRef[] {
+  if (path == null || path.length === 0) {
+    return [];
+  }
+  const root = path[0];
+  if (root == null) {
+    return [];
+  }
+  const labels = chapterLabels(root.children);
+  if (path.length === 1) {
+    return root.children.flatMap((child, index) =>
+      flattenThoughtRefs(child, 0, labels[index] ?? String(index + 1)),
+    );
+  }
+  const chapter = path[1];
+  if (chapter == null) {
+    return [];
+  }
+  const chapterIndex = root.children.findIndex(
+    (child) => child.note.slug === chapter.note.slug,
+  );
+  const chapterLabel = labels[chapterIndex] ?? "1";
+  if (chapter.children.length === 0) {
+    return root.children.map((child, index) => ({
+      slug: child.note.slug,
+      title: child.note.title,
+      depth: 0,
+      label: labels[index] ?? String(index + 1),
+    }));
+  }
+  return flattenThoughtRefs(chapter, 0, chapterLabel);
 }
 
 export function thoughtSlugs(node: ThoughtNode): string[] {
@@ -131,22 +181,21 @@ export function thoughtNeighbors(path: ThoughtNode[] | null): {
   previous: NoteIndex | null;
   next: NoteIndex | null;
 } {
-  if (path == null || path.length < 2) {
+  if (path == null || path.length === 0) {
     return { previous: null, next: null };
   }
-  const parent = path[path.length - 2];
+  const root = path[0];
   const current = path[path.length - 1];
-  if (parent == null || current == null) {
+  if (root == null || current == null) {
     return { previous: null, next: null };
   }
-  const index = parent.children.findIndex(
-    (node) => node.note.slug === current.note.slug,
-  );
+  const sequence = flattenThoughts(root).map((node) => node.note);
+  const index = sequence.findIndex((note) => note.slug === current.note.slug);
   if (index < 0) {
     return { previous: null, next: null };
   }
-  const previous =
-    index === 0 ? parent.note : (parent.children[index - 1]?.note ?? null);
-  const next = parent.children[index + 1]?.note ?? null;
-  return { previous, next };
+  return {
+    previous: sequence[index - 1] ?? null,
+    next: sequence[index + 1] ?? null,
+  };
 }

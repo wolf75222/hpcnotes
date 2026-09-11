@@ -1,7 +1,7 @@
 import { Heading, Text } from "@astryxdesign/core/Text";
 import { Link } from "@astryxdesign/core/Link";
 import { HStack, VStack } from "@astryxdesign/core/Stack";
-import type { Note, NoteIndex } from "@/content/types";
+import type { Note, NoteIndex, ThoughtRef } from "@/content/types";
 import { formatDotDate, isIsoDate, noteYear } from "@/lib/dates";
 import { MarkdownDoc } from "@/components/markdown-doc";
 import { HashTags } from "@/components/hash-tags";
@@ -13,7 +13,7 @@ function NoteContents({
   pages,
   activeSlug,
 }: {
-  pages: NoteIndex[];
+  pages: ThoughtRef[];
   activeSlug?: string;
 }) {
   if (pages.length < 2) {
@@ -22,13 +22,14 @@ function NoteContents({
 
   return (
     <nav aria-label="Contents">
-      <VStack gap={5}>
-        {pages.map((page, index) => (
+      <VStack gap={3}>
+        {pages.map((page) => (
           <LeaderRow
             key={page.slug}
             href={page.slug === activeSlug ? undefined : `/notes/${page.slug}`}
             label={page.title}
-            meta={String(index + 1)}
+            meta={page.label}
+            depth={page.depth}
           />
         ))}
       </VStack>
@@ -39,34 +40,44 @@ function NoteContents({
 export function NoteArticle({
   note,
   related,
-  parent,
-  pages,
+  ancestors,
+  contents,
   previous,
   next,
   readingLabel,
 }: {
   note: Note;
   related: NoteIndex[];
-  parent: NoteIndex | null;
-  pages: NoteIndex[];
+  ancestors: NoteIndex[];
+  contents: ThoughtRef[];
   previous: NoteIndex | null;
   next: NoteIndex | null;
   readingLabel: string;
 }) {
-  const isCover = parent == null && pages.length > 0;
+  const isCover = ancestors.length === 0 && contents.length > 0;
 
   return (
     <VStack gap={10}>
       <VStack gap={1}>
-        {parent != null ? (
-          <Link
-            href={`/notes/${parent.slug}`}
-            color="secondary"
-            type="supporting"
-            isStandalone
-          >
-            {parent.title}
-          </Link>
+        {ancestors.length > 0 ? (
+          <HStack gap={1} align="center" wrap="wrap">
+            {ancestors.flatMap((item, index) => [
+              index > 0 ? (
+                <Text key={`sep-${item.slug}`} type="supporting" color="secondary">
+                  ·
+                </Text>
+              ) : null,
+              <Link
+                key={item.slug}
+                href={`/notes/${item.slug}`}
+                color="secondary"
+                type="supporting"
+                isStandalone
+              >
+                {item.title}
+              </Link>,
+            ])}
+          </HStack>
         ) : null}
         <HStack gap={2} align="center" wrap="wrap">
           {isIsoDate(note.date) ? (
@@ -89,9 +100,9 @@ export function NoteArticle({
         </HStack>
         <Heading level={1}>{note.title}</Heading>
       </VStack>
-      {isCover ? null : <NoteContents pages={pages} activeSlug={note.slug} />}
+      {isCover ? null : <NoteContents pages={contents} activeSlug={note.slug} />}
       <MarkdownDoc>{note.body}</MarkdownDoc>
-      {isCover ? <NoteContents pages={pages} /> : null}
+      {isCover ? <NoteContents pages={contents} /> : null}
       {previous != null || next != null ? (
         <nav aria-label="Previous and next">
           <VStack gap={5}>

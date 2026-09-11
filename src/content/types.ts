@@ -33,4 +33,5 @@ export interface ThoughtRef {
   slug: string;
   title: string;
   depth: number;
+  label: string;
 }
