@@ -67,15 +67,23 @@ body {
   word-break: normal;
   hyphens: none;
   text-wrap: pretty;
-  padding-block: var(--spacing-2);
+  box-sizing: border-box;
+  min-height: var(--size-element-lg);
+  padding-block: var(--spacing-3);
+  padding-inline: var(--spacing-3);
+  margin-inline: calc(-1 * var(--spacing-3));
+}
+
+.note-toc-page[data-active="true"] {
+  background-color: var(--color-background-surface);
 }
 
 .note-toc-page[data-depth="1"] {
-  padding-inline-start: var(--spacing-4);
+  padding-inline-start: var(--spacing-8);
 }
 
 .note-toc-page[data-depth="2"] {
-  padding-inline-start: var(--spacing-8);
+  padding-inline-start: var(--spacing-10);
 }
 
 .note-toc-page[data-depth="3"] {
@@ -88,7 +96,8 @@ body {
   }
 
   .note-pages-inline,
-  .note-parent-inline {
+  .note-parent-inline,
+  .note-pager-inline {
     display: none;
   }
 }
@@ -161,6 +170,13 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-height: var(--size-element-lg);
+}
+
+.note-tag {
+  min-height: var(--size-element-lg);
+  display: inline-flex;
+  align-items: center;
 }
 
 .note-leader {
@@ -200,6 +216,11 @@ body {
   min-width: var(--size-element-lg);
   min-height: var(--size-element-lg);
   touch-action: manipulation;
+}
+
+.paper-mark-action:active,
+.paper-mark-action[aria-expanded="true"] {
+  color: var(--color-text-primary);
 }
 
 @media (prefers-reduced-motion: reduce) {

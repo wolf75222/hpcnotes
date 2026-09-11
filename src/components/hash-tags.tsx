@@ -15,6 +15,7 @@ export function HashTags({ tags }: { tags: string[] }) {
           color="secondary"
           type="supporting"
           isStandalone
+          className="note-tag"
         >
           #{tag}
         </Link>

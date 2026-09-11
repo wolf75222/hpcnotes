@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Heading } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { EmptyNotes } from "@/components/empty-notes";
 import { LeaderRow } from "@/components/leader-row";
@@ -20,20 +21,24 @@ export default function ExplorePage() {
       <EmptyNotes
         title="No tags yet"
         description="Tags live at the end of a note, as #labels."
+        headingLevel={1}
       />
     );
   }
 
   return (
-    <VStack gap={5}>
-      {tags.map(({ tag, count }) => (
-        <LeaderRow
-          key={tag}
-          href={`/tags/${encodeURIComponent(tag)}`}
-          label={`#${tag}`}
-          meta={String(count)}
-        />
-      ))}
+    <VStack gap={8}>
+      <Heading level={1}>Explore</Heading>
+      <VStack gap={5}>
+        {tags.map(({ tag, count }) => (
+          <LeaderRow
+            key={tag}
+            href={`/tags/${encodeURIComponent(tag)}`}
+            label={`#${tag}`}
+            meta={String(count)}
+          />
+        ))}
+      </VStack>
     </VStack>
   );
 }

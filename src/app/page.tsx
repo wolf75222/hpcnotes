@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Text } from "@astryxdesign/core/Text";
+import { Heading, Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
+import { VisuallyHidden } from "@astryxdesign/core/VisuallyHidden";
 import { NoteList } from "@/components/note-list";
 import { getNotes } from "@/content/load-notes";
 import { buildThoughtForest, splitHomeLists } from "@/content/thoughts";
@@ -16,8 +17,11 @@ export default function HomePage() {
 
   return (
     <VStack gap={0}>
+      <VisuallyHidden>
+        <Heading level={1}>hpcnotes</Heading>
+      </VisuallyHidden>
       <VStack gap={0} className="home-intro">
-        <Text type="supporting" color="primary">
+        <Text type="supporting" color="secondary">
           Short notes on high-performance computing, and personal thoughts around
           HPC.
         </Text>

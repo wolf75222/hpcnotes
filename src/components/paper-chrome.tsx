@@ -28,14 +28,19 @@ export function PaperTools({
       <Link
         ref={searchButtonRef}
         className="paper-mark-action"
-        color="secondary"
+        color={searchOpen ? "primary" : "secondary"}
         type="supporting"
         label="Search notes"
         aria-expanded={searchOpen}
+        aria-pressed={searchOpen}
         aria-controls={searchOpen ? "paper-search" : undefined}
         onClick={() => onSearchOpenChange(!searchOpen)}
       >
-        <Icon icon={SearchMark} size="sm" color="secondary" />
+        <Icon
+          icon={SearchMark}
+          size="sm"
+          color={searchOpen ? "primary" : "secondary"}
+        />
       </Link>
       <Link
         href="/explore"

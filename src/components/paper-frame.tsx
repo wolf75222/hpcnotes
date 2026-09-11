@@ -53,6 +53,7 @@ function NoteBar({
                 className="note-toc-page"
                 data-depth={String(Math.min(page.depth, 3))}
                 data-active={active ? "true" : "false"}
+                aria-current={active ? "page" : undefined}
               >
                 {page.title}
               </Link>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Text } from "@astryxdesign/core/Text";
+import { Heading } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { NoteList } from "@/components/note-list";
 import { getNotesByTag, getTags } from "@/content/catalog";
@@ -47,7 +47,7 @@ export default async function TagPage({
 
   return (
     <VStack gap={6}>
-      <Text type="supporting">#{decoded}</Text>
+      <Heading level={1}>#{decoded}</Heading>
       <NoteList notes={notes} grouped showSummary />
     </VStack>
   );

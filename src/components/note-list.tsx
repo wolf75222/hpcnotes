@@ -1,4 +1,5 @@
 import { Text } from "@astryxdesign/core/Text";
+import { Link } from "@astryxdesign/core/Link";
 import { VStack } from "@astryxdesign/core/Stack";
 import type { NoteIndex } from "@/content/types";
 import { notesByYear } from "@/content/query";
@@ -69,7 +70,19 @@ export function NoteList({
       <VStack gap={10}>
         {notesByYear(notes).map((group) => (
           <VStack key={group.year} gap={3}>
-            <Text type="supporting">{group.year}</Text>
+            {/^\d{4}$/.test(group.year) ? (
+              <Link
+                href={`/years/${group.year}`}
+                color="secondary"
+                type="supporting"
+              >
+                {group.year}
+              </Link>
+            ) : (
+              <Text type="supporting" color="secondary">
+                {group.year}
+              </Text>
+            )}
             <NoteRows
               notes={group.notes}
               showSummary={showSummary}

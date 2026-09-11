@@ -41,7 +41,7 @@ export function LeaderRow({
             <span className="note-leader" aria-hidden="true">
               {DOTS}
             </span>
-            <Text type="supporting" color="disabled" textWrap="nowrap" hasTabularNumbers>
+            <Text type="supporting" color="secondary" textWrap="nowrap" hasTabularNumbers>
               {meta}
             </Text>
           </>
