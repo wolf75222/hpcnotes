@@ -1,3 +1,4 @@
+import { normalizeTag } from "../lib/slugs";
 import { getNoteBySlug, getNotes } from "./load-notes";
 import { PLAYLISTS } from "./playlists";
 import { filterNotes } from "./query";
@@ -8,9 +9,9 @@ import type { Note } from "./types";
 export { filterNotes, notesByYear } from "./query";
 
 export function getNotesByTag(tag: string) {
-  const needle = tag.toLowerCase();
+  const needle = normalizeTag(tag);
   return getNotes().filter((note) =>
-    note.tags.some((item) => item.toLowerCase() === needle),
+    note.tags.some((item) => item === needle),
   );
 }
 
@@ -77,12 +78,12 @@ export function getRelatedNotes(slug: string, limit = 5) {
     }
   }
 
-  const tags = new Set(note.tags);
+  const tags = new Set(note.tags.map(normalizeTag));
   for (const candidate of getNotes()) {
     if (seen.has(candidate.slug)) {
       continue;
     }
-    if (!candidate.tags.some((tag) => tags.has(tag))) {
+    if (!candidate.tags.some((tag) => tags.has(normalizeTag(tag)))) {
       continue;
     }
     seen.add(candidate.slug);

@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Source_Sans_3 } from "next/font/google";
 import { Providers } from "./providers";
 import { SiteShell } from "@/components/site-shell";
 import { getAdSenseConfig } from "@/lib/ads";
+import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const sans = Source_Sans_3({
@@ -12,13 +13,17 @@ const sans = Source_Sans_3({
   variable: "--font-sans",
 });
 
+const site = getSiteUrl();
+const description =
+  "Short notes on high-performance computing, and personal thoughts around HPC.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(site),
   title: {
     default: "hpcnotes.eu",
     template: "%s · hpcnotes.eu",
   },
-  description:
-    "Short notes on high-performance computing, and personal thoughts around HPC.",
+  description,
   applicationName: "hpcnotes.eu",
   keywords: [
     "HPC",
@@ -30,10 +35,35 @@ export const metadata: Metadata = {
     "cluster",
   ],
   alternates: {
+    canonical: "/",
     types: {
       "application/rss+xml": "/feed.xml",
     },
   },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: site,
+    siteName: "hpcnotes.eu",
+    title: "hpcnotes.eu",
+    description,
+  },
+  twitter: {
+    card: "summary",
+    title: "hpcnotes.eu",
+    description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

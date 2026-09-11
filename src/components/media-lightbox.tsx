@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState, type MouseEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import { Lightbox, type LightboxMedia } from "@astryxdesign/core/Lightbox";
 
 const OPEN_DELAY_MS = 80;
@@ -13,6 +13,17 @@ export function useDeferredLightbox(
   const [open, setOpen] = useState(false);
   const pending = useRef(false);
   const ignoreUntil = useRef(0);
+  const openTimer = useRef<number>(0);
+  const swallow = useRef<((click: Event) => void) | null>(null);
+
+  useEffect(() => {
+    return () => {
+      window.clearTimeout(openTimer.current);
+      if (swallow.current != null) {
+        document.removeEventListener("click", swallow.current, true);
+      }
+    };
+  }, []);
 
   const openLightbox = useCallback((event?: MouseEvent) => {
     event?.preventDefault();
@@ -24,13 +35,16 @@ export function useDeferredLightbox(
     pending.current = true;
     ignoreUntil.current = Date.now() + IGNORE_CLOSE_MS;
 
-    const swallow = (click: Event) => {
+    const onClick = (click: Event) => {
       click.stopPropagation();
     };
-    document.addEventListener("click", swallow, true);
+    swallow.current = onClick;
+    document.addEventListener("click", onClick, true);
 
-    window.setTimeout(() => {
-      document.removeEventListener("click", swallow, true);
+    window.clearTimeout(openTimer.current);
+    openTimer.current = window.setTimeout(() => {
+      document.removeEventListener("click", onClick, true);
+      swallow.current = null;
       pending.current = false;
       ignoreUntil.current = Date.now() + IGNORE_CLOSE_MS;
       setOpen(true);

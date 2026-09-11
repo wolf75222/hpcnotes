@@ -43,6 +43,7 @@ export function NoteList({
   showSummary = false,
   showDate = true,
   empty = "No notes in this list yet.",
+  actionLabel,
   onNavigate,
 }: {
   notes: NoteIndex[];
@@ -50,10 +51,17 @@ export function NoteList({
   showSummary?: boolean;
   showDate?: boolean;
   empty?: string;
+  actionLabel?: string | null;
   onNavigate?: () => void;
 }) {
   if (notes.length === 0) {
-    return <EmptyNotes title="Nothing here" description={empty} />;
+    return (
+      <EmptyNotes
+        title="Nothing here"
+        description={empty}
+        actionLabel={actionLabel}
+      />
+    );
   }
 
   if (grouped) {

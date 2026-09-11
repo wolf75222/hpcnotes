@@ -42,7 +42,7 @@ export function NoteArticle({
             {parent.title}
           </Link>
         ) : null}
-        <Text type="supporting" hasTabularNumbers>
+        <Text type="supporting" hasTabularNumbers color="disabled">
           {formatDotDate(note.date)} · {readingLabel}
         </Text>
         <Heading level={1}>{note.title}</Heading>
@@ -58,10 +58,15 @@ export function NoteArticle({
             <LeaderRow
               href={`/notes/${previous.slug}`}
               label={previous.title}
+              ariaLabel={`Previous: ${previous.title}`}
             />
           ) : null}
           {next != null ? (
-            <LeaderRow href={`/notes/${next.slug}`} label={next.title} />
+            <LeaderRow
+              href={`/notes/${next.slug}`}
+              label={next.title}
+              ariaLabel={`Next: ${next.title}`}
+            />
           ) : null}
         </VStack>
       ) : null}

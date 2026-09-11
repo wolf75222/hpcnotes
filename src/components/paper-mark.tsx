@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "@astryxdesign/core/Link";
 import { Icon } from "@astryxdesign/core/Icon";
 import { HStack, VStack } from "@astryxdesign/core/Stack";
@@ -17,48 +17,61 @@ export function PaperMark({
   children: React.ReactNode;
 }) {
   const [searchOpen, setSearchOpen] = useState(false);
+  const searchButtonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
+
+  const onSearchOpenChange = (open: boolean) => {
+    setSearchOpen(open);
+    if (!open) {
+      window.requestAnimationFrame(() => searchButtonRef.current?.focus());
+    }
+  };
 
   return (
     <PaperSidebar notes={notes}>
       <VStack gap={0}>
-      <HStack align="center" justify="between" gap={3} className="note-row">
-        <Link
-          href="/"
-          color="secondary"
-          type="supporting"
-          onClick={() => setSearchOpen(false)}
-        >
-          hpcnotes
-        </Link>
-        <HStack align="center" gap={3}>
+        <HStack align="center" justify="between" gap={3} className="note-row">
           <Link
+            href="/"
             color="secondary"
             type="supporting"
-            label="Search thoughts"
-            onClick={() => setSearchOpen((current) => !current)}
+            onClick={() => onSearchOpenChange(false)}
           >
-            <Icon icon={SearchMark} size="sm" color="secondary" />
+            hpcnotes
           </Link>
-          <Link
-            href="/explore"
-            color="secondary"
-            type="supporting"
-            label="Explore"
-            onClick={() => setSearchOpen(false)}
-          >
-            <Icon icon={ExploreMark} size="sm" color="secondary" />
-          </Link>
+          <HStack align="center" gap={1}>
+            <Link
+              ref={searchButtonRef}
+              className="paper-mark-action"
+              color="secondary"
+              type="supporting"
+              label="Search thoughts"
+              aria-expanded={searchOpen}
+              aria-controls={searchOpen ? "paper-search" : undefined}
+              onClick={() => onSearchOpenChange(!searchOpen)}
+            >
+              <Icon icon={SearchMark} size="sm" color="secondary" />
+            </Link>
+            <Link
+              href="/explore"
+              className="paper-mark-action"
+              color="secondary"
+              type="supporting"
+              label="Explore"
+              onClick={() => onSearchOpenChange(false)}
+            >
+              <Icon icon={ExploreMark} size="sm" color="secondary" />
+            </Link>
+          </HStack>
         </HStack>
-      </HStack>
-      <div className="paper-below-mark">
-        <SearchPalette
-          notes={notes}
-          open={searchOpen}
-          onOpenChange={setSearchOpen}
-        >
-          {children}
-        </SearchPalette>
-      </div>
+        <VStack gap={0} className="paper-below-mark">
+          <SearchPalette
+            notes={notes}
+            open={searchOpen}
+            onOpenChange={onSearchOpenChange}
+          >
+            {children}
+          </SearchPalette>
+        </VStack>
       </VStack>
     </PaperSidebar>
   );

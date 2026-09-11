@@ -1,3 +1,4 @@
+import { isNoteSlug, isSafeTag, normalizeTag } from "../lib/slugs";
 import type { Note } from "./types";
 
 function unquote(value: string) {
@@ -24,7 +25,7 @@ function parseParent(value: string | undefined, slug: string) {
     return null;
   }
   const parent = value.trim();
-  if (parent === "" || parent === slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(parent)) {
+  if (parent === "" || parent === slug || !isNoteSlug(parent)) {
     return null;
   }
   return parent;
@@ -55,8 +56,8 @@ function parseTags(value: string | string[] | undefined) {
   const tags: string[] = [];
   const seen = new Set<string>();
   for (const part of parts) {
-    const tag = part.trim();
-    if (tag === "" || seen.has(tag)) {
+    const tag = normalizeTag(part);
+    if (!isSafeTag(tag) || seen.has(tag)) {
       continue;
     }
     seen.add(tag);

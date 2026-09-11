@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { NoteList } from "@/components/note-list";
-import { EmptyNotes } from "@/components/empty-notes";
 import { getNotesByTag, getTags } from "@/content/catalog";
+import { isSafeTag, normalizeTag, safeDecodeParam } from "@/lib/slugs";
 
 export function generateStaticParams() {
   return getTags().map(({ tag }) => ({ tag }));
@@ -15,10 +16,17 @@ export async function generateMetadata({
   params: Promise<{ tag: string }>;
 }): Promise<Metadata> {
   const { tag } = await params;
-  const decoded = decodeURIComponent(tag);
+  const decoded = normalizeTag(safeDecodeParam(tag));
+  if (!isSafeTag(decoded)) {
+    return {
+      title: "Not found",
+      robots: { index: false, follow: false },
+    };
+  }
   return {
     title: `#${decoded}`,
     description: `Notes tagged ${decoded}.`,
+    alternates: { canonical: `/tags/${encodeURIComponent(decoded)}` },
   };
 }
 
@@ -28,20 +36,19 @@ export default async function TagPage({
   params: Promise<{ tag: string }>;
 }) {
   const { tag } = await params;
-  const decoded = decodeURIComponent(tag);
+  const decoded = normalizeTag(safeDecodeParam(tag));
+  if (!isSafeTag(decoded)) {
+    notFound();
+  }
   const notes = getNotesByTag(decoded);
+  if (notes.length === 0) {
+    notFound();
+  }
 
   return (
     <VStack gap={6}>
       <Text type="supporting">#{decoded}</Text>
-      {notes.length === 0 ? (
-        <EmptyNotes
-          title="Nothing carries that tag yet"
-          description="Tags live at the end of a note, as #labels."
-        />
-      ) : (
-        <NoteList notes={notes} grouped showSummary />
-      )}
+      <NoteList notes={notes} grouped showSummary />
     </VStack>
   );
 }

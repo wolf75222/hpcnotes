@@ -4,6 +4,8 @@ import katex from "katex";
 import { Text } from "@astryxdesign/core/Text";
 import "katex/dist/katex.min.css";
 
+const MAX_EXPR = 2048;
+
 export function MathText({
   expr,
   display = false,
@@ -11,7 +13,19 @@ export function MathText({
   expr: string;
   display?: boolean;
 }) {
-  const html = katex.renderToString(expr.trim(), {
+  const trimmed = expr.trim();
+  if (trimmed.length === 0) {
+    return null;
+  }
+  if (trimmed.length > MAX_EXPR) {
+    return (
+      <Text type="supporting" color="secondary">
+        Expression is too long to render.
+      </Text>
+    );
+  }
+
+  const html = katex.renderToString(trimmed, {
     displayMode: display,
     throwOnError: false,
     trust: false,

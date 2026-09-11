@@ -2,7 +2,7 @@ import type { NoteIndex } from "./types";
 import { noteYear } from "../lib/dates";
 
 export function filterNotes(notes: NoteIndex[], query: string) {
-  const needle = query.trim().toLowerCase();
+  const needle = query.trim().toLowerCase().slice(0, 120);
   if (needle === "") {
     return [];
   }

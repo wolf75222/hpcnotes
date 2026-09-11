@@ -45,7 +45,13 @@ export function MarkdownImage({ src, alt }: { src: string; alt: string }) {
         >
           {/* Astryx Markdown uses img; GIFs must animate, and there is no Astryx Image. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt={alt} className="md-image" />
+          <img
+            src={src}
+            alt={alt}
+            className="md-image"
+            decoding="async"
+            loading="lazy"
+          />
         </button>
       )}
       {alt ? <Text color="secondary">{alt}</Text> : null}

@@ -11,6 +11,7 @@ export function LeaderRow({
   extra,
   depth = 0,
   onNavigate,
+  ariaLabel,
 }: {
   href: string;
   label: string;
@@ -18,6 +19,7 @@ export function LeaderRow({
   extra?: React.ReactNode;
   depth?: number;
   onNavigate?: () => void;
+  ariaLabel?: string;
 }) {
   return (
     <VStack gap={1} className="note-row" data-depth={String(Math.min(depth, 3))}>
@@ -28,6 +30,7 @@ export function LeaderRow({
             color="primary"
             type="supporting"
             isStandalone
+            {...(ariaLabel ? { label: ariaLabel } : {})}
             onClick={onNavigate}
           >
             {label}

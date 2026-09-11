@@ -10,6 +10,8 @@ import {
 } from "@/lib/load-mermaid";
 import { useDeferredLightbox } from "@/components/media-lightbox";
 
+const MAX_CHART = 12_000;
+
 if (typeof document !== "undefined") {
   prefetchMermaid();
 }
@@ -17,8 +19,12 @@ if (typeof document !== "undefined") {
 export function MermaidBlock({ chart }: { chart: string }) {
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const tooLong = chart.length > MAX_CHART;
 
   useEffect(() => {
+    if (tooLong) {
+      return;
+    }
     prefetchMermaid();
     let cancelled = false;
 
@@ -29,21 +35,17 @@ export function MermaidBlock({ chart }: { chart: string }) {
           setError(null);
         }
       })
-      .catch((caught: unknown) => {
+      .catch(() => {
         if (!cancelled) {
           setSvg(null);
-          setError(
-            caught instanceof Error
-              ? caught.message
-              : "Diagram failed to render.",
-          );
+          setError("Diagram failed to render.");
         }
       });
 
     return () => {
       cancelled = true;
     };
-  }, [chart]);
+  }, [chart, tooLong]);
 
   const src = useMemo(
     () => (svg == null ? "" : mermaidSvgDataUrl(svg)),
@@ -55,12 +57,20 @@ export function MermaidBlock({ chart }: { chart: string }) {
   );
   const { openLightbox, element } = useDeferredLightbox(media, true);
 
-  if (error) {
-    return <Text color="secondary">{error}</Text>;
+  if (tooLong || error) {
+    return (
+      <Text type="supporting" color="secondary">
+        {tooLong ? "Diagram is too large to render." : error}
+      </Text>
+    );
   }
 
   if (svg == null || src === "") {
-    return null;
+    return (
+      <Text type="supporting" color="secondary">
+        Drawing the diagram…
+      </Text>
+    );
   }
 
   return (
@@ -75,7 +85,7 @@ export function MermaidBlock({ chart }: { chart: string }) {
         <figure className="md-mermaid">
           {/* Sandboxed SVG via data URL; never inject mermaid markup. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt="Diagram" className="md-image" />
+          <img src={src} alt="Diagram" className="md-image" decoding="async" />
         </figure>
       </button>
       {element}

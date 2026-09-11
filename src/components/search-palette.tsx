@@ -9,6 +9,7 @@ import { filterNotes } from "@/content/query";
 import { LeaderRow } from "@/components/leader-row";
 import { NoteList } from "@/components/note-list";
 import { EmptyNotes } from "@/components/empty-notes";
+import { normalizeTag } from "@/lib/slugs";
 
 function isTypingTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) {
@@ -64,7 +65,7 @@ function SearchPanel({
 }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const needle = query.trim().toLowerCase();
+  const needle = query.trim().toLowerCase().slice(0, 120);
 
   const thoughts = useMemo(() => {
     return [...filterNotes(notes, query)].sort((a, b) =>
@@ -79,8 +80,9 @@ function SearchPanel({
     const counts = new Map<string, number>();
     for (const note of notes) {
       for (const tag of note.tags) {
-        if (`#${tag}`.includes(needle) || tag.toLowerCase().includes(needle)) {
-          counts.set(tag, (counts.get(tag) ?? 0) + 1);
+        const name = normalizeTag(tag);
+        if (`#${name}`.includes(needle) || name.includes(needle)) {
+          counts.set(name, (counts.get(name) ?? 0) + 1);
         }
       }
     }
@@ -101,9 +103,11 @@ function SearchPanel({
   return (
     <VStack gap={8}>
       <input
+        id="paper-search"
         className="paper-search-field"
+        type="search"
         value={query}
-        onChange={(event) => setQuery(event.target.value)}
+        onChange={(event) => setQuery(event.target.value.slice(0, 120))}
         onKeyDown={(event) => {
           if (event.key === "Enter") {
             event.preventDefault();
@@ -113,7 +117,9 @@ function SearchPanel({
         aria-label="Search thoughts"
         autoComplete="off"
         autoCorrect="off"
+        autoCapitalize="off"
         spellCheck={false}
+        enterKeyHint="search"
         autoFocus
         placeholder="Title, #tag, or a few words"
       />

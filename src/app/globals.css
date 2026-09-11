@@ -23,6 +23,7 @@ body {
   color: var(--color-text-primary);
   line-height: var(--text-body-leading);
   -webkit-font-smoothing: antialiased;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .astryx-heading,
@@ -47,9 +48,10 @@ body {
   position: fixed;
   inset-block: 0;
   inset-inline-start: 0;
+  inset-inline-end: calc(50% + 320px + var(--spacing-8));
   z-index: 5;
   box-sizing: border-box;
-  width: max(0px, calc((100vw - 640px) / 2 - var(--spacing-8)));
+  width: auto;
   max-width: 16rem;
   overflow: hidden;
   background: transparent;
@@ -191,9 +193,26 @@ body {
   background-color: transparent;
   color: var(--color-text-primary);
   font-family: var(--font-family-body);
-  font-size: var(--text-body-size);
+  font-size: max(1rem, var(--text-body-size));
   line-height: var(--text-body-leading);
   outline: none;
+  border-radius: 0;
+  appearance: none;
+}
+
+.paper-mark-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--size-element-lg);
+  min-height: var(--size-element-lg);
+  touch-action: manipulation;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
 }
 
 .paper-search-field::placeholder {
@@ -209,6 +228,7 @@ body {
   text-align: start;
   width: 100%;
   max-width: 100%;
+  touch-action: manipulation;
 }
 
 .md-image,

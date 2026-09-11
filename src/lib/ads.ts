@@ -6,11 +6,24 @@ export interface AdSenseConfig {
   isConfigured: boolean;
 }
 
+const CLIENT = /^ca-pub-\d{8,22}$/;
+const SLOT = /^\d{6,22}$/;
+
+function cleanClient(value: string | undefined) {
+  const trimmed = value?.trim() ?? "";
+  return CLIENT.test(trimmed) ? trimmed : undefined;
+}
+
+function cleanSlot(value: string | undefined) {
+  const trimmed = value?.trim() ?? "";
+  return SLOT.test(trimmed) ? trimmed : undefined;
+}
+
 export function getAdSenseConfig(): AdSenseConfig {
-  const client = process.env.NEXT_PUBLIC_ADSENSE_CLIENT?.trim() || undefined;
+  const client = cleanClient(process.env.NEXT_PUBLIC_ADSENSE_CLIENT);
   const slots: Record<AdPlacement, string | undefined> = {
-    infeed: process.env.NEXT_PUBLIC_ADSENSE_SLOT_INFEED?.trim() || undefined,
-    article: process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE?.trim() || undefined,
+    infeed: cleanSlot(process.env.NEXT_PUBLIC_ADSENSE_SLOT_INFEED),
+    article: cleanSlot(process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE),
   };
   return {
     client,

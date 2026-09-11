@@ -16,13 +16,18 @@ export default function HomePage() {
 
   return (
     <VStack gap={0}>
-      <div className="home-intro">
+      <VStack gap={0} className="home-intro">
         <Text type="supporting" color="primary">
           Short notes on high-performance computing, and personal thoughts
           around HPC.
         </Text>
-      </div>
-      <NoteList notes={roots} showSummary />
+      </VStack>
+      <NoteList
+        notes={roots}
+        showSummary
+        empty="No published thoughts yet."
+        actionLabel={null}
+      />
     </VStack>
   );
 }

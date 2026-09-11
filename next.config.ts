@@ -1,10 +1,27 @@
 import type { NextConfig } from "next";
 import { getNoteSlugs } from "./src/content/load-notes";
 
+const securityHeaders = [
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=()",
+  },
+];
+
 const nextConfig: NextConfig = {
   transpilePackages: ["katex"],
   allowedDevOrigins: ["127.0.0.1", "localhost"],
   devIndicators: false,
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: securityHeaders,
+      },
+    ];
+  },
   async redirects() {
     return [
       { source: "/notes", destination: "/", permanent: false },

@@ -2,12 +2,13 @@
 
 import { Markdown } from "@astryxdesign/core/Markdown";
 import { Link } from "@astryxdesign/core/Link";
-import { Heading } from "@astryxdesign/core/Text";
+import { Heading, Text } from "@astryxdesign/core/Text";
 import { Code } from "@astryxdesign/core/CodeBlock";
 import { MathText } from "@/components/math-text";
 import { MarkdownCode } from "@/components/markdown-code";
 import { MarkdownImage } from "@/components/markdown-image";
 import { liftDisplayMath } from "@/lib/lift-display-math";
+import { markdownLinkProps } from "@/lib/markdown-href";
 import type { MarkdownInlinePlugin } from "@astryxdesign/core/Markdown";
 
 function MarkdownLink({
@@ -17,8 +18,12 @@ function MarkdownLink({
   href: string;
   children: React.ReactNode;
 }) {
+  const props = markdownLinkProps(href);
+  if (props == null) {
+    return <Text>{children}</Text>;
+  }
   return (
-    <Link href={href} hasUnderline>
+    <Link href={props.href} target={props.target} rel={props.rel} hasUnderline>
       {children}
     </Link>
   );

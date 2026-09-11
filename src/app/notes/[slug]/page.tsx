@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { preload } from "react-dom";
 import { NoteArticle } from "@/components/note-article";
-import { MissingPost } from "@/components/missing-post";
 import { getNoteBySlug, getNotes, toNoteIndex } from "@/content/load-notes";
 import { getRelatedNotes } from "@/content/catalog";
 import {
@@ -9,6 +10,7 @@ import {
   thoughtNeighbors,
 } from "@/content/thoughts";
 import { formatReadingTime, readingMinutes } from "@/lib/reading-time";
+import { isNoteSlug, safeDecodeParam } from "@/lib/slugs";
 import type { ThoughtNode } from "@/content/types";
 
 export function generateStaticParams() {
@@ -21,14 +23,26 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const note = getNoteBySlug(slug);
+  const note = getNoteBySlug(safeDecodeParam(slug));
   if (note == null) {
     return {
       title: "Not found",
       robots: { index: false, follow: false },
     };
   }
-  return { title: note.title, description: note.summary };
+  const description = note.summary.trim() || note.title;
+  return {
+    title: note.title,
+    description,
+    alternates: { canonical: `/notes/${note.slug}` },
+    openGraph: {
+      type: "article",
+      title: note.title,
+      description,
+      publishedTime: note.date,
+      tags: note.tags,
+    },
+  };
 }
 
 function minutesForTree(node: ThoughtNode): number {
@@ -42,10 +56,14 @@ export default async function NotePage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
+  const { slug: raw } = await params;
+  const slug = safeDecodeParam(raw);
+  if (!isNoteSlug(slug)) {
+    notFound();
+  }
   const note = getNoteBySlug(slug);
   if (note == null) {
-    return <MissingPost />;
+    notFound();
   }
 
   const forest = buildThoughtForest(getNotes().map(toNoteIndex));
@@ -60,20 +78,19 @@ export default async function NotePage({
       ? `${minutesForTree(current)} min`
       : formatReadingTime(note.body);
 
+  if (note.body.includes("```mermaid")) {
+    preload("/vendor/mermaid.min.js", { as: "script" });
+  }
+
   return (
-    <>
-      {note.body.includes("```mermaid") ? (
-        <link rel="preload" href="/vendor/mermaid.min.js" as="script" />
-      ) : null}
-      <NoteArticle
-        note={note}
-        related={getRelatedNotes(note.slug).map(toNoteIndex)}
-        parent={parent}
-        childrenNotes={childrenNotes}
-        previous={previous}
-        next={next}
-        readingLabel={readingLabel}
-      />
-    </>
+    <NoteArticle
+      note={note}
+      related={getRelatedNotes(note.slug).map(toNoteIndex)}
+      parent={parent}
+      childrenNotes={childrenNotes}
+      previous={previous}
+      next={next}
+      readingLabel={readingLabel}
+    />
   );
 }

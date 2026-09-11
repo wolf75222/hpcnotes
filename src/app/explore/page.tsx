@@ -7,6 +7,7 @@ import { getTags } from "@/content/catalog";
 export const metadata: Metadata = {
   title: "Explore",
   description: "Browse notes by tag.",
+  alternates: { canonical: "/explore" },
 };
 
 export default function ExplorePage() {

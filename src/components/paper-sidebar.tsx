@@ -6,12 +6,15 @@ import {
   useEffect,
   useMemo,
   useState,
+  useSyncExternalStore,
 } from "react";
 import { createPortal } from "react-dom";
+import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { useOutlineFromMarkdown } from "@astryxdesign/core/Outline";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
+import { isNoteSlug, safeDecodeParam } from "@/lib/slugs";
 import type { NoteIndex } from "@/content/types";
 import {
   buildThoughtForest,
@@ -28,12 +31,18 @@ function jumpToHeading(id: string) {
   if (target == null) {
     return;
   }
-  target.scrollIntoView({ behavior: "smooth", block: "start" });
+  const reduce =
+    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches === true;
+  target.scrollIntoView({
+    behavior: reduce ? "auto" : "smooth",
+    block: "start",
+  });
 }
 
 function activeSlugFromPath(pathname: string) {
   const match = pathname.match(/^\/notes\/([^/]+)\/?$/);
-  return match?.[1] ?? "";
+  const slug = safeDecodeParam(match?.[1] ?? "");
+  return isNoteSlug(slug) ? slug : "";
 }
 
 export function PaperHeadings({ markdown }: { markdown: string }) {
@@ -68,7 +77,11 @@ function ThoughtSidebar({
     return flattenThoughtRefs(root);
   }, [notes, activeSlug]);
   const items = useOutlineFromMarkdown(markdown);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => undefined,
+    () => true,
+    () => false,
+  );
   const [activeId, setActiveId] = useState(items[0]?.id ?? "");
   const minLevel = items.reduce(
     (lowest, item) => Math.min(lowest, item.level),
@@ -76,10 +89,6 @@ function ThoughtSidebar({
   );
   const showHeadings = thoughts.length >= 2 && items.length >= MIN_HEADINGS;
   const showTree = thoughts.length >= 2;
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!showHeadings) {
@@ -120,7 +129,7 @@ function ThoughtSidebar({
         <VStack gap={8}>
           <VStack gap={1}>
             {thoughts.map((item) => (
-              <a
+              <NextLink
                 key={item.slug}
                 href={`/notes/${item.slug}`}
                 className="thought-sidebar-link"
@@ -128,7 +137,7 @@ function ThoughtSidebar({
                 data-active={item.slug === activeSlug ? "true" : "false"}
               >
                 {item.title}
-              </a>
+              </NextLink>
             ))}
           </VStack>
           {showHeadings ? (

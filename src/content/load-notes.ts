@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { isNoteSlug } from "../lib/slugs";
 import type { Note, NoteIndex } from "./types";
 import { parseNoteMarkdown } from "./parse-note";
 
@@ -18,6 +19,10 @@ function readNotesFromDisk(): Note[] {
   const notes: Note[] = [];
   for (const name of files) {
     const slug = name.slice(0, -3);
+    if (!isNoteSlug(slug)) {
+      console.warn(`Skipping ${name}: slug must be lowercase letters, numbers, and hyphens.`);
+      continue;
+    }
     const source = fs.readFileSync(path.join(NOTES_DIR, name), "utf8");
     try {
       notes.push(parseNoteMarkdown(slug, source));
@@ -81,6 +86,9 @@ export function getNoteIndex() {
 }
 
 export function getNoteBySlug(slug: string) {
+  if (!isNoteSlug(slug)) {
+    return undefined;
+  }
   return getNotes().find((note) => note.slug === slug);
 }
 
