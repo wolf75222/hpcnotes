@@ -15,31 +15,49 @@ function LeaderMeta({
   label: string;
   onNavigate?: () => void;
 }) {
-  const trail = (
-    <>
-      <span className="note-leader" aria-hidden="true">
-        {DOTS}
-      </span>
-      <Text type="supporting" color="secondary" textWrap="nowrap" hasTabularNumbers>
-        {meta}
-      </Text>
-    </>
+  const dots = (
+    <span className="note-leader" aria-hidden="true">
+      {DOTS}
+    </span>
+  );
+  const value = (
+    <Text type="supporting" color="secondary" textWrap="nowrap" hasTabularNumbers>
+      {meta}
+    </Text>
   );
   if (href == null) {
-    return trail;
+    return (
+      <>
+        {dots}
+        {value}
+      </>
+    );
   }
   return (
-    <Link
-      href={href}
-      className="note-meta-hit"
-      color="secondary"
-      type="supporting"
-      isStandalone
-      label={label}
-      onClick={onNavigate}
-    >
-      {trail}
-    </Link>
+    <>
+      <Link
+        href={href}
+        className="note-leader-hit"
+        color="secondary"
+        type="supporting"
+        tabIndex={-1}
+        aria-hidden="true"
+        onClick={onNavigate}
+      >
+        {dots}
+      </Link>
+      <Link
+        href={href}
+        className="note-meta-link"
+        color="secondary"
+        type="supporting"
+        isStandalone
+        label={label}
+        onClick={onNavigate}
+      >
+        {value}
+      </Link>
+    </>
   );
 }
 

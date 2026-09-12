@@ -128,13 +128,20 @@ body {
   user-select: none;
 }
 
-.note-meta-hit {
+.note-leader-hit {
   flex: 1 1 0%;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  min-width: 0;
+  min-width: var(--spacing-8);
   min-height: var(--size-element-lg);
   overflow: hidden;
+}
+
+.note-meta-link {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-element-lg);
 }
 
 .paper-search-field {
