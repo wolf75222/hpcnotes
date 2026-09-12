@@ -8,6 +8,7 @@ import { HashTags } from "@/components/hash-tags";
 import { NoteList } from "@/components/note-list";
 import { LeaderRow } from "@/components/leader-row";
 import { NoteContents } from "@/components/note-contents";
+import { NoteTurn } from "@/components/note-turn";
 import { AdSlot } from "@/components/ad-slot";
 
 export function NoteArticle({
@@ -52,24 +53,35 @@ export function NoteArticle({
             ])}
           </HStack>
         ) : null}
-        <HStack gap={2} align="center" wrap="wrap">
-          {isIsoDate(note.date) ? (
-            <Link
-              href={`/years/${noteYear(note.date)}`}
-              color="secondary"
-              type="supporting"
-              label={`Notes from ${noteYear(note.date)}`}
-            >
-              {formatDotDate(note.date)}
-            </Link>
-          ) : (
-            <Text type="supporting" color="secondary" hasTabularNumbers>
-              {formatDotDate(note.date)}
+        <HStack gap={3} align="center" justify="between" wrap="wrap">
+          <HStack gap={2} align="center" wrap="wrap">
+            {isIsoDate(note.date) ? (
+              <Link
+                href={`/years/${noteYear(note.date)}`}
+                color="secondary"
+                type="supporting"
+                label={`Notes from ${noteYear(note.date)}`}
+              >
+                {formatDotDate(note.date)}
+              </Link>
+            ) : (
+              <Text type="supporting" color="secondary" hasTabularNumbers>
+                {formatDotDate(note.date)}
+              </Text>
+            )}
+            <Text type="supporting" color="secondary">
+              · {readingLabel}
             </Text>
-          )}
-          <Text type="supporting" color="secondary">
-            · {readingLabel}
-          </Text>
+          </HStack>
+          <NoteTurn
+            coverHref={
+              ancestors[0] != null ? `/notes/${ancestors[0].slug}` : undefined
+            }
+            previousHref={
+              previous != null ? `/notes/${previous.slug}` : undefined
+            }
+            nextHref={next != null ? `/notes/${next.slug}` : undefined}
+          />
         </HStack>
         <Heading level={1}>{note.title}</Heading>
       </VStack>
@@ -86,10 +98,16 @@ export function NoteArticle({
                 href={`/notes/${previous.slug}`}
                 label={previous.title}
                 meta="Previous"
+                ariaLabel={`Previous: ${previous.title}`}
               />
             ) : null}
             {next != null ? (
-              <LeaderRow href={`/notes/${next.slug}`} label={next.title} meta="Next" />
+              <LeaderRow
+                href={`/notes/${next.slug}`}
+                label={next.title}
+                meta="Next"
+                ariaLabel={`Next: ${next.title}`}
+              />
             ) : null}
           </VStack>
         </nav>

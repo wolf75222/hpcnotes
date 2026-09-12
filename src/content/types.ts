@@ -35,4 +35,5 @@ export interface ThoughtRef {
   depth: number;
   label: string;
   hasChildren: boolean;
+  isRoot?: boolean;
 }

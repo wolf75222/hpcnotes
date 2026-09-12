@@ -145,14 +145,22 @@ export function noteContents(path: ThoughtNode[] | null): ThoughtRef[] {
   if (chapter == null) {
     return [];
   }
+  const start: ThoughtRef = {
+    slug: root.note.slug,
+    title: root.note.title,
+    depth: 0,
+    label: "Start",
+    hasChildren: false,
+    isRoot: true,
+  };
   const chapterIndex = root.children.findIndex(
     (child) => child.note.slug === chapter.note.slug,
   );
   const chapterLabel = labels[chapterIndex] ?? "1";
   if (chapter.children.length === 0) {
-    return coverContents(root, labels);
+    return [start, ...coverContents(root, labels)];
   }
-  return flattenThoughtRefs(chapter, 0, chapterLabel);
+  return [start, ...flattenThoughtRefs(chapter, 0, chapterLabel)];
 }
 
 function coverContents(root: ThoughtNode, labels: string[]): ThoughtRef[] {

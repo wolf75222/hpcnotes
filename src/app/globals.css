@@ -128,6 +128,15 @@ body {
   user-select: none;
 }
 
+.note-meta-hit {
+  flex: 1 1 0%;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  min-height: var(--size-element-lg);
+  overflow: hidden;
+}
+
 .paper-search-field {
   width: 100%;
   margin: 0;
