@@ -33,25 +33,15 @@ function LeaderMeta({
   }
   return (
     <>
-      <Link
-        href={href}
-        className="note-leader-hit"
-        color="secondary"
-        type="supporting"
-        tabIndex={-1}
-        aria-hidden="true"
-        onClick={onNavigate}
-      >
-        {dots}
-      </Link>
+      {dots}
       <Link
         href={href}
         className="note-meta-link"
         color="secondary"
         type="supporting"
         isStandalone
+        hasUnderline={false}
         tabIndex={-1}
-        aria-hidden="true"
         onClick={onNavigate}
       >
         {value}
@@ -99,11 +89,7 @@ export function LeaderRow({
         </span>
         {mark}
         {meta != null && meta !== "" ? (
-          <LeaderMeta
-            href={href}
-            meta={meta}
-            onNavigate={onNavigate}
-          />
+          <LeaderMeta href={href} meta={meta} onNavigate={onNavigate} />
         ) : null}
       </HStack>
       {extra}

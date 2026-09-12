@@ -95,7 +95,7 @@ tags: slurm, batch
 
 A **thought** is a short standalone article (`kind: thought`, the default).
 
-The home list shows notes and thoughts as two groups. Child pages stay inside their parent note. Nested contents start collapsed: a chevron unrolls a section in place (the title still opens the page). Numbers, dotted leaders, Next, and Previous are the same link as the title. A page inside a note has a Start row back to the cover, and small start / previous / next marks by the date. Previous and Next also stay as named leader rows. The HPC note is the nested example.
+The home list shows notes and thoughts as two groups. Child pages stay inside their parent note. Nested contents start collapsed: a chevron unrolls a section in place (the title still opens the page). Numbers, Next, and Previous are the same destination as the title; the dotted leaders are not links. A page inside a note has a Start row back to the cover, and small start / previous / next marks by the date. Previous and Next also stay as named leader rows. The HPC note is the nested example.
 
 A broken Markdown file fails `npm run build`. In `npm run dev` it is skipped with a warning.
 
