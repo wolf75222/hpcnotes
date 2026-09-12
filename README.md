@@ -95,7 +95,7 @@ tags: slurm, batch
 
 A **thought** is a short standalone article (`kind: thought`, the default).
 
-The home list shows notes and thoughts as two groups. Child pages stay inside their parent note. Nested sections indent in the contents list (sub-notes, then sub-sub-notes). The cover of a note lists the whole tree; a page inside a chapter lists that chapter. Previous and Next walk the document in order. The HPC note is the nested example.
+The home list shows notes and thoughts as two groups. Child pages stay inside their parent note. Nested contents start collapsed: a chevron unrolls a section in place (the title still opens the page). A page inside a chapter lists that chapter, with the path to the current page already open. Previous and Next walk the document in order. The HPC note is the nested example.
 
 A broken Markdown file is skipped with a warning; it does not fail the build.
 
@@ -104,7 +104,7 @@ Images and videos must be paths under `/media/…`. Remote URLs and anything tha
 | Route | What it is |
 | --- | --- |
 | `/` | Intro, then notes, then thoughts. Pages of a note live inside their parent |
-| `/notes/[slug]` | A page. Nested contents indent; Previous / Next follow document order |
+| `/notes/[slug]` | A page. Nested contents unroll with a chevron; Previous / Next follow document order |
 | `/explore` | All `#tags`, with counts |
 | `/feed.xml` | RSS of published notes |
 

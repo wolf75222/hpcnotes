@@ -34,4 +34,5 @@ export interface ThoughtRef {
   title: string;
   depth: number;
   label: string;
+  hasChildren: boolean;
 }

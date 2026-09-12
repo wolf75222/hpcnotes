@@ -116,7 +116,13 @@ export function flattenThoughtRefs(
   label = "1",
 ): ThoughtRef[] {
   return [
-    { slug: node.note.slug, title: node.note.title, depth, label },
+    {
+      slug: node.note.slug,
+      title: node.note.title,
+      depth,
+      label,
+      hasChildren: node.children.length > 0,
+    },
     ...node.children.flatMap((child, index) =>
       flattenThoughtRefs(child, depth + 1, nestedLabel(label, index)),
     ),
@@ -133,9 +139,7 @@ export function noteContents(path: ThoughtNode[] | null): ThoughtRef[] {
   }
   const labels = chapterLabels(root.children);
   if (path.length === 1) {
-    return root.children.flatMap((child, index) =>
-      flattenThoughtRefs(child, 0, labels[index] ?? String(index + 1)),
-    );
+    return coverContents(root, labels);
   }
   const chapter = path[1];
   if (chapter == null) {
@@ -146,14 +150,58 @@ export function noteContents(path: ThoughtNode[] | null): ThoughtRef[] {
   );
   const chapterLabel = labels[chapterIndex] ?? "1";
   if (chapter.children.length === 0) {
-    return root.children.map((child, index) => ({
-      slug: child.note.slug,
-      title: child.note.title,
-      depth: 0,
-      label: labels[index] ?? String(index + 1),
-    }));
+    return coverContents(root, labels);
   }
   return flattenThoughtRefs(chapter, 0, chapterLabel);
+}
+
+function coverContents(root: ThoughtNode, labels: string[]): ThoughtRef[] {
+  return root.children.flatMap((child, index) =>
+    flattenThoughtRefs(child, 0, labels[index] ?? String(index + 1)),
+  );
+}
+
+export function defaultExpandedSlugs(
+  pages: ThoughtRef[],
+  activeSlug?: string,
+): string[] {
+  if (activeSlug == null) {
+    return [];
+  }
+  const stack: ThoughtRef[] = [];
+  for (const page of pages) {
+    stack.length = page.depth;
+    stack[page.depth] = page;
+    if (page.slug !== activeSlug) {
+      continue;
+    }
+    const open = stack
+      .slice(0, page.depth)
+      .map((ancestor) => ancestor.slug);
+    if (page.hasChildren) {
+      open.push(page.slug);
+    }
+    return open;
+  }
+  return [];
+}
+
+export function visibleContents(
+  pages: ThoughtRef[],
+  expanded: ReadonlySet<string>,
+): ThoughtRef[] {
+  const openAtDepth: boolean[] = [];
+  const visible: ThoughtRef[] = [];
+  for (const page of pages) {
+    const parentOpen = page.depth === 0 || openAtDepth[page.depth - 1] === true;
+    if (!parentOpen) {
+      openAtDepth[page.depth] = false;
+      continue;
+    }
+    visible.push(page);
+    openAtDepth[page.depth] = page.hasChildren && expanded.has(page.slug);
+  }
+  return visible;
 }
 
 export function thoughtSlugs(node: ThoughtNode): string[] {

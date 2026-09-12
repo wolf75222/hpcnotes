@@ -7,35 +7,8 @@ import { MarkdownDoc } from "@/components/markdown-doc";
 import { HashTags } from "@/components/hash-tags";
 import { NoteList } from "@/components/note-list";
 import { LeaderRow } from "@/components/leader-row";
+import { NoteContents } from "@/components/note-contents";
 import { AdSlot } from "@/components/ad-slot";
-
-function NoteContents({
-  pages,
-  activeSlug,
-}: {
-  pages: ThoughtRef[];
-  activeSlug?: string;
-}) {
-  if (pages.length < 2) {
-    return null;
-  }
-
-  return (
-    <nav aria-label="Contents">
-      <VStack gap={3}>
-        {pages.map((page) => (
-          <LeaderRow
-            key={page.slug}
-            href={page.slug === activeSlug ? undefined : `/notes/${page.slug}`}
-            label={page.title}
-            meta={page.label}
-            depth={page.depth}
-          />
-        ))}
-      </VStack>
-    </nav>
-  );
-}
 
 export function NoteArticle({
   note,
@@ -100,9 +73,11 @@ export function NoteArticle({
         </HStack>
         <Heading level={1}>{note.title}</Heading>
       </VStack>
-      {isCover ? null : <NoteContents pages={contents} activeSlug={note.slug} />}
+      {isCover ? null : (
+        <NoteContents key={note.slug} pages={contents} activeSlug={note.slug} />
+      )}
       <MarkdownDoc>{note.body}</MarkdownDoc>
-      {isCover ? <NoteContents pages={contents} /> : null}
+      {isCover ? <NoteContents key={note.slug} pages={contents} /> : null}
       {previous != null || next != null ? (
         <nav aria-label="Previous and next">
           <VStack gap={5}>
