@@ -64,3 +64,32 @@ export function ExploreMark(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+/** A hairline caret, meant to sit in a contents row without looking like a toolbar. */
+export function DiscloseMark(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M10 7.75 14.4 12 10 16.25"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function DiscloseOpenMark(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M7.75 10 12 14.4 16.25 10"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}

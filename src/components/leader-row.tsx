@@ -9,7 +9,7 @@ export function LeaderRow({
   label,
   meta,
   extra,
-  start,
+  mark,
   depth = 0,
   onNavigate,
   ariaLabel,
@@ -18,15 +18,14 @@ export function LeaderRow({
   label: string;
   meta?: string;
   extra?: React.ReactNode;
-  start?: React.ReactNode;
+  mark?: React.ReactNode;
   depth?: number;
   onNavigate?: () => void;
   ariaLabel?: string;
 }) {
   return (
     <VStack gap={1} className="note-row" data-depth={String(Math.min(depth, 3))}>
-      <HStack align="center" gap={2} className="note-row">
-        {start}
+      <HStack align="center" gap={mark != null ? 1 : 2} className="note-row">
         <span className="note-title">
           {href != null ? (
             <Link
@@ -45,6 +44,7 @@ export function LeaderRow({
             </Text>
           )}
         </span>
+        {mark}
         {meta != null && meta !== "" ? (
           <>
             <span className="note-leader" aria-hidden="true">

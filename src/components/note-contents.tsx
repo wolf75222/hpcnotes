@@ -5,6 +5,7 @@ import { Icon } from "@astryxdesign/core/Icon";
 import { Link } from "@astryxdesign/core/Link";
 import { VStack } from "@astryxdesign/core/Stack";
 import { LeaderRow } from "@/components/leader-row";
+import { DiscloseMark, DiscloseOpenMark } from "@/components/paper-icons";
 import { defaultExpandedSlugs, visibleContents } from "@/content/thoughts";
 import type { ThoughtRef } from "@/content/types";
 
@@ -52,26 +53,22 @@ export function NoteContents({
               label={page.title}
               meta={page.label}
               depth={page.depth}
-              start={
-                showDisclosure ? (
-                  page.hasChildren ? (
-                    <Link
-                      className="paper-mark-action"
-                      color={open ? "primary" : "secondary"}
-                      type="supporting"
-                      label={open ? `Collapse ${page.title}` : `Expand ${page.title}`}
-                      aria-expanded={open}
-                      onClick={() => toggle(page.slug)}
-                    >
-                      <Icon
-                        icon={open ? "chevronDown" : "chevronRight"}
-                        size="sm"
-                        color={open ? "primary" : "secondary"}
-                      />
-                    </Link>
-                  ) : (
-                    <span className="paper-mark-action" aria-hidden="true" />
-                  )
+              mark={
+                page.hasChildren ? (
+                  <Link
+                    className="note-disclose"
+                    color="inherit"
+                    type="supporting"
+                    label={open ? `Collapse ${page.title}` : `Expand ${page.title}`}
+                    aria-expanded={open}
+                    onClick={() => toggle(page.slug)}
+                  >
+                    <Icon
+                      icon={open ? DiscloseOpenMark : DiscloseMark}
+                      size="xsm"
+                      color="inherit"
+                    />
+                  </Link>
                 ) : undefined
               }
             />

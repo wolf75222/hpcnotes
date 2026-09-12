@@ -155,6 +155,23 @@ body {
   touch-action: manipulation;
 }
 
+.note-disclose {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--size-element-sm);
+  min-height: var(--size-element-lg);
+  margin-inline: calc(var(--spacing-1) * -1);
+  color: var(--color-text-disabled);
+  touch-action: manipulation;
+}
+
+.note-disclose:hover,
+.note-disclose:focus-visible {
+  color: var(--color-text-secondary);
+}
+
 .paper-mark-action:active,
 .paper-mark-action[aria-expanded="true"] {
   color: var(--color-text-primary);
