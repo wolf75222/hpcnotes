@@ -28,7 +28,9 @@ export default function ExplorePage() {
 
   return (
     <VStack gap={8}>
-      <Heading level={1}>Explore</Heading>
+      <Heading level={1} color="primary">
+        Explore
+      </Heading>
       <VStack gap={5}>
         {tags.map(({ tag, count }) => (
           <LeaderRow

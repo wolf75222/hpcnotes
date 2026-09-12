@@ -54,7 +54,12 @@ export function MarkdownDoc({ children }: { children: string }) {
           inlineCode: ({ children: code }) => <Code>{code}</Code>,
           image: MarkdownImage,
           heading: ({ children: heading, id, level }) => (
-            <Heading level={level} id={id} className="article-heading">
+            <Heading
+              level={level}
+              id={id}
+              color="primary"
+              className="article-heading"
+            >
               {heading}
             </Heading>
           ),

@@ -8,6 +8,8 @@ html {
   --font-family-heading: var(--font-sans), system-ui, sans-serif;
   --text-body-size: var(--text-supporting-size);
   --text-body-leading: var(--text-supporting-leading);
+  --text-heading-1-weight: var(--font-weight-bold);
+  --text-heading-2-weight: var(--font-weight-bold);
 }
 
 html,
@@ -38,10 +40,21 @@ body {
   font-family: var(--font-family-body);
 }
 
-.article-heading {
+.article-heading,
+.astryx-heading {
   scroll-margin-top: var(--spacing-6);
   max-width: 100%;
   overflow-wrap: break-word;
+  -webkit-font-smoothing: auto;
+}
+
+html[data-theme="light"] .article-heading:not(#\#):not(#\#):not(#\#),
+html[data-theme="light"] .astryx-heading:not(#\#):not(#\#):not(#\#) {
+  color: color-mix(
+    in srgb,
+    var(--color-text-primary),
+    var(--color-tint-hover) 45%
+  );
 }
 
 .md-doc {
@@ -107,6 +120,18 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
   min-height: var(--size-element-lg);
+}
+
+html[data-theme="light"] .note-title a:not(#\#):not(#\#):not(#\#),
+html[data-theme="light"] .note-title a span:not(#\#):not(#\#):not(#\#),
+html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
+  color: color-mix(
+    in srgb,
+    var(--color-text-primary),
+    var(--color-tint-hover) 55%
+  );
+  font-weight: var(--font-weight-semibold);
+  -webkit-font-smoothing: auto;
 }
 
 .note-tag {

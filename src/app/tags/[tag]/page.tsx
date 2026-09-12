@@ -47,7 +47,9 @@ export default async function TagPage({
 
   return (
     <VStack gap={6}>
-      <Heading level={1}>#{decoded}</Heading>
+      <Heading level={1} color="primary">
+        #{decoded}
+      </Heading>
       <NoteList notes={notes} grouped showSummary />
     </VStack>
   );

@@ -44,7 +44,9 @@ export default async function YearPage({
 
   return (
     <VStack gap={6}>
-      <Heading level={1}>{year}</Heading>
+      <Heading level={1} color="primary">
+        {year}
+      </Heading>
       <NoteList notes={notes} showSummary />
     </VStack>
   );

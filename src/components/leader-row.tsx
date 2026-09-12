@@ -76,13 +76,14 @@ export function LeaderRow({
               href={href}
               color="primary"
               type="supporting"
+              weight="semibold"
               isStandalone
               onClick={onNavigate}
             >
               {label}
             </Link>
           ) : (
-            <Text type="supporting" weight="semibold">
+            <Text type="supporting" color="primary" weight="semibold">
               {label}
             </Text>
           )}

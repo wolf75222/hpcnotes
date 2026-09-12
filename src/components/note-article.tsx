@@ -83,7 +83,9 @@ export function NoteArticle({
             nextHref={next != null ? `/notes/${next.slug}` : undefined}
           />
         </HStack>
-        <Heading level={1}>{note.title}</Heading>
+        <Heading level={1} color="primary" className="article-heading">
+          {note.title}
+        </Heading>
       </VStack>
       {isCover ? null : (
         <NoteContents key={note.slug} pages={contents} activeSlug={note.slug} />

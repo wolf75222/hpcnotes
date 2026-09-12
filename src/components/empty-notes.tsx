@@ -18,9 +18,13 @@ export function EmptyNotes({
   return (
     <VStack gap={2}>
       {headingLevel === 1 ? (
-        <Heading level={1}>{title}</Heading>
+        <Heading level={1} color="primary">
+          {title}
+        </Heading>
       ) : (
-        <Text>{title}</Text>
+        <Text color="primary" weight="semibold">
+          {title}
+        </Text>
       )}
       <Text type="supporting">{description}</Text>
       {actionLabel != null ? (
