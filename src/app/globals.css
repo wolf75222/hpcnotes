@@ -85,11 +85,11 @@ body {
   padding-block-end: 4rem;
 }
 
-.home-group:not(#\#):not(#\#):not(#\#) {
-  color: var(--color-text-secondary);
-  padding-block-end: var(--spacing-0-5);
-  border-block-end: var(--border-width) solid currentColor;
-  text-decoration: none;
+.home-group {
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: currentColor;
+  text-decoration-skip-ink: none;
 }
 
 .note-summary:not(#\#):not(#\#):not(#\#) {
