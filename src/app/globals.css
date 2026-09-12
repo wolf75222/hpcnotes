@@ -86,10 +86,19 @@ body {
 }
 
 .home-group {
-  text-decoration-line: underline;
-  text-decoration-style: solid;
-  text-decoration-color: currentColor;
-  text-decoration-skip-ink: none;
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+}
+
+.home-group::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0.14em;
+  inset-inline-end: 0;
+  inset-block-end: 0.08em;
+  border-block-end: var(--border-width) solid currentColor;
+  pointer-events: none;
 }
 
 .note-summary:not(#\#):not(#\#):not(#\#) {
