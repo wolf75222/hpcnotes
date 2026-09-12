@@ -77,12 +77,16 @@ body {
   padding-block-end: 4rem;
 }
 
-.home-group {
-  text-decoration: underline;
-  text-underline-offset: var(--spacing-1);
+.home-group:not(#\#):not(#\#):not(#\#) {
+  display: inline-block;
+  color: var(--color-text-secondary);
+  padding-block-end: var(--spacing-0-5);
+  border-block-end: var(--border-width) solid currentColor;
+  text-decoration: none;
 }
 
-.note-summary {
+.note-summary:not(#\#):not(#\#):not(#\#) {
+  color: var(--color-text-secondary);
   font-style: italic;
 }
 
