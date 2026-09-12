@@ -212,6 +212,24 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
   color: var(--color-text-primary);
 }
 
+.paper-to-top:not(#\#):not(#\#):not(#\#) {
+  position: fixed;
+  inset-block-end: max(var(--spacing-6), env(safe-area-inset-bottom));
+  inset-inline-end: max(var(--spacing-4), env(safe-area-inset-right));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--size-element-lg);
+  min-height: var(--size-element-lg);
+  color: var(--color-text-disabled);
+  touch-action: manipulation;
+}
+
+.paper-to-top:hover:not(#\#):not(#\#):not(#\#),
+.paper-to-top:focus-visible:not(#\#):not(#\#):not(#\#) {
+  color: var(--color-text-secondary);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html:focus-within {
     scroll-behavior: auto;

@@ -4,6 +4,7 @@ import { useCallback, useRef, useState } from "react";
 import { VStack } from "@astryxdesign/core/Stack";
 import { SearchPalette } from "@/components/search-palette";
 import { PaperChrome } from "@/components/paper-chrome";
+import { PaperToTop } from "@/components/paper-to-top";
 import type { NoteIndex } from "@/content/types";
 
 export function PaperMark({
@@ -39,6 +40,7 @@ export function PaperMark({
           {children}
         </SearchPalette>
       </VStack>
+      <PaperToTop hidden={searchOpen} />
     </VStack>
   );
 }

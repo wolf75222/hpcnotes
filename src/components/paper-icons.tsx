@@ -94,6 +94,21 @@ export function DiscloseOpenMark(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+/** Hairline caret up, for a quiet jump back to the top of the page. */
+export function ToTopMark(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M7.75 14.25 12 9.85 16.25 14.25"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 /** Three thin lines: the note that holds the whole contents. */
 export function CoverMark(props: SVGProps<SVGSVGElement>) {
   return (
