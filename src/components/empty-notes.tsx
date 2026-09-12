@@ -22,7 +22,7 @@ export function EmptyNotes({
           {title}
         </Heading>
       ) : (
-        <Text color="primary" weight="semibold">
+        <Text color="primary" weight="medium">
           {title}
         </Text>
       )}
