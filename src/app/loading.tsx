@@ -1,10 +1,14 @@
-import { Spinner } from "@astryxdesign/core/Spinner";
+import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
+import { VisuallyHidden } from "@astryxdesign/core/VisuallyHidden";
 
 export default function Loading() {
   return (
-    <VStack gap={4} paddingBlock={8} align="start">
-      <Spinner size="md" shade="subtle" label="Loading" />
+    <VStack gap={0}>
+      <VisuallyHidden>Loading</VisuallyHidden>
+      <Text type="supporting" color="secondary" aria-hidden="true">
+        …
+      </Text>
     </VStack>
   );
 }

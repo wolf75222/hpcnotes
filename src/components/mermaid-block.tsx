@@ -64,7 +64,7 @@ export function MermaidBlock({ chart }: { chart: string }) {
   if (svg == null || src === "") {
     return (
       <Text type="supporting" color="secondary">
-        Drawing the diagram…
+        …
       </Text>
     );
   }

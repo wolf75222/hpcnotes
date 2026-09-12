@@ -12,7 +12,7 @@ const MermaidBlock = dynamic(
   {
     loading: () => (
       <Text type="supporting" color="secondary">
-        Drawing the diagram…
+        …
       </Text>
     ),
   },
