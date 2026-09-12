@@ -88,6 +88,8 @@ body {
 .home-group {
   display: inline-block;
   position: relative;
+  line-height: 1;
+  padding-block-end: 0.08em;
   text-decoration: none;
 }
 
@@ -96,7 +98,7 @@ body {
   position: absolute;
   inset-inline-start: 0.14em;
   inset-inline-end: 0;
-  inset-block-end: 0.08em;
+  inset-block-end: 0;
   border-block-end: var(--border-width) solid currentColor;
   pointer-events: none;
 }
