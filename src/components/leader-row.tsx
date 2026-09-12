@@ -77,6 +77,7 @@ export function LeaderRow({
               color="secondary"
               type="supporting"
               isStandalone
+              hasUnderline={false}
               onClick={onNavigate}
             >
               {label}

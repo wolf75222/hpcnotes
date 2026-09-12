@@ -129,6 +129,13 @@ body {
   min-height: var(--size-element-lg);
 }
 
+html[data-theme="light"] .note-title a:not(#\#):not(#\#):not(#\#),
+html[data-theme="light"] .note-title a span:not(#\#):not(#\#):not(#\#),
+html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-normal);
+}
+
 .note-tag {
   min-height: var(--size-element-lg);
   display: inline-flex;
