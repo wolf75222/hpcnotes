@@ -9,10 +9,22 @@ import { isSafeMediaSrc } from "@/lib/media";
 const VIDEO_SRC = /\.(mp4|webm|ogg)$/i;
 const GIF_SRC = /\.gif$/i;
 
+function mediaPath(src: string) {
+  if (src.startsWith("/")) {
+    return src;
+  }
+  try {
+    return new URL(src).pathname;
+  } catch {
+    return src;
+  }
+}
+
 export function MarkdownImage({ src, alt }: { src: string; alt: string }) {
   const safe = isSafeMediaSrc(src);
-  const isVideo = safe && VIDEO_SRC.test(src);
-  const isGif = safe && GIF_SRC.test(src);
+  const path = mediaPath(src);
+  const isVideo = safe && VIDEO_SRC.test(path);
+  const isGif = safe && GIF_SRC.test(path);
   const media = useMemo(
     () => ({ src, alt, type: "image" as const }),
     [src, alt],
@@ -51,6 +63,7 @@ export function MarkdownImage({ src, alt }: { src: string; alt: string }) {
             className="md-image"
             decoding="async"
             loading="lazy"
+            referrerPolicy="no-referrer"
           />
         </button>
       )}

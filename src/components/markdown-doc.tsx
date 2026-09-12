@@ -23,7 +23,13 @@ function MarkdownLink({
     return <Text>{children}</Text>;
   }
   return (
-    <Link href={props.href} target={props.target} rel={props.rel} hasUnderline>
+    <Link
+      href={props.href}
+      target={props.target}
+      rel={props.rel}
+      hasUnderline
+      className="md-link"
+    >
       {children}
     </Link>
   );

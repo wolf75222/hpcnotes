@@ -11,4 +11,4 @@ draft: false
 
 Performance engineering from the model down to the metal, then out to the node and the cluster.
 
-The tree below is the whole note: a section, then sub-notes, then sub-sub-notes. Open a chapter to work inside it. Previous and Next walk the document in order.
+The tree below is the whole note: a section, then sub-notes, then sub-sub-notes. Open a chapter to work inside it. Previous and Next walk the document in order. For the shared-machine habits these pages assume, start with [Working on a shared cluster](/notes/working-on-a-cluster).

@@ -24,7 +24,7 @@ If you `sbatch ../scripts/run.slurm` from a random folder, relative paths inside
 
 ## Launchers
 
-`mpirun -np 32 ./a.out` inside an `sbatch` allocation *sometimes* works. On a multi-rail InfiniBand machine with cgroups, it sometimes spreads ranks onto cores you do not own, or onto the login image. `srun ./a.out` asks the daemon that owns the job to start the ranks. That is the difference between a lucky workstation habit and a cluster program.
+`mpirun -np 32 ./a.out` inside an `sbatch` allocation *sometimes* works. On a multi-rail InfiniBand machine with cgroups, it sometimes spreads ranks onto cores you do not own, or onto the login image. `srun ./a.out` asks the daemon that owns the job to start the ranks. That is the difference between a lucky workstation habit and a cluster program. The flags themselves are in the [sbatch](https://slurm.schedmd.com/sbatch.html) man page.
 
 ## Arrays instead of a shell for-loop
 

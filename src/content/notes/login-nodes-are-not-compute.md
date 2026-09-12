@@ -27,3 +27,5 @@ A login node is a waiting room with a compiler. It is not a 128-core workstation
 `salloc` for an interactive compile. A short serial job for a configure. Scratch, not `$HOME`, for anything that will be written again in ten minutes.
 
 If you need a rule you can shout across the office: if it would make your laptop fan spin, it does not belong on login.
+
+The gif of that mistake lives in [What a note can carry](/notes/what-a-note-can-carry).

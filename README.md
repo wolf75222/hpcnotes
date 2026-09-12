@@ -64,10 +64,12 @@ tags: documentation, gpu
 draft: false
 ---
 
-Write ordinary Markdown. A `mermaid` fence is a diagram, `$…$` or a `math`
-fence is KaTeX, `![alt](/media/file.gif)` is a figure or gif (files live in
-`public/media/`), and fenced code gets a copy button. Tags render as `#tag`
-at the end of the note. Similar notes are listed under that.
+Write ordinary Markdown: headings, lists, tables, quotes, [links](/notes/…),
+images, gifs, mermaid, and maths. A `mermaid` fence is a diagram, `$…$` or a
+`math` fence is KaTeX, `![alt](/media/file.gif)` is a local figure (files live
+in `public/media/`), `![alt](https://…/file.png)` is a remote raster image, and
+fenced code gets a copy button. Tags render as `#tag` at the end of the note.
+Similar notes are listed under that.
 ```
 
 | Field | Notes |
@@ -99,7 +101,10 @@ The home list shows notes and thoughts as two groups. Child pages stay inside th
 
 A broken Markdown file fails `npm run build`. In `npm run dev` it is skipped with a warning.
 
-Images and videos must be paths under `/media/…`. Remote URLs and anything that leaves that folder are not rendered.
+Local images and videos must be paths under `/media/…`. HTTPS raster images
+(`.png`, `.jpg`, `.gif`, `.webp`) and videos (`.mp4`, `.webm`) are also
+rendered. Remote SVG, `javascript:` URLs, and anything that leaves `/media/`
+on disk are not.
 
 | Route | What it is |
 | --- | --- |

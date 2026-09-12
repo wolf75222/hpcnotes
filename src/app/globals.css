@@ -49,6 +49,14 @@ body {
   max-width: 100%;
 }
 
+.md-doc a.md-link:not(#\#):not(#\#):not(#\#),
+.md-doc a.md-link span:not(#\#):not(#\#):not(#\#) {
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--border-width);
+  text-underline-offset: var(--spacing-0-5);
+  text-decoration-color: currentColor;
+}
+
 .md-code,
 .md-table,
 .md-doc pre,
