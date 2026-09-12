@@ -78,7 +78,6 @@ body {
 }
 
 .home-group:not(#\#):not(#\#):not(#\#) {
-  display: inline-block;
   color: var(--color-text-secondary);
   padding-block-end: var(--spacing-0-5);
   border-block-end: var(--border-width) solid currentColor;

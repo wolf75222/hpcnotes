@@ -30,7 +30,12 @@ export default function HomePage() {
       <VStack gap={10}>
         {notes.length > 0 ? (
           <VStack gap={5}>
-            <Text type="supporting" color="secondary" className="home-group">
+            <Text
+              type="supporting"
+              color="secondary"
+              display="block"
+              className="home-group"
+            >
               Notes
             </Text>
             <NoteList notes={notes} showSummary />
@@ -38,7 +43,12 @@ export default function HomePage() {
         ) : null}
         {thoughts.length > 0 ? (
           <VStack gap={5}>
-            <Text type="supporting" color="secondary" className="home-group">
+            <Text
+              type="supporting"
+              color="secondary"
+              display="block"
+              className="home-group"
+            >
               Thoughts
             </Text>
             <NoteList notes={thoughts} showSummary />
