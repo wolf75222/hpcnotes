@@ -77,6 +77,15 @@ body {
   padding-block-end: 4rem;
 }
 
+.home-group {
+  text-decoration: underline;
+  text-underline-offset: var(--spacing-1);
+}
+
+.note-summary {
+  font-style: italic;
+}
+
 .note-row {
   min-width: 0;
   width: 100%;
