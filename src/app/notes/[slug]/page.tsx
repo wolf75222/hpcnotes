@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { preload } from "react-dom";
 import { NoteArticle } from "@/components/note-article";
-import { getNoteBySlug, getNotes, toNoteIndex } from "@/content/load-notes";
+import { getNoteBySlug, getNotes, getThoughtForest, toNoteIndex } from "@/content/load-notes";
 import { getRelatedNotes } from "@/content/catalog";
 import {
-  buildThoughtForest,
   findThoughtPath,
   noteContents,
   thoughtNeighbors,
@@ -67,7 +66,7 @@ export default async function NotePage({
     notFound();
   }
 
-  const forest = buildThoughtForest(getNotes().map(toNoteIndex));
+  const forest = getThoughtForest();
   const path = findThoughtPath(forest, note.slug);
   const current = path?.[path.length - 1] ?? null;
   const ancestors =

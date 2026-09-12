@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import type { NoteIndex } from "@/content/types";
-import { filterNotes } from "@/content/query";
+import { filterNotes, SEARCH_LIMIT } from "@/content/query";
 import { LeaderRow } from "@/components/leader-row";
 import { NoteList } from "@/components/note-list";
 import { EmptyNotes } from "@/components/empty-notes";
@@ -67,11 +67,7 @@ function SearchPanel({
   const [query, setQuery] = useState("");
   const needle = query.trim().toLowerCase().slice(0, 120);
 
-  const thoughts = useMemo(() => {
-    return [...filterNotes(notes, query)].sort((a, b) =>
-      b.date.localeCompare(a.date),
-    );
-  }, [notes, query]);
+  const thoughts = useMemo(() => filterNotes(notes, query), [notes, query]);
 
   const tags = useMemo(() => {
     if (needle === "") {
@@ -86,18 +82,23 @@ function SearchPanel({
         }
       }
     }
-    return [...counts.entries()].sort(
-      (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
-    );
+    return [...counts.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .slice(0, SEARCH_LIMIT);
   }, [needle, notes]);
 
   const openFirst = () => {
-    const first = thoughts[0];
-    if (first == null) {
+    const firstNote = thoughts[0];
+    if (firstNote != null) {
+      onClose();
+      router.push(`/notes/${firstNote.slug}`);
       return;
     }
-    onClose();
-    router.push(`/notes/${first.slug}`);
+    const firstTag = tags[0];
+    if (firstTag != null) {
+      onClose();
+      router.push(`/tags/${encodeURIComponent(firstTag[0])}`);
+    }
   };
 
   return (

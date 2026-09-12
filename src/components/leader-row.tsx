@@ -7,12 +7,10 @@ const DOTS = ".".repeat(200);
 function LeaderMeta({
   href,
   meta,
-  label,
   onNavigate,
 }: {
   href?: string;
   meta: string;
-  label: string;
   onNavigate?: () => void;
 }) {
   const dots = (
@@ -52,7 +50,8 @@ function LeaderMeta({
         color="secondary"
         type="supporting"
         isStandalone
-        label={label}
+        tabIndex={-1}
+        aria-hidden="true"
         onClick={onNavigate}
       >
         {value}
@@ -69,7 +68,6 @@ export function LeaderRow({
   mark,
   depth = 0,
   onNavigate,
-  ariaLabel,
 }: {
   href?: string;
   label: string;
@@ -78,9 +76,7 @@ export function LeaderRow({
   mark?: React.ReactNode;
   depth?: number;
   onNavigate?: () => void;
-  ariaLabel?: string;
 }) {
-  const metaLabel = ariaLabel ?? label;
   return (
     <VStack gap={1} className="note-row" data-depth={String(Math.min(depth, 3))}>
       <HStack align="center" gap={mark != null ? 1 : 2} className="note-row">
@@ -106,7 +102,6 @@ export function LeaderRow({
           <LeaderMeta
             href={href}
             meta={meta}
-            label={metaLabel}
             onNavigate={onNavigate}
           />
         ) : null}

@@ -1,28 +1,60 @@
 import { normalizeTag } from "../lib/slugs";
-import { getNoteBySlug, getNotes } from "./load-notes";
+import {
+  getListedNotes,
+  getNoteBySlug,
+  getNotes,
+  getThoughtForest,
+  isListedNote,
+} from "./load-notes";
 import { PLAYLISTS } from "./playlists";
-import { filterNotes } from "./query";
 import { isIsoDate } from "../lib/dates";
-import { buildThoughtForest, findThoughtPath, thoughtSlugs } from "./thoughts";
+import { findThoughtPath } from "./thoughts";
 import type { Note } from "./types";
 
 export { filterNotes, notesByYear } from "./query";
 
+function hasTag(note: { tags: string[] }, needle: string) {
+  return note.tags.some((item) => item === needle);
+}
+
 export function getNotesByTag(tag: string) {
   const needle = normalizeTag(tag);
-  return getNotes().filter((note) =>
-    note.tags.some((item) => item === needle),
+  const notes = getNotes();
+  const tagged = new Set(
+    notes.filter((note) => hasTag(note, needle)).map((note) => note.slug),
   );
+  return notes.filter((note) => {
+    if (!hasTag(note, needle)) {
+      return false;
+    }
+    if (note.parent != null && tagged.has(note.parent)) {
+      return false;
+    }
+    return true;
+  });
 }
 
 export function getNotesByYear(year: string) {
-  return getNotes().filter((note) => note.date.startsWith(`${year}-`));
+  return getListedNotes().filter((note) => note.date.startsWith(`${year}-`));
 }
 
 export function getTags(): { tag: string; count: number }[] {
-  const counts = new Map<string, number>();
-  for (const note of getNotes()) {
+  const notes = getNotes();
+  const taggedBy = new Map<string, Set<string>>();
+  for (const note of notes) {
     for (const tag of note.tags) {
+      const slugs = taggedBy.get(tag) ?? new Set<string>();
+      slugs.add(note.slug);
+      taggedBy.set(tag, slugs);
+    }
+  }
+  const counts = new Map<string, number>();
+  for (const note of notes) {
+    for (const tag of note.tags) {
+      const slugs = taggedBy.get(tag);
+      if (note.parent != null && slugs?.has(note.parent)) {
+        continue;
+      }
       counts.set(tag, (counts.get(tag) ?? 0) + 1);
     }
   }
@@ -33,7 +65,7 @@ export function getTags(): { tag: string; count: number }[] {
 
 export function getYears(): { year: string; count: number }[] {
   const counts = new Map<string, number>();
-  for (const note of getNotes()) {
+  for (const note of getListedNotes()) {
     if (!isIsoDate(note.date)) {
       continue;
     }
@@ -51,27 +83,38 @@ export function getRelatedNotes(slug: string, limit = 5) {
     return [];
   }
 
-  const forest = buildThoughtForest(getNotes());
-  const path = findThoughtPath(forest, slug);
-  const root = path?.[0];
-  const sameTree = new Set(root != null ? thoughtSlugs(root) : [slug]);
-  const seen = new Set<string>(sameTree);
+  const path = findThoughtPath(getThoughtForest(), slug);
+  const seen = new Set<string>([slug]);
   const related: Note[] = [];
+
+  function push(candidateSlug: string) {
+    if (related.length >= limit || seen.has(candidateSlug)) {
+      return;
+    }
+    const match = getNoteBySlug(candidateSlug);
+    if (match == null) {
+      return;
+    }
+    seen.add(candidateSlug);
+    related.push(match);
+  }
+
+  const parent = path != null && path.length > 1 ? path[path.length - 2] : null;
+  if (parent != null) {
+    for (const sibling of parent.children) {
+      push(sibling.note.slug);
+      if (related.length >= limit) {
+        return related;
+      }
+    }
+  }
 
   for (const playlist of PLAYLISTS) {
     if (!playlist.slugs.includes(slug)) {
       continue;
     }
     for (const other of playlist.slugs) {
-      if (seen.has(other)) {
-        continue;
-      }
-      const match = getNoteBySlug(other);
-      if (match == null) {
-        continue;
-      }
-      seen.add(other);
-      related.push(match);
+      push(other);
       if (related.length >= limit) {
         return related;
       }
@@ -80,22 +123,17 @@ export function getRelatedNotes(slug: string, limit = 5) {
 
   const tags = new Set(note.tags.map(normalizeTag));
   for (const candidate of getNotes()) {
-    if (seen.has(candidate.slug)) {
+    if (!isListedNote(candidate)) {
       continue;
     }
     if (!candidate.tags.some((tag) => tags.has(normalizeTag(tag)))) {
       continue;
     }
-    seen.add(candidate.slug);
-    related.push(candidate);
+    push(candidate.slug);
     if (related.length >= limit) {
       return related;
     }
   }
 
   return related;
-}
-
-export function searchNotes(query: string) {
-  return filterNotes(getNotes(), query);
 }

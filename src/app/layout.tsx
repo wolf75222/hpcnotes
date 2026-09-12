@@ -35,7 +35,6 @@ export const metadata: Metadata = {
     "cluster",
   ],
   alternates: {
-    canonical: "/",
     types: {
       "application/rss+xml": "/feed.xml",
     },

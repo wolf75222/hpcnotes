@@ -6,7 +6,21 @@ type MermaidApi = {
 const SCRIPT_SRC = "/vendor/mermaid.min.js";
 const LOAD_MS = 8000;
 const RENDER_MS = 8000;
+const MAX_SVG_CACHE = 32;
 const svgCache = new Map<string, string>();
+
+function rememberSvg(key: string, svg: string) {
+  if (svgCache.has(key)) {
+    svgCache.delete(key);
+  }
+  svgCache.set(key, svg);
+  if (svgCache.size > MAX_SVG_CACHE) {
+    const oldest = svgCache.keys().next().value;
+    if (oldest != null) {
+      svgCache.delete(oldest);
+    }
+  }
+}
 
 let mermaidPromise: Promise<MermaidApi> | null = null;
 let renderChain: Promise<void> = Promise.resolve();
@@ -191,7 +205,7 @@ export function renderMermaidChart(chart: string): Promise<string> {
     renderSeq += 1;
     const id = `hpcmmd${renderSeq}`;
     const { svg } = await withTimeout(mermaid.render(id, key), RENDER_MS);
-    svgCache.set(key, svg);
+    rememberSvg(key, svg);
     return svg;
   });
   renderChain = job.then(

@@ -19,7 +19,9 @@ export const dynamic = "force-static";
 
 export function GET() {
   const site = getSiteUrl();
-  const notes = getPublishedNotes().filter((note) => isIsoDate(note.date));
+  const notes = getPublishedNotes().filter(
+    (note) => isIsoDate(note.date) && note.parent == null,
+  );
   const items = notes
     .map((note) => {
       const url = `${site}/notes/${note.slug}`;

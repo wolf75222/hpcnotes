@@ -1,4 +1,5 @@
 import { isNoteSlug, isSafeTag, normalizeTag } from "../lib/slugs";
+import { isIsoDate } from "../lib/dates";
 import type { Note } from "./types";
 
 function unquote(value: string) {
@@ -55,7 +56,7 @@ function splitTagString(raw: string) {
   return value.split(",").map((item) => unquote(item.trim()));
 }
 
-function parseTags(value: string | string[] | undefined) {
+function parseTags(value: string | string[] | undefined, slug: string) {
   const parts = Array.isArray(value)
     ? value
     : value == null
@@ -65,7 +66,13 @@ function parseTags(value: string | string[] | undefined) {
   const seen = new Set<string>();
   for (const part of parts) {
     const tag = normalizeTag(part);
-    if (!isSafeTag(tag) || seen.has(tag)) {
+    if (!isSafeTag(tag)) {
+      if (part.trim() !== "") {
+        console.warn(`Note "${slug}" skipped tag "${part}".`);
+      }
+      continue;
+    }
+    if (seen.has(tag)) {
       continue;
     }
     seen.add(tag);
@@ -130,6 +137,9 @@ export function parseNoteMarkdown(slug: string, source: string): Note {
   if (date === "") {
     throw new Error(`Note "${slug}" is missing a date.`);
   }
+  if (!isIsoDate(date)) {
+    throw new Error(`Note "${slug}" has an invalid date "${date}".`);
+  }
 
   const summary = typeof fields.summary === "string" ? fields.summary : "";
   const authorRaw = typeof fields.author === "string" ? fields.author.trim() : "";
@@ -146,7 +156,7 @@ export function parseNoteMarkdown(slug: string, source: string): Note {
     summary,
     date,
     author: authorRaw === "" ? "hpcnotes" : authorRaw,
-    tags: parseTags(fields.tags),
+    tags: parseTags(fields.tags, slug),
     draft: parseDraft(draftRaw),
     parent,
     order: parseOrder(orderRaw),

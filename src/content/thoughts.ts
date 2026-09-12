@@ -158,7 +158,16 @@ export function noteContents(path: ThoughtNode[] | null): ThoughtRef[] {
   );
   const chapterLabel = labels[chapterIndex] ?? "1";
   if (chapter.children.length === 0) {
-    return [start, ...coverContents(root, labels)];
+    return [
+      start,
+      ...root.children.map((child, index) => ({
+        slug: child.note.slug,
+        title: child.note.title,
+        depth: 0,
+        label: labels[index] ?? String(index + 1),
+        hasChildren: false,
+      })),
+    ];
   }
   return [start, ...flattenThoughtRefs(chapter, 0, chapterLabel)];
 }

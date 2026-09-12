@@ -98,7 +98,6 @@ export function NoteArticle({
                 href={`/notes/${previous.slug}`}
                 label={previous.title}
                 meta="Previous"
-                ariaLabel={`Previous: ${previous.title}`}
               />
             ) : null}
             {next != null ? (
@@ -106,7 +105,6 @@ export function NoteArticle({
                 href={`/notes/${next.slug}`}
                 label={next.title}
                 meta="Next"
-                ariaLabel={`Next: ${next.title}`}
               />
             ) : null}
           </VStack>

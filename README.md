@@ -97,7 +97,7 @@ A **thought** is a short standalone article (`kind: thought`, the default).
 
 The home list shows notes and thoughts as two groups. Child pages stay inside their parent note. Nested contents start collapsed: a chevron unrolls a section in place (the title still opens the page). Numbers, dotted leaders, Next, and Previous are the same link as the title. A page inside a note has a Start row back to the cover, and small start / previous / next marks by the date. Previous and Next also stay as named leader rows. The HPC note is the nested example.
 
-A broken Markdown file is skipped with a warning; it does not fail the build.
+A broken Markdown file fails `npm run build`. In `npm run dev` it is skipped with a warning.
 
 Images and videos must be paths under `/media/…`. Remote URLs and anything that leaves that folder are not rendered.
 
@@ -105,8 +105,8 @@ Images and videos must be paths under `/media/…`. Remote URLs and anything tha
 | --- | --- |
 | `/` | Intro, then notes, then thoughts. Pages of a note live inside their parent |
 | `/notes/[slug]` | A page. Nested contents unroll with a chevron; numbers, Next / Previous, and start / previous / next marks turn the note |
-| `/explore` | All `#tags`, with counts |
-| `/feed.xml` | RSS of published notes |
+| `/explore` | `#tags` on listed notes (covers and standalone thoughts), with counts |
+| `/feed.xml` | RSS of published covers and thoughts, not every child page |
 
 ## Environment
 

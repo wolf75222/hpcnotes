@@ -30,7 +30,3 @@ export const PLAYLISTS: Playlist[] = [
     ],
   },
 ];
-
-export const PLAYLISTS_BY_SLUG = Object.fromEntries(
-  PLAYLISTS.map((playlist) => [playlist.slug, playlist]),
-) as Record<string, Playlist>;

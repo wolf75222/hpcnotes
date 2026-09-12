@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { VStack } from "@astryxdesign/core/Stack";
 import { SearchPalette } from "@/components/search-palette";
 import { PaperChrome } from "@/components/paper-chrome";
@@ -16,12 +16,12 @@ export function PaperMark({
   const [searchOpen, setSearchOpen] = useState(false);
   const searchButtonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
 
-  const onSearchOpenChange = (open: boolean) => {
+  const onSearchOpenChange = useCallback((open: boolean) => {
     setSearchOpen(open);
     if (!open) {
       window.requestAnimationFrame(() => searchButtonRef.current?.focus());
     }
-  };
+  }, []);
 
   return (
     <VStack gap={0}>

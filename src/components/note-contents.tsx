@@ -53,13 +53,6 @@ export function NoteContents({
               label={page.title}
               meta={page.label}
               depth={page.depth}
-              ariaLabel={
-                page.slug === activeSlug
-                  ? undefined
-                  : page.isRoot
-                    ? `Start of this note: ${page.title}`
-                    : `${page.label}. ${page.title}`
-              }
               mark={
                 page.hasChildren ? (
                   <Link

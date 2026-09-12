@@ -12,10 +12,6 @@ import { useDeferredLightbox } from "@/components/media-lightbox";
 
 const MAX_CHART = 12_000;
 
-if (typeof document !== "undefined") {
-  prefetchMermaid();
-}
-
 export function MermaidBlock({ chart }: { chart: string }) {
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);

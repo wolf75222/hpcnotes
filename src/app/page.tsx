@@ -3,17 +3,18 @@ import { Heading, Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { VisuallyHidden } from "@astryxdesign/core/VisuallyHidden";
 import { NoteList } from "@/components/note-list";
-import { getNotes } from "@/content/load-notes";
-import { buildThoughtForest, splitHomeLists } from "@/content/thoughts";
+import { getThoughtForest } from "@/content/load-notes";
+import { splitHomeLists } from "@/content/thoughts";
 
 export const metadata: Metadata = {
   title: { absolute: "hpcnotes.eu" },
   description:
     "Short notes on high-performance computing, and personal thoughts around HPC.",
+  alternates: { canonical: "/" },
 };
 
 export default function HomePage() {
-  const { notes, thoughts } = splitHomeLists(buildThoughtForest(getNotes()));
+  const { notes, thoughts } = splitHomeLists(getThoughtForest());
 
   return (
     <VStack gap={0}>

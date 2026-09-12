@@ -1,10 +1,22 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { CodeBlock } from "@astryxdesign/core/CodeBlock";
-import { MermaidBlock } from "@/components/mermaid-block";
+import { Text } from "@astryxdesign/core/Text";
 import { MathText } from "@/components/math-text";
 
 const MATH_LANGS = new Set(["math", "latex", "katex", "tex"]);
+
+const MermaidBlock = dynamic(
+  () => import("@/components/mermaid-block").then((mod) => mod.MermaidBlock),
+  {
+    loading: () => (
+      <Text type="supporting" color="secondary">
+        Drawing the diagram…
+      </Text>
+    ),
+  },
+);
 
 export function MarkdownCode({
   code,

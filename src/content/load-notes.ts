@@ -1,8 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { isNoteSlug } from "../lib/slugs";
-import type { Note, NoteIndex } from "./types";
+import type { Note, NoteIndex, ThoughtNode } from "./types";
 import { parseNoteMarkdown } from "./parse-note";
+import { buildThoughtForest } from "./thoughts";
 
 const NOTES_DIR = path.join(process.cwd(), "src/content/notes");
 
@@ -28,21 +29,11 @@ function readNotesFromDisk(): Note[] {
       notes.push(parseNoteMarkdown(slug, source));
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
+      if (process.env.NODE_ENV === "production") {
+        throw new Error(`${name}: ${message}`);
+      }
       console.warn(`Skipping ${name}: ${message}`);
     }
-  }
-  return notes;
-}
-
-let productionCache: Note[] | null = null;
-
-function loadNotes(): Note[] {
-  if (process.env.NODE_ENV === "production" && productionCache != null) {
-    return productionCache;
-  }
-  const notes = readNotesFromDisk();
-  if (process.env.NODE_ENV === "production") {
-    productionCache = notes;
   }
   return notes;
 }
@@ -70,8 +61,39 @@ export function toNoteIndex(note: Note): NoteIndex {
   };
 }
 
+export function isListedNote(note: NoteIndex) {
+  return note.parent == null;
+}
+
+interface Catalog {
+  parsed: Note[];
+  visible: Note[];
+  bySlug: Map<string, Note>;
+  forest: ThoughtNode[];
+}
+
+let productionCatalog: Catalog | null = null;
+
+function buildCatalog(parsed: Note[]): Catalog {
+  const visible = parsed.filter(isVisible).sort(byDateDesc);
+  return {
+    parsed,
+    visible,
+    bySlug: new Map(visible.map((note) => [note.slug, note])),
+    forest: buildThoughtForest(visible.map(toNoteIndex)),
+  };
+}
+
+function getCatalog(): Catalog {
+  if (process.env.NODE_ENV === "production") {
+    productionCatalog ??= buildCatalog(readNotesFromDisk());
+    return productionCatalog;
+  }
+  return buildCatalog(readNotesFromDisk());
+}
+
 export function getAllParsedNotes() {
-  return [...loadNotes()].sort(byDateDesc);
+  return [...getCatalog().parsed].sort(byDateDesc);
 }
 
 export function getPublishedNotes() {
@@ -79,18 +101,26 @@ export function getPublishedNotes() {
 }
 
 export function getNotes() {
-  return getAllParsedNotes().filter(isVisible);
+  return getCatalog().visible;
+}
+
+export function getListedNotes() {
+  return getNotes().filter(isListedNote);
 }
 
 export function getNoteIndex() {
   return getNotes().map(toNoteIndex);
 }
 
+export function getThoughtForest() {
+  return getCatalog().forest;
+}
+
 export function getNoteBySlug(slug: string) {
   if (!isNoteSlug(slug)) {
     return undefined;
   }
-  return getNotes().find((note) => note.slug === slug);
+  return getCatalog().bySlug.get(slug);
 }
 
 export function getNoteSlugs() {
