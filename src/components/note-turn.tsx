@@ -1,3 +1,5 @@
+"use client";
+
 import type { ComponentType, SVGProps } from "react";
 import { Icon } from "@astryxdesign/core/Icon";
 import { Link } from "@astryxdesign/core/Link";
