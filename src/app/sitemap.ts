@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getNotesByTag, getNotesByYear, getTags, getYears } from "@/content/catalog";
 import { getPublishedNotes } from "@/content/load-notes";
 import { isIsoDate } from "@/lib/dates";
+import { LEGAL_UPDATED_ISO } from "@/lib/legal";
 import { getSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-static";
@@ -34,6 +35,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${site}/explore`,
       lastModified: lastModified(newest),
       changeFrequency: "weekly",
+    },
+    {
+      url: `${site}/privacy`,
+      lastModified: lastModified(LEGAL_UPDATED_ISO),
+    },
+    {
+      url: `${site}/terms`,
+      lastModified: lastModified(LEGAL_UPDATED_ISO),
     },
     {
       url: `${site}/llms.txt`,

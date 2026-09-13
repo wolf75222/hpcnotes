@@ -1,6 +1,6 @@
 # hpcnotes.eu
 
-Private notes site for [hpcnotes.eu](https://hpcnotes.eu): short notes on high-performance computing, and personal thoughts around HPC. A white page, a list, a date.
+Private notes site for [hpcnotes.eu](https://hpcnotes.eu): short notes on high-performance computing, and personal thoughts around HPC. A white page, a list, a date. Quiet links for Privacy and Terms sit under the notes.
 
 This repository is meant to stay **private**. It holds the Next.js site, the Markdown notes, and a separate Chrome extension under `document/`.
 
@@ -102,17 +102,22 @@ The home list shows notes and thoughts as two groups. Child pages stay inside th
 A broken Markdown file fails `npm run build`. In `npm run dev` it is skipped with a warning.
 
 Local images and videos must be paths under `/media/…`. HTTPS raster images
-(`.png`, `.jpg`, `.gif`, `.webp`) and videos (`.mp4`, `.webm`) are also
-rendered. Remote SVG, `javascript:` URLs, and anything that leaves `/media/`
-on disk are not.
+(`.png`, `.jpg`, `.gif`, `.webp`, `.avif`) and videos (`.mp4`, `.webm`) are also
+rendered. Still rasters (PNG, JPEG, WebP, AVIF) are compressed on the fly to
+AVIF or WebP at the size of the column. GIFs stay animated. SVG stays vector.
+Remote SVG, `javascript:` URLs, and anything that leaves `/media/` on disk are
+not. Every figure needs alt text in the Markdown (`![what it shows](…)`); an
+empty alt falls back to “Figure”.
 
 | Route | What it is |
 | --- | --- |
 | `/` | Intro, then notes, then thoughts. Pages of a note live inside their parent |
 | `/notes/[slug]` | A page. Nested contents unroll with a chevron; numbers, Next / Previous, and start / previous / next marks turn the note |
 | `/explore` | `#tags` on listed notes (covers and standalone thoughts), with counts |
+| `/privacy` | Privacy policy. `/privacy-policy` redirects here |
+| `/terms` | Terms and conditions. `/terms-and-conditions` redirects here |
 | `/feed.xml` | RSS of published covers and thoughts, not every child page |
-| `/sitemap.xml` | Published notes, explore, tags, and years |
+| `/sitemap.xml` | Published notes, explore, tags, years, privacy, and terms |
 | `/robots.txt` | Allow all, with a pointer to the sitemap |
 | `/opengraph-image` | Default share image. Each note also has its own |
 | `/llms.txt` | Index of notes for language models, with `.md` links |

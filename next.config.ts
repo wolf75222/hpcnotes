@@ -14,6 +14,15 @@ const nextConfig: NextConfig = {
   transpilePackages: ["katex"],
   allowedDevOrigins: ["127.0.0.1", "localhost"],
   devIndicators: false,
+  images: {
+    formats: ["image/avif", "image/webp"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
   async headers() {
     return [
       {
@@ -40,6 +49,16 @@ const nextConfig: NextConfig = {
       { source: "/tags", destination: "/explore", permanent: true },
       { source: "/years", destination: "/", permanent: true },
       { source: "/about", destination: "/", permanent: true },
+      {
+        source: "/privacy-policy",
+        destination: "/privacy",
+        permanent: true,
+      },
+      {
+        source: "/terms-and-conditions",
+        destination: "/terms",
+        permanent: true,
+      },
       ...getNoteSlugs().map((slug) => ({
         source: `/${slug}`,
         destination: `/notes/${slug}`,

@@ -1,6 +1,22 @@
 const LOCAL_MEDIA = /^\/media\/[A-Za-z0-9._/-]+$/;
 const REMOTE_RASTER = /\.(?:png|jpe?g|gif|webp|avif)$/i;
+const STILL_RASTER = /\.(?:png|jpe?g|webp|avif)$/i;
 const VIDEO_EXT = /\.(?:mp4|webm|ogg)$/i;
+
+export function mediaPathname(src: string) {
+  if (src.startsWith("/")) {
+    return src;
+  }
+  try {
+    return new URL(src).pathname;
+  } catch {
+    return src;
+  }
+}
+
+export function isCompressibleRasterSrc(src: string) {
+  return isSafeMediaSrc(src) && STILL_RASTER.test(mediaPathname(src));
+}
 
 function isCleanPath(src: string) {
   return (

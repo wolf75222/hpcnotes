@@ -17,6 +17,10 @@ export default function GlobalError({
     <html lang="en" data-theme="light" className={sans.variable}>
       <body>
         <title>This page failed · hpcnotes.eu</title>
+        <meta
+          name="description"
+          content="This page did not render. Try again, or go back to the list."
+        />
         <Providers>
           <PaperFrame notes={[]}>
             <FaultPage error={error} retry={retry} />

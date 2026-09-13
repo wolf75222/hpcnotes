@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Heading } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { EmptyNotes } from "@/components/empty-notes";
@@ -6,20 +5,15 @@ import { JsonLd } from "@/components/json-ld";
 import { LeaderRow } from "@/components/leader-row";
 import { getTags } from "@/content/catalog";
 import { collectionJsonLd } from "@/lib/json-ld";
+import { pageMetadata } from "@/lib/page-metadata";
 
 const description = "Browse published HPC notes by tag.";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Explore",
   description,
-  alternates: { canonical: "/explore" },
-  openGraph: {
-    type: "website",
-    url: "/explore",
-    title: "Explore",
-    description,
-  },
-};
+  path: "/explore",
+});
 
 export default function ExplorePage() {
   const tags = [...getTags()].sort(

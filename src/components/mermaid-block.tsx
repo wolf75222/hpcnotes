@@ -48,7 +48,7 @@ export function MermaidBlock({ chart }: { chart: string }) {
     [svg],
   );
   const media = useMemo(
-    () => ({ src, alt: "Diagram", type: "image" as const }),
+    () => ({ src, alt: "Rendered diagram", type: "image" as const }),
     [src],
   );
   const { openLightbox, element } = useDeferredLightbox(media, true);
@@ -75,13 +75,18 @@ export function MermaidBlock({ chart }: { chart: string }) {
         type="button"
         className="md-image-trigger"
         aria-haspopup="dialog"
-        aria-label="Open diagram"
+        aria-label="Open rendered diagram"
         onClick={openLightbox}
       >
         <figure className="md-mermaid">
           {/* Sandboxed SVG via data URL; never inject mermaid markup. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt="Diagram" className="md-image" decoding="async" />
+          <img
+            src={src}
+            alt="Rendered diagram"
+            className="md-image"
+            decoding="async"
+          />
         </figure>
       </button>
       {element}

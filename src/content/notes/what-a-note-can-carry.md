@@ -90,9 +90,11 @@ Strong scaling is the ratio of serial time to $p$ times parallel time. If $E(p)$
 
 ## Figures and gifs
 
-A Markdown image is a figure. Put files in `public/media/` and link them with `/media/…`. An `https://` URL to a `.png`, `.jpg`, `.gif`, or `.webp` is also a figure. Click a still for a lightbox. GIFs animate in place and in the lightbox. A `.mp4` or `.webm` is a video.
+A Markdown image is a figure. Put files in `public/media/` and link them with `/media/…`. An `https://` URL to a `.png`, `.jpg`, `.gif`, `.webp`, or `.avif` is also a figure. Still rasters are compressed on the fly. Click a still for a lightbox. GIFs animate in place and in the lightbox. A `.mp4` or `.webm` is a video.
 
 ![Four ranks on a mesh, each with a neighbour exchange](/media/ranks.svg)
+
+![Four ranks on a mesh, as a compressed raster](/media/ranks.png)
 
 ![A pulse you should not run on the login node](/media/heartbeat.gif)
 

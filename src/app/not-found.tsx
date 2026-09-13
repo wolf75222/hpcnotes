@@ -1,10 +1,7 @@
-import type { Metadata } from "next";
 import { EmptyNotes } from "@/components/empty-notes";
+import { notFoundMetadata } from "@/lib/page-metadata";
 
-export const metadata: Metadata = {
-  title: "Not found",
-  robots: { index: false, follow: false },
-};
+export const metadata = notFoundMetadata();
 
 export default function NotFound() {
   return (

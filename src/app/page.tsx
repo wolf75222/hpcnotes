@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Heading, Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { VisuallyHidden } from "@astryxdesign/core/VisuallyHidden";
@@ -7,22 +6,18 @@ import { JsonLd } from "@/components/json-ld";
 import { getThoughtForest } from "@/content/load-notes";
 import { splitHomeLists } from "@/content/thoughts";
 import { homeJsonLd } from "@/lib/json-ld";
+import { pageMetadata } from "@/lib/page-metadata";
 import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site-url";
 
-export const metadata: Metadata = {
-  title: { absolute: SITE_NAME },
+export const metadata = pageMetadata({
+  title: SITE_NAME,
   description: SITE_DESCRIPTION,
+  path: "/",
+  absoluteTitle: true,
   alternates: {
-    canonical: "/",
     types: { "text/markdown": "/llms.txt" },
   },
-  openGraph: {
-    type: "website",
-    url: "/",
-    title: SITE_NAME,
-    description: SITE_DESCRIPTION,
-  },
-};
+});
 
 export default function HomePage() {
   const { notes, thoughts } = splitHomeLists(getThoughtForest());

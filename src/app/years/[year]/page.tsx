@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/json-ld";
 import { NoteList } from "@/components/note-list";
 import { getNotesByYear, getYears } from "@/content/catalog";
 import { collectionJsonLd } from "@/lib/json-ld";
+import { notFoundMetadata, pageMetadata } from "@/lib/page-metadata";
 
 export const dynamicParams = false;
 
@@ -20,23 +21,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { year } = await params;
   if (!/^\d{4}$/.test(year)) {
-    return {
-      title: "Not found",
-      robots: { index: false, follow: false },
-    };
+    return notFoundMetadata();
   }
   const description = `HPC notes from ${year}.`;
-  return {
+  return pageMetadata({
     title: `Notes from ${year}`,
     description,
-    alternates: { canonical: `/years/${year}` },
-    openGraph: {
-      type: "website",
-      url: `/years/${year}`,
-      title: `Notes from ${year}`,
-      description,
-    },
-  };
+    path: `/years/${year}`,
+  });
 }
 
 export default async function YearPage({

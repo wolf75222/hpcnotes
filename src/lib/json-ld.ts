@@ -30,6 +30,37 @@ export function homeJsonLd() {
   };
 }
 
+export function webPageJsonLd({
+  name,
+  description,
+  path,
+  dateModified,
+}: {
+  name: string;
+  description: string;
+  path: string;
+  dateModified?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      websiteNode(),
+      {
+        "@type": "WebPage",
+        name,
+        description,
+        url: absoluteUrl(path),
+        inLanguage: "en",
+        dateModified:
+          dateModified != null && isIsoDate(dateModified)
+            ? `${dateModified}T00:00:00.000Z`
+            : undefined,
+        isPartOf: { "@id": `${getSiteUrl()}/#website` },
+      },
+    ],
+  };
+}
+
 export function collectionJsonLd({
   name,
   description,

@@ -3,6 +3,7 @@
 import { Markdown } from "@astryxdesign/core/Markdown";
 import { Link } from "@astryxdesign/core/Link";
 import { Heading, Text } from "@astryxdesign/core/Text";
+import { VStack } from "@astryxdesign/core/Stack";
 import { Code } from "@astryxdesign/core/CodeBlock";
 import { MathText } from "@/components/math-text";
 import { MarkdownCode } from "@/components/markdown-code";
@@ -48,7 +49,7 @@ const mathPlugins: MarkdownInlinePlugin[] = [
 
 export function MarkdownDoc({ children }: { children: string }) {
   return (
-    <div className="md-doc">
+    <VStack gap={0} className="md-doc">
       <Markdown
         headingLevelStart={1}
         contentWidth={640}
@@ -74,6 +75,6 @@ export function MarkdownDoc({ children }: { children: string }) {
       >
         {liftDisplayMath(children)}
       </Markdown>
-    </div>
+    </VStack>
   );
 }

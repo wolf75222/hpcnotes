@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/json-ld";
 import { NoteList } from "@/components/note-list";
 import { getNotesByTag, getTags } from "@/content/catalog";
 import { collectionJsonLd } from "@/lib/json-ld";
+import { notFoundMetadata, pageMetadata } from "@/lib/page-metadata";
 import { isSafeTag, normalizeTag, safeDecodeParam } from "@/lib/slugs";
 
 export const dynamicParams = false;
@@ -22,23 +23,14 @@ export async function generateMetadata({
   const { tag } = await params;
   const decoded = normalizeTag(safeDecodeParam(tag));
   if (!isSafeTag(decoded)) {
-    return {
-      title: "Not found",
-      robots: { index: false, follow: false },
-    };
+    return notFoundMetadata();
   }
   const description = `HPC notes tagged ${decoded}.`;
-  return {
+  return pageMetadata({
     title: `Notes tagged ${decoded}`,
     description,
-    alternates: { canonical: `/tags/${encodeURIComponent(decoded)}` },
-    openGraph: {
-      type: "website",
-      url: `/tags/${encodeURIComponent(decoded)}`,
-      title: `#${decoded}`,
-      description,
-    },
-  };
+    path: `/tags/${encodeURIComponent(decoded)}`,
+  });
 }
 
 export default async function TagPage({

@@ -12,6 +12,7 @@ import {
 } from "@/content/thoughts";
 import { noteJsonLd } from "@/lib/json-ld";
 import { notePageMetadata } from "@/lib/note-metadata";
+import { notFoundMetadata } from "@/lib/page-metadata";
 import { formatReadingTime, readingMinutes } from "@/lib/reading-time";
 import { isNoteSlug, safeDecodeParam } from "@/lib/slugs";
 import type { ThoughtNode } from "@/content/types";
@@ -30,10 +31,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const note = getNoteBySlug(safeDecodeParam(slug));
   if (note == null) {
-    return {
-      title: "Not found",
-      robots: { index: false, follow: false },
-    };
+    return notFoundMetadata();
   }
   return notePageMetadata(note);
 }
