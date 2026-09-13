@@ -126,3 +126,14 @@ export function getNoteBySlug(slug: string) {
 export function getNoteSlugs() {
   return getNotes().map((note) => note.slug);
 }
+
+export function getNoteSource(slug: string) {
+  if (getNoteBySlug(slug) == null) {
+    return undefined;
+  }
+  const file = path.join(NOTES_DIR, `${slug}.md`);
+  if (!fs.existsSync(file)) {
+    return undefined;
+  }
+  return fs.readFileSync(file, "utf8");
+}

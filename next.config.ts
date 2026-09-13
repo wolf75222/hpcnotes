@@ -8,6 +8,10 @@ const securityHeaders = [
     key: "Permissions-Policy",
     value: "camera=(), microphone=(), geolocation=()",
   },
+  {
+    key: "Link",
+    value: '</llms.txt>; rel="describedby"; type="text/markdown"',
+  },
 ];
 
 const nextConfig: NextConfig = {
@@ -45,6 +49,25 @@ const nextConfig: NextConfig = {
         destination: `/notes/${slug}`,
         permanent: true,
       })),
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/notes/:slug.md",
+        destination: "/notes/md/:slug",
+      },
+      {
+        source: "/notes/:slug",
+        destination: "/notes/md/:slug",
+        has: [
+          {
+            type: "header",
+            key: "accept",
+            value: "(.*)text/markdown(.*)",
+          },
+        ],
+      },
     ];
   },
 };

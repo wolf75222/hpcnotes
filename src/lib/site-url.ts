@@ -32,3 +32,7 @@ export function absoluteUrl(path = "/") {
 export function noteUrl(slug: string) {
   return absoluteUrl(`/notes/${slug}`);
 }
+
+export function noteMarkdownUrl(slug: string) {
+  return absoluteUrl(`/notes/${slug}.md`);
+}

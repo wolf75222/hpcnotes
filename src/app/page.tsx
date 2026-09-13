@@ -12,7 +12,10 @@ import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site-url";
 export const metadata: Metadata = {
   title: { absolute: SITE_NAME },
   description: SITE_DESCRIPTION,
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    types: { "text/markdown": "/llms.txt" },
+  },
   openGraph: {
     type: "website",
     url: "/",

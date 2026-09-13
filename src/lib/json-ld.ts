@@ -1,6 +1,6 @@
 import type { Note, NoteIndex } from "@/content/types";
 import { isIsoDate } from "@/lib/dates";
-import { SITE_DESCRIPTION, SITE_NAME, absoluteUrl, getSiteUrl, noteUrl } from "@/lib/site-url";
+import { SITE_DESCRIPTION, SITE_NAME, absoluteUrl, getSiteUrl, noteMarkdownUrl, noteUrl } from "@/lib/site-url";
 
 export function serializeJsonLd(data: unknown) {
   return JSON.stringify(data).replace(/</g, "\\u003c");
@@ -104,6 +104,11 @@ export function noteJsonLd(note: Note, ancestors: NoteIndex[]) {
         keywords: note.tags,
         wordCount: wordCount(note.body),
         isPartOf: { "@id": `${site}/#website` },
+        associatedMedia: {
+          "@type": "MediaObject",
+          contentUrl: noteMarkdownUrl(note.slug),
+          encodingFormat: "text/markdown",
+        },
       },
       {
         "@type": "BreadcrumbList",

@@ -35,6 +35,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: lastModified(newest),
       changeFrequency: "weekly",
     },
+    {
+      url: `${site}/llms.txt`,
+      lastModified: lastModified(newest),
+    },
+    {
+      url: `${site}/llms-full.txt`,
+      lastModified: lastModified(newest),
+    },
     ...notes.map((note) => ({
       url: `${site}/notes/${note.slug}`,
       lastModified: lastModified(note.date),

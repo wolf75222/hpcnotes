@@ -115,6 +115,9 @@ on disk are not.
 | `/sitemap.xml` | Published notes, explore, tags, and years |
 | `/robots.txt` | Allow all, with a pointer to the sitemap |
 | `/opengraph-image` | Default share image. Each note also has its own |
+| `/llms.txt` | Index of notes for language models, with `.md` links |
+| `/llms-full.txt` | Every published note as one Markdown file |
+| `/notes/[slug].md` | Raw Markdown for that note. `Accept: text/markdown` on the HTML URL also works |
 | unmatched URL | 404. Missing `/notes/…` slugs say the note is not here. A render failure shows Try again |
 
 ## Environment
@@ -133,7 +136,7 @@ Without the AdSense values the site still runs and ad regions stay hidden. Do no
 
 ## Hosting
 
-Push this private repository to [Vercel](https://vercel.com) and import it with a GitHub connection that can read private repos. The default Node runtime is enough. Set `NEXT_PUBLIC_SITE_URL` to the public origin (`https://hpcnotes.eu`). After the first production deploy, submit `https://hpcnotes.eu/sitemap.xml` in Google Search Console. Point the apex and `www` at Vercel, with `www` redirecting to the apex.
+Push this private repository to [Vercel](https://vercel.com) and import it with a GitHub connection that can read private repos. The default Node runtime is enough. Set `NEXT_PUBLIC_SITE_URL` to the public origin (`https://hpcnotes.eu`). After the first production deploy, submit `https://hpcnotes.eu/sitemap.xml` in Google Search Console. Language-model crawlers can use `https://hpcnotes.eu/llms.txt`. Point the apex and `www` at Vercel, with `www` redirecting to the apex.
 
 ## Design system
 

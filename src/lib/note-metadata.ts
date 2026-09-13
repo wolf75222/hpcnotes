@@ -16,7 +16,18 @@ export function notePageMetadata(note: Note): Metadata {
     authors: [{ name: note.author || "hpcnotes" }],
     keywords: note.tags,
     category: note.tags[0],
-    alternates: { canonical },
+    alternates: {
+      canonical,
+      types: {
+        "text/markdown": `/notes/${note.slug}.md`,
+      },
+    },
+    other: {
+      citation_title: note.title,
+      citation_author: note.author || "hpcnotes",
+      citation_publication_date: note.date,
+      citation_language: "en",
+    },
     openGraph: {
       type: "article",
       url: canonical,
