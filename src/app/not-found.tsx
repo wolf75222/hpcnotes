@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { MissingPost } from "@/components/missing-post";
+import { EmptyNotes } from "@/components/empty-notes";
 
 export const metadata: Metadata = {
   title: "Not found",
@@ -7,5 +7,11 @@ export const metadata: Metadata = {
 };
 
 export default function NotFound() {
-  return <MissingPost />;
+  return (
+    <EmptyNotes
+      title="Not here"
+      description="The address may have moved, or it never existed."
+      headingLevel={1}
+    />
+  );
 }

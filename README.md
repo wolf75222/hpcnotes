@@ -112,6 +112,9 @@ on disk are not.
 | `/notes/[slug]` | A page. Nested contents unroll with a chevron; numbers, Next / Previous, and start / previous / next marks turn the note |
 | `/explore` | `#tags` on listed notes (covers and standalone thoughts), with counts |
 | `/feed.xml` | RSS of published covers and thoughts, not every child page |
+| `/sitemap.xml` | Published notes, explore, tags, and years |
+| `/robots.txt` | Allow all, with a pointer to the sitemap |
+| unmatched URL | 404. Missing `/notes/…` slugs say the note is not here. A render failure shows Try again |
 
 ## Environment
 

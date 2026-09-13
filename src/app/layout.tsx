@@ -1,17 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { Source_Sans_3 } from "next/font/google";
 import { Providers } from "./providers";
+import { sans } from "./sans";
 import { SiteShell } from "@/components/site-shell";
 import { getAdSenseConfig } from "@/lib/ads";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
-
-const sans = Source_Sans_3({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-sans",
-});
 
 const site = getSiteUrl();
 const description =
