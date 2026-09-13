@@ -5,6 +5,8 @@ import { VStack } from "@astryxdesign/core/Stack";
 import { NoteList } from "@/components/note-list";
 import { getNotesByYear, getYears } from "@/content/catalog";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return getYears().map(({ year }) => ({ year }));
 }

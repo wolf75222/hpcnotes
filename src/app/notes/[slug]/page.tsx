@@ -13,6 +13,8 @@ import { formatReadingTime, readingMinutes } from "@/lib/reading-time";
 import { isNoteSlug, safeDecodeParam } from "@/lib/slugs";
 import type { ThoughtNode } from "@/content/types";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return getNotes().map((note) => ({ slug: note.slug }));
 }

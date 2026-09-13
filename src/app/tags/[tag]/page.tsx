@@ -6,6 +6,8 @@ import { NoteList } from "@/components/note-list";
 import { getNotesByTag, getTags } from "@/content/catalog";
 import { isSafeTag, normalizeTag, safeDecodeParam } from "@/lib/slugs";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return getTags().map(({ tag }) => ({ tag }));
 }
