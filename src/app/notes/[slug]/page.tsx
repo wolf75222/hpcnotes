@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { preload } from "react-dom";
 import { NoteArticle } from "@/components/note-article";
+import { JsonLd } from "@/components/json-ld";
 import { getNoteBySlug, getNotes, getThoughtForest, toNoteIndex } from "@/content/load-notes";
 import { getRelatedNotes } from "@/content/catalog";
 import {
@@ -9,6 +10,8 @@ import {
   noteContents,
   thoughtNeighbors,
 } from "@/content/thoughts";
+import { noteJsonLd } from "@/lib/json-ld";
+import { notePageMetadata } from "@/lib/note-metadata";
 import { formatReadingTime, readingMinutes } from "@/lib/reading-time";
 import { isNoteSlug, safeDecodeParam } from "@/lib/slugs";
 import type { ThoughtNode } from "@/content/types";
@@ -32,19 +35,7 @@ export async function generateMetadata({
       robots: { index: false, follow: false },
     };
   }
-  const description = note.summary.trim() || note.title;
-  return {
-    title: note.title,
-    description,
-    alternates: { canonical: `/notes/${note.slug}` },
-    openGraph: {
-      type: "article",
-      title: note.title,
-      description,
-      publishedTime: note.date,
-      tags: note.tags,
-    },
-  };
+  return notePageMetadata(note);
 }
 
 function minutesForTree(node: ThoughtNode): number {
@@ -87,14 +78,17 @@ export default async function NotePage({
   }
 
   return (
-    <NoteArticle
-      note={note}
-      related={getRelatedNotes(note.slug).map(toNoteIndex)}
-      ancestors={ancestors}
-      contents={contents}
-      previous={previous}
-      next={next}
-      readingLabel={readingLabel}
-    />
+    <>
+      <JsonLd data={noteJsonLd(note, ancestors)} />
+      <NoteArticle
+        note={note}
+        related={getRelatedNotes(note.slug).map(toNoteIndex)}
+        ancestors={ancestors}
+        contents={contents}
+        previous={previous}
+        next={next}
+        readingLabel={readingLabel}
+      />
+    </>
   );
 }

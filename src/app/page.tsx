@@ -3,21 +3,31 @@ import { Heading, Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { VisuallyHidden } from "@astryxdesign/core/VisuallyHidden";
 import { NoteList } from "@/components/note-list";
+import { JsonLd } from "@/components/json-ld";
 import { getThoughtForest } from "@/content/load-notes";
 import { splitHomeLists } from "@/content/thoughts";
+import { homeJsonLd } from "@/lib/json-ld";
+import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site-url";
 
 export const metadata: Metadata = {
-  title: { absolute: "hpcnotes.eu" },
-  description:
-    "Short notes on high-performance computing, and personal thoughts around HPC.",
+  title: { absolute: SITE_NAME },
+  description: SITE_DESCRIPTION,
   alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function HomePage() {
   const { notes, thoughts } = splitHomeLists(getThoughtForest());
 
   return (
-    <VStack gap={0}>
+    <>
+      <JsonLd data={homeJsonLd()} />
+      <VStack gap={0}>
       <VisuallyHidden>
         <Heading level={1}>hpcnotes</Heading>
       </VisuallyHidden>
@@ -53,5 +63,6 @@ export default function HomePage() {
         ) : null}
       </VStack>
     </VStack>
+    </>
   );
 }

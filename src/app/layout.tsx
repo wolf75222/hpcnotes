@@ -4,29 +4,31 @@ import { Providers } from "./providers";
 import { sans } from "./sans";
 import { SiteShell } from "@/components/site-shell";
 import { getAdSenseConfig } from "@/lib/ads";
-import { getSiteUrl } from "@/lib/site-url";
+import { SITE_DESCRIPTION, SITE_NAME, getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const site = getSiteUrl();
-const description =
-  "Short notes on high-performance computing, and personal thoughts around HPC.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site),
   title: {
-    default: "hpcnotes.eu",
-    template: "%s · hpcnotes.eu",
+    default: SITE_NAME,
+    template: `%s · ${SITE_NAME}`,
   },
-  description,
-  applicationName: "hpcnotes.eu",
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: "hpcnotes", url: site }],
+  creator: "hpcnotes",
+  publisher: SITE_NAME,
+  category: "technology",
   keywords: [
     "HPC",
     "high-performance computing",
     "Slurm",
     "MPI",
     "GPU",
-    "notes",
     "cluster",
+    "notes",
   ],
   alternates: {
     types: {
@@ -37,19 +39,29 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: site,
-    siteName: "hpcnotes.eu",
-    title: "hpcnotes.eu",
-    description,
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
   },
   twitter: {
-    card: "summary",
-    title: "hpcnotes.eu",
-    description,
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
+  ...(process.env.GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
+    : {}),
 };
 
 export const viewport: Viewport = {

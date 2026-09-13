@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getTags, getYears } from "@/content/catalog";
+import { getNotesByTag, getNotesByYear, getTags, getYears } from "@/content/catalog";
 import { getPublishedNotes } from "@/content/load-notes";
 import { isIsoDate } from "@/lib/dates";
 import { getSiteUrl } from "@/lib/site-url";
@@ -10,15 +10,19 @@ function lastModified(iso: string | undefined) {
   return iso != null && isIsoDate(iso) ? iso : undefined;
 }
 
+function newestDate(dates: string[]) {
+  return dates.reduce((latest, date) => {
+    if (!isIsoDate(date)) {
+      return latest;
+    }
+    return latest == null || date > latest ? date : latest;
+  }, undefined as string | undefined);
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const site = getSiteUrl();
   const notes = getPublishedNotes();
-  const newest = notes.reduce((latest, note) => {
-    if (!isIsoDate(note.date)) {
-      return latest;
-    }
-    return latest == null || note.date > latest ? note.date : latest;
-  }, undefined as string | undefined);
+  const newest = newestDate(notes.map((note) => note.date));
 
   return [
     {
@@ -37,9 +41,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...getTags().map(({ tag }) => ({
       url: `${site}/tags/${encodeURIComponent(tag)}`,
+      lastModified: lastModified(
+        newestDate(getNotesByTag(tag).map((note) => note.date)),
+      ),
     })),
     ...getYears().map(({ year }) => ({
       url: `${site}/years/${year}`,
+      lastModified: lastModified(
+        newestDate(getNotesByYear(year).map((note) => note.date)),
+      ),
     })),
   ];
 }

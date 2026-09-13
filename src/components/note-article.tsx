@@ -31,10 +31,16 @@ export function NoteArticle({
   const isCover = ancestors.length === 0 && contents.length > 0;
 
   return (
-    <VStack gap={10}>
+    <VStack gap={10} as="article">
       <VStack gap={1}>
         {ancestors.length > 0 ? (
-          <HStack gap={1} align="center" wrap="wrap">
+          <HStack
+            gap={1}
+            align="center"
+            wrap="wrap"
+            as="nav"
+            aria-label="Breadcrumb"
+          >
             {ancestors.flatMap((item, index) => [
               index > 0 ? (
                 <Text key={`sep-${item.slug}`} type="supporting" color="secondary">
@@ -62,7 +68,7 @@ export function NoteArticle({
                 type="supporting"
                 label={`Notes from ${noteYear(note.date)}`}
               >
-                {formatDotDate(note.date)}
+                <time dateTime={note.date}>{formatDotDate(note.date)}</time>
               </Link>
             ) : (
               <Text type="supporting" color="secondary" hasTabularNumbers>

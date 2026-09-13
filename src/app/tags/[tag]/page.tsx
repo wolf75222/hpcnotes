@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Heading } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
+import { JsonLd } from "@/components/json-ld";
 import { NoteList } from "@/components/note-list";
 import { getNotesByTag, getTags } from "@/content/catalog";
+import { collectionJsonLd } from "@/lib/json-ld";
 import { isSafeTag, normalizeTag, safeDecodeParam } from "@/lib/slugs";
 
 export const dynamicParams = false;
@@ -25,10 +27,17 @@ export async function generateMetadata({
       robots: { index: false, follow: false },
     };
   }
+  const description = `HPC notes tagged ${decoded}.`;
   return {
-    title: `#${decoded}`,
-    description: `Notes tagged ${decoded}.`,
+    title: `Notes tagged ${decoded}`,
+    description,
     alternates: { canonical: `/tags/${encodeURIComponent(decoded)}` },
+    openGraph: {
+      type: "website",
+      url: `/tags/${encodeURIComponent(decoded)}`,
+      title: `#${decoded}`,
+      description,
+    },
   };
 }
 
@@ -46,13 +55,23 @@ export default async function TagPage({
   if (notes.length === 0) {
     notFound();
   }
+  const description = `HPC notes tagged ${decoded}.`;
 
   return (
-    <VStack gap={6}>
+    <>
+      <JsonLd
+        data={collectionJsonLd({
+          name: `#${decoded}`,
+          description,
+          path: `/tags/${encodeURIComponent(decoded)}`,
+        })}
+      />
+      <VStack gap={6}>
       <Heading level={1} color="primary">
         #{decoded}
       </Heading>
       <NoteList notes={notes} grouped showSummary />
     </VStack>
+    </>
   );
 }

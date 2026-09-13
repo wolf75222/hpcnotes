@@ -2,13 +2,23 @@ import type { Metadata } from "next";
 import { Heading } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { EmptyNotes } from "@/components/empty-notes";
+import { JsonLd } from "@/components/json-ld";
 import { LeaderRow } from "@/components/leader-row";
 import { getTags } from "@/content/catalog";
+import { collectionJsonLd } from "@/lib/json-ld";
+
+const description = "Browse published HPC notes by tag.";
 
 export const metadata: Metadata = {
   title: "Explore",
-  description: "Browse notes by tag.",
+  description,
   alternates: { canonical: "/explore" },
+  openGraph: {
+    type: "website",
+    url: "/explore",
+    title: "Explore",
+    description,
+  },
 };
 
 export default function ExplorePage() {
@@ -27,7 +37,15 @@ export default function ExplorePage() {
   }
 
   return (
-    <VStack gap={8}>
+    <>
+      <JsonLd
+        data={collectionJsonLd({
+          name: "Explore",
+          description,
+          path: "/explore",
+        })}
+      />
+      <VStack gap={8}>
       <Heading level={1} color="primary">
         Explore
       </Heading>
@@ -42,5 +60,6 @@ export default function ExplorePage() {
         ))}
       </VStack>
     </VStack>
+    </>
   );
 }

@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Heading } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
+import { JsonLd } from "@/components/json-ld";
 import { NoteList } from "@/components/note-list";
 import { getNotesByYear, getYears } from "@/content/catalog";
+import { collectionJsonLd } from "@/lib/json-ld";
 
 export const dynamicParams = false;
 
@@ -23,10 +25,17 @@ export async function generateMetadata({
       robots: { index: false, follow: false },
     };
   }
+  const description = `HPC notes from ${year}.`;
   return {
-    title: year,
-    description: `Notes from ${year}.`,
+    title: `Notes from ${year}`,
+    description,
     alternates: { canonical: `/years/${year}` },
+    openGraph: {
+      type: "website",
+      url: `/years/${year}`,
+      title: `Notes from ${year}`,
+      description,
+    },
   };
 }
 
@@ -43,13 +52,23 @@ export default async function YearPage({
   if (notes.length === 0) {
     notFound();
   }
+  const description = `HPC notes from ${year}.`;
 
   return (
-    <VStack gap={6}>
-      <Heading level={1} color="primary">
-        {year}
-      </Heading>
-      <NoteList notes={notes} showSummary />
-    </VStack>
+    <>
+      <JsonLd
+        data={collectionJsonLd({
+          name: `Notes from ${year}`,
+          description,
+          path: `/years/${year}`,
+        })}
+      />
+      <VStack gap={6}>
+        <Heading level={1} color="primary">
+          {year}
+        </Heading>
+        <NoteList notes={notes} showSummary />
+      </VStack>
+    </>
   );
 }

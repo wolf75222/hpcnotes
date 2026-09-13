@@ -114,6 +114,7 @@ on disk are not.
 | `/feed.xml` | RSS of published covers and thoughts, not every child page |
 | `/sitemap.xml` | Published notes, explore, tags, and years |
 | `/robots.txt` | Allow all, with a pointer to the sitemap |
+| `/opengraph-image` | Default share image. Each note also has its own |
 | unmatched URL | 404. Missing `/notes/…` slugs say the note is not here. A render failure shows Try again |
 
 ## Environment
@@ -125,13 +126,14 @@ NEXT_PUBLIC_ADSENSE_CLIENT=ca-pub-xxxxxxxxxxxxxxxx
 NEXT_PUBLIC_ADSENSE_SLOT_INFEED=
 NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE=
 NEXT_PUBLIC_SITE_URL=https://hpcnotes.eu
+GOOGLE_SITE_VERIFICATION=
 ```
 
-Without the AdSense values the site still runs and ad regions stay hidden. Do not click your own ads. `NEXT_PUBLIC_SITE_URL` should be the public origin so RSS links are absolute.
+Without the AdSense values the site still runs and ad regions stay hidden. Do not click your own ads. `NEXT_PUBLIC_SITE_URL` should be the public origin so RSS, sitemap, and Open Graph URLs are absolute. `GOOGLE_SITE_VERIFICATION` is optional (Search Console HTML-tag method).
 
 ## Hosting
 
-Push this private repository to [Vercel](https://vercel.com) and import it with a GitHub connection that can read private repos. The default Node runtime is enough. Set `NEXT_PUBLIC_SITE_URL` to the public origin.
+Push this private repository to [Vercel](https://vercel.com) and import it with a GitHub connection that can read private repos. The default Node runtime is enough. Set `NEXT_PUBLIC_SITE_URL` to the public origin (`https://hpcnotes.eu`). After the first production deploy, submit `https://hpcnotes.eu/sitemap.xml` in Google Search Console. Point the apex and `www` at Vercel, with `www` redirecting to the apex.
 
 ## Design system
 
