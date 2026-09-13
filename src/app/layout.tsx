@@ -76,6 +76,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 
   return (
     <html lang="en" data-theme="light" className={sans.variable}>
+      <head>
+        <link rel="describedby" href="/llms.txt" type="text/markdown" />
+      </head>
       <body>
         <Providers>
           <SiteShell>{children}</SiteShell>

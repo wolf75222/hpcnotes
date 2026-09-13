@@ -8,10 +8,6 @@ const securityHeaders = [
     key: "Permissions-Policy",
     value: "camera=(), microphone=(), geolocation=()",
   },
-  {
-    key: "Link",
-    value: '</llms.txt>; rel="describedby"; type="text/markdown"',
-  },
 ];
 
 const nextConfig: NextConfig = {
