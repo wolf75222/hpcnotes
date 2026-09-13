@@ -59,6 +59,7 @@ export function paperOgImage({
             color: "#737373",
             fontSize: 28,
             letterSpacing: "-0.02em",
+            width: 1040,
           }}
         >
           {meta ?? "hpcnotes.eu"}
