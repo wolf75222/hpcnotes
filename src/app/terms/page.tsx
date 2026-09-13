@@ -1,4 +1,3 @@
-import { Link } from "@astryxdesign/core/Link";
 import { JsonLd } from "@/components/json-ld";
 import { LegalDoc, LegalP, LegalSection } from "@/components/legal-doc";
 import { webPageJsonLd } from "@/lib/json-ld";
@@ -52,11 +51,8 @@ export default function TermsPage() {
         <LegalSection title="The host">
           <LegalP>
             Do not knock the origin over. Readers and crawlers are welcome.
-            Prefer the Markdown copies. See the{" "}
-            <Link href="/privacy" color="secondary" hasUnderline>
-              privacy policy
-            </Link>{" "}
-            for logs and ads.
+            Prefer the Markdown copies. Logs and ads are described at
+            /privacy.
           </LegalP>
         </LegalSection>
       </LegalDoc>

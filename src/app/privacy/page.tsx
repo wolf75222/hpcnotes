@@ -1,4 +1,3 @@
-import { Link } from "@astryxdesign/core/Link";
 import { JsonLd } from "@/components/json-ld";
 import { LegalDoc, LegalP, LegalSection } from "@/components/legal-doc";
 import { getAdSenseConfig } from "@/lib/ads";
@@ -66,12 +65,8 @@ export default function PrivacyPage() {
         </LegalSection>
         <LegalSection title="The notes">
           <LegalP>
-            The{" "}
-            <Link href="/terms" color="secondary" hasUnderline>
-              terms
-            </Link>{" "}
-            are the rest: everything you see is open, and nothing here belongs
-            to me.
+            The terms at /terms are the rest: everything you see is open, and
+            nothing here belongs to me.
           </LegalP>
         </LegalSection>
       </LegalDoc>

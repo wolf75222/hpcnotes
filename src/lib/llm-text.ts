@@ -75,8 +75,6 @@ ${pageLines.join("\n") || "- No nested pages."}
 - [Sitemap](${absoluteUrl("/sitemap.xml")})
 - [RSS](${absoluteUrl("/feed.xml")}): listed notes and thoughts only
 - [Explore](${absoluteUrl("/explore")}): tags
-- [Privacy](${absoluteUrl("/privacy")})
-- [Terms](${absoluteUrl("/terms")})
 `;
 }
 

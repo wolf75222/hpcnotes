@@ -1,6 +1,6 @@
 # hpcnotes.eu
 
-Private notes site for [hpcnotes.eu](https://hpcnotes.eu): short notes on high-performance computing, and personal thoughts around HPC. A white page, a list, a date. Quiet links for Privacy and Terms sit under the notes.
+Private notes site for [hpcnotes.eu](https://hpcnotes.eu): short notes on high-performance computing, and personal thoughts around HPC. A white page, a list, a date.
 
 This repository is meant to stay **private**. It holds the Next.js site, the Markdown notes, and a separate Chrome extension under `document/`.
 
@@ -114,8 +114,8 @@ empty alt falls back to “Figure”.
 | `/` | Intro, then notes, then thoughts. Pages of a note live inside their parent |
 | `/notes/[slug]` | A page. Nested contents unroll with a chevron; numbers, Next / Previous, and start / previous / next marks turn the note |
 | `/explore` | `#tags` on listed notes (covers and standalone thoughts), with counts |
-| `/privacy` | Privacy policy. `/privacy-policy` redirects here |
-| `/terms` | Terms and conditions. `/terms-and-conditions` redirects here |
+| `/privacy` | Privacy policy. No link on the site; type the path. `/privacy-policy` redirects here |
+| `/terms` | Terms and conditions. No link on the site; type the path. `/terms-and-conditions` redirects here |
 | `/feed.xml` | RSS of published covers and thoughts, not every child page |
 | `/sitemap.xml` | Published notes, explore, tags, years, privacy, and terms |
 | `/robots.txt` | Allow all, with a pointer to the sitemap |

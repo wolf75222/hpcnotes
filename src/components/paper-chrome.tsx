@@ -3,9 +3,8 @@
 import type { Ref } from "react";
 import { Link } from "@astryxdesign/core/Link";
 import { Icon } from "@astryxdesign/core/Icon";
-import { HStack, VStack } from "@astryxdesign/core/Stack";
+import { HStack } from "@astryxdesign/core/Stack";
 import { ExploreMark, SearchMark } from "@/components/paper-icons";
-import { PaperLegal } from "@/components/paper-legal";
 
 export function PaperWordmark({ onHome }: { onHome?: () => void }) {
   return (
@@ -67,16 +66,13 @@ export function PaperChrome({
   searchButtonRef?: Ref<HTMLButtonElement | HTMLAnchorElement>;
 }) {
   return (
-    <VStack gap={3}>
-      <HStack align="center" justify="between" gap={3} className="note-row">
-        <PaperWordmark onHome={() => onSearchOpenChange(false)} />
-        <PaperTools
-          searchOpen={searchOpen}
-          onSearchOpenChange={onSearchOpenChange}
-          searchButtonRef={searchButtonRef}
-        />
-      </HStack>
-      <PaperLegal onNavigate={() => onSearchOpenChange(false)} />
-    </VStack>
+    <HStack align="center" justify="between" gap={3} className="note-row">
+      <PaperWordmark onHome={() => onSearchOpenChange(false)} />
+      <PaperTools
+        searchOpen={searchOpen}
+        onSearchOpenChange={onSearchOpenChange}
+        searchButtonRef={searchButtonRef}
+      />
+    </HStack>
   );
 }
