@@ -326,6 +326,12 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
   min-width: 0;
 }
 
+.paper-legal-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-element-lg);
+}
+
 @media (max-width: 40rem) {
   .paper-sheet {
     padding-block-start: var(--spacing-8);
