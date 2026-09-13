@@ -27,46 +27,36 @@ export default function TermsPage() {
         })}
       />
       <LegalDoc title={TERMS_TITLE}>
-        <LegalSection title="The notes are open">
+        <LegalSection title="Everything you see is open">
           <LegalP>
-            Everything you see here is open. The notes are not reserved. They
-            do not belong to a company, and they are not claimed as exclusive
-            property. Quote them, copy them, reuse them. Third-party names
-            (Slurm, MPI, and the rest) still belong to their owners.
+            Everything you see here is open. Nothing on this site belongs to
+            me. The notes are not reserved, not a product, not a company
+            property. Quote them, copy them, reuse them. Names like Slurm or
+            MPI still belong to their owners.
           </LegalP>
         </LegalSection>
         <LegalSection title="Not a centre handbook">
           <LegalP>
-            They are personal notes, not the documentation of a computing centre,
-            a vendor, or a scheduler. A command, a script, or a number is an
-            example, not a promise that the same line is safe on your machine.
+            They are personal notes, not official documentation. A command or a
+            number is an example. It is not a promise that the same line is safe
+            on your machine.
           </LegalP>
         </LegalSection>
         <LegalSection title="Your cluster, your risk">
           <LegalP>
-            The site is offered as-is. Running a command from a note is your
-            decision. Do not treat the login node as a workstation. If a job
-            fills a disk, overruns walltime, or bothers other users, that is
+            As-is. Running a command from a note is your decision. Do not treat
+            the login node as a workstation. A full disk or a blown walltime is
             between you and the centre.
           </LegalP>
         </LegalSection>
         <LegalSection title="The host">
           <LegalP>
-            Do not use the site to break the law or to knock the origin over.
-            Automated readers are welcome when they follow{" "}
-            <Link href="/robots.txt" color="secondary" hasUnderline>
-              robots.txt
-            </Link>{" "}
-            and prefer the Markdown copies.
-          </LegalP>
-        </LegalSection>
-        <LegalSection title="Advertising">
-          <LegalP>
-            Ads may appear if they are turned on. They are labeled. The{" "}
+            Do not knock the origin over. Readers and crawlers are welcome.
+            Prefer the Markdown copies. See the{" "}
             <Link href="/privacy" color="secondary" hasUnderline>
               privacy policy
             </Link>{" "}
-            is the rest of that story. An advertiser is not an endorsement.
+            for logs and ads.
           </LegalP>
         </LegalSection>
       </LegalDoc>

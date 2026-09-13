@@ -30,54 +30,48 @@ export default function PrivacyPage() {
         })}
       />
       <LegalDoc title={PRIVACY_TITLE}>
-        <LegalSection title="Open notes">
+        <LegalSection title="Everything is public">
           <LegalP>
-            Everything on hpcnotes.eu is public on purpose: the notes, the
-            Markdown copies, the feed, the sitemap. There is no account, no
-            login, and no private area. The site does not keep a file on you.
+            Everything you see on hpcnotes.eu is public. The notes, the
+            Markdown copies, the feed. There is no account, no login, and no
+            private corner. Nothing here is held back.
           </LegalP>
         </LegalSection>
-        <LegalSection title="What the host may see">
+        <LegalSection title="Nothing on you">
           <LegalP>
-            A host and a content network serve the pages. They may log the
-            time, the path, a coarse location from the IP address, and a user
-            agent, to run the site and to stop abuse. That log is not sold and
-            it is not used to build a profile.
+            The site does not keep a file on you. A host may log a request
+            (time, path, a coarse location from the IP, a user agent) to serve
+            the pages and to stop abuse. That is not sold and it is not a
+            profile.
           </LegalP>
         </LegalSection>
         <LegalSection title="Cookies">
           <LegalP>
-            The notes do not need cookies. The host may set a strictly necessary
-            cookie for security. There is no separate analytics product.
+            The notes do not need cookies. The host may set one for security.
+            There is no analytics product.
           </LegalP>
         </LegalSection>
         <LegalSection title="Advertising">
           {ads.isConfigured ? (
             <LegalP>
-              Google AdSense is enabled. Google may set cookies and collect data
-              in order to show advertisements. Google&apos;s policies describe
-              that processing. Ads on the page are labeled.
+              Google AdSense is on. Google may set cookies and collect data to
+              show ads. Their policies cover that. Ads are labeled.
             </LegalP>
           ) : (
             <LegalP>
-              There are no advertisements and no advertising cookies right now.
-              If AdSense is turned on later, this page will say so.
+              No advertisements and no advertising cookies right now. If that
+              changes, this page will say so.
             </LegalP>
           )}
         </LegalSection>
-        <LegalSection title="Figures from elsewhere">
+        <LegalSection title="The notes">
           <LegalP>
-            A note may load a local file under /media/ or a remote image on
-            HTTPS. A remote host has its own logs.
-          </LegalP>
-        </LegalSection>
-        <LegalSection title="Changes">
-          <LegalP>
-            The date at the top is the date of this text. The{" "}
+            The{" "}
             <Link href="/terms" color="secondary" hasUnderline>
               terms
             </Link>{" "}
-            say how the notes may be used: they are open.
+            are the rest: everything you see is open, and nothing here belongs
+            to me.
           </LegalP>
         </LegalSection>
       </LegalDoc>

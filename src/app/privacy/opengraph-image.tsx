@@ -8,6 +8,6 @@ export default function Image() {
   return paperOgImage({
     kicker: "hpcnotes.eu",
     title: "Privacy policy",
-    meta: "hpcnotes.eu",
+    meta: "Everything is public",
   });
 }
