@@ -29,9 +29,18 @@ function NoteRows({
           onNavigate={onNavigate}
           extra={
             showSummary && note.summary ? (
-              <Text type="supporting" color="secondary" className="note-summary">
+              <Link
+                href={`/notes/${note.slug}`}
+                className="note-summary"
+                color="secondary"
+                type="supporting"
+                isStandalone
+                hasUnderline={false}
+                tabIndex={-1}
+                onClick={onNavigate}
+              >
                 {note.summary}
-              </Text>
+              </Link>
             ) : undefined
           }
         />

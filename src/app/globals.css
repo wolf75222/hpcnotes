@@ -105,9 +105,11 @@ body {
   pointer-events: none;
 }
 
-.note-summary:not(#\#):not(#\#):not(#\#) {
+.note-summary:not(#\#):not(#\#):not(#\#),
+.note-summary span:not(#\#):not(#\#):not(#\#) {
   color: var(--color-text-secondary);
   font-style: italic;
+  text-decoration-line: none;
 }
 
 .note-row {
