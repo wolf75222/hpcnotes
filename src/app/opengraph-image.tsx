@@ -8,6 +8,6 @@ export default function Image() {
   return paperOgImage({
     kicker: "hpcnotes.eu",
     title: "hpcnotes",
-    meta: "Notes on high-performance computing",
+    meta: "Notes on HPC",
   });
 }
