@@ -1,5 +1,7 @@
 # hpcnotes.eu
 
+![hpcnotes home: a white page, notes and thoughts with dates](docs/home.png)
+
 Private notes site for [hpcnotes.eu](https://hpcnotes.eu): short notes on high-performance computing, and personal thoughts around HPC. A white page, a list, a date.
 
 This repository is meant to stay **private**. It holds the Next.js site, the Markdown notes, and a separate Chrome extension under `document/`.
