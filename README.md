@@ -14,7 +14,7 @@ This repository is meant to stay **private**. It holds the Next.js site, the Mar
 ## Run locally
 
 ```bash
-git clone <this-repo-url>
+git clone https://github.com/wolf75222/hpcnotes.git
 cd hpcnotes
 npm install
 npm run dev
