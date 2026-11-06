@@ -40,8 +40,9 @@ jobs:
           for ua in Googlebot/2.1 bingbot/2.0 GPTBot/1.1 ClaudeBot/1.0 PerplexityBot/1.0; do
             code=$(curl -s -o /dev/null -w '%{http_code}' -A "Mozilla/5.0 (compatible; $ua)" "$SITE/notes/hpc"); echo "$code $ua"; [ "$code" = 200 ]
           done
-          curl -s "$SITE/" | grep -q '<meta name="description"'
-          ! curl -s "$SITE/" | grep -qi 'name="robots" content="noindex'
+          curl -sf "$SITE/" -o home.html
+          grep -q '<meta name="description"' home.html
+          ! grep -qi 'name="robots" content="noindex' home.html
       - name: Security headers
         run: |
           set -euo pipefail
