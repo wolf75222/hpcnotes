@@ -1,6 +1,42 @@
 import { isNoteSlug, isSafeTag, normalizeTag } from "../lib/slugs";
 import { isIsoDate } from "../lib/dates";
+import { markdownPlainText } from "../lib/markdown-text";
 import type { Note } from "./types";
+
+/** Placeholder summaries ("X: a page of the HPC note.") say nothing. */
+const GENERIC_SUMMARY =
+  /^.{0,120}:\s*a (page|section) of (the )?.{0,60}?(note|nested pages under it)\.?$/i;
+
+const DESCRIPTION_MAX = 160;
+
+/** First sentences of the body, cut on a word boundary near 160 chars. */
+export function bodyExcerpt(body: string, max = DESCRIPTION_MAX) {
+  const text = markdownPlainText(
+    body
+      .replace(/^```[\s\S]*?^```/gm, " ")
+      .replace(/\$\$[\s\S]*?\$\$/g, " ")
+      .replace(/^\s*\|.*\|\s*$/gm, " "),
+    2000,
+  );
+  if (text.length <= max) {
+    return text;
+  }
+  const cut = text.slice(0, max);
+  const sentence = cut.lastIndexOf(". ");
+  if (sentence > max * 0.5) {
+    return cut.slice(0, sentence + 1);
+  }
+  const space = cut.lastIndexOf(" ");
+  return `${cut.slice(0, space > 0 ? space : max).replace(/[,;:]$/, "")}…`;
+}
+
+function effectiveSummary(raw: string, body: string) {
+  const summary = raw.trim();
+  if (summary !== "" && !GENERIC_SUMMARY.test(summary)) {
+    return summary;
+  }
+  return bodyExcerpt(body) || summary;
+}
 
 function unquote(value: string) {
   const trimmed = value.trim();
@@ -149,7 +185,11 @@ export function parseNoteMarkdown(slug: string, source: string): Note {
   }
   const updated = updatedRaw !== "" && updatedRaw > date ? updatedRaw : null;
 
-  const summary = typeof fields.summary === "string" ? fields.summary : "";
+  const body = (match[2] ?? "").trim();
+  const summary = effectiveSummary(
+    typeof fields.summary === "string" ? fields.summary : "",
+    body,
+  );
   const authorRaw = typeof fields.author === "string" ? fields.author.trim() : "";
   const draftRaw = typeof fields.draft === "string" ? fields.draft : undefined;
   const parentRaw = typeof fields.parent === "string" ? fields.parent : undefined;
@@ -170,6 +210,6 @@ export function parseNoteMarkdown(slug: string, source: string): Note {
     parent,
     order: parseOrder(orderRaw),
     kind,
-    body: (match[2] ?? "").trim(),
+    body,
   };
 }

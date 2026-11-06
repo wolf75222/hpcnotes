@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getNotesByTag, getNotesByYear, getTags, getYears } from "@/content/catalog";
+import { getNotesByTag, getTags } from "@/content/catalog";
 import { getPublishedNotes } from "@/content/load-notes";
 import { isIsoDate } from "@/lib/dates";
 import { LEGAL_UPDATED_ISO } from "@/lib/legal";
@@ -56,16 +56,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${site}/notes/${note.slug}`,
       lastModified: lastModified(note.updated ?? note.date),
     })),
-    ...getTags().map(({ tag }) => ({
+    ...getTags()
+      .filter(({ tag }) => getNotesByTag(tag).length >= 2)
+      .map(({ tag }) => ({
       url: `${site}/tags/${encodeURIComponent(tag)}`,
       lastModified: lastModified(
         newestDate(getNotesByTag(tag).map((note) => note.date)),
-      ),
-    })),
-    ...getYears().map(({ year }) => ({
-      url: `${site}/years/${year}`,
-      lastModified: lastModified(
-        newestDate(getNotesByYear(year).map((note) => note.date)),
       ),
     })),
   ];

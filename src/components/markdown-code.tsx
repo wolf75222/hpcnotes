@@ -1,9 +1,15 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { CodeBlock } from "@astryxdesign/core/CodeBlock";
 import { Text } from "@astryxdesign/core/Text";
-import { MathText } from "@/components/math-text";
+
+// Syntax highlighting and KaTeX only load on pages that use them.
+const CodeBlock = dynamic(() =>
+  import("@astryxdesign/core/CodeBlock").then((mod) => mod.CodeBlock),
+);
+const MathText = dynamic(() =>
+  import("@/components/math-text").then((mod) => mod.MathText),
+);
 
 const MATH_LANGS = new Set(["math", "latex", "katex", "tex"]);
 

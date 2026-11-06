@@ -93,3 +93,18 @@ describe("buildThoughtForest", () => {
     expect(count(forest)).toBe(2);
   });
 });
+
+describe("summaries", () => {
+  it("replaces placeholder summaries with the body's opening", () => {
+    const note = parseNoteMarkdown(
+      "x",
+      '---\ntitle: T\ndate: 2026-01-02\nsummary: "Caches: a page of the HPC note."\n---\nConflict misses on a power-of-two stride. Pad, or change the layout.',
+    );
+    expect(note.summary).toBe("Conflict misses on a power-of-two stride. Pad, or change the layout.");
+  });
+
+  it("keeps real summaries", () => {
+    const note = parseNoteMarkdown("x", "---\ntitle: T\ndate: 2026-01-02\nsummary: Real one.\n---\nBody.");
+    expect(note.summary).toBe("Real one.");
+  });
+});

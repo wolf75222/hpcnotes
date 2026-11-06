@@ -28,6 +28,8 @@ export async function generateMetadata({
     title: `Notes from ${year}`,
     description,
     path: `/years/${year}`,
+    // Same notes as the home page and tags: crawl it, do not index it.
+    robots: { index: false, follow: true },
   });
 }
 

@@ -34,7 +34,8 @@ export async function generateMetadata({
   if (note == null) {
     return notFoundMetadata();
   }
-  return notePageMetadata(note);
+  const root = findThoughtPath(getThoughtForest(), note.slug)?.[0]?.note;
+  return notePageMetadata(note, root?.title);
 }
 
 function minutesForTree(node: ThoughtNode): number {

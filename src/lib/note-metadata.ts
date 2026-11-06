@@ -3,15 +3,23 @@ import type { Note } from "@/content/types";
 import { isIsoDate } from "@/lib/dates";
 import { SITE_NAME } from "@/lib/site-url";
 
-export function notePageMetadata(note: Note): Metadata {
+/**
+ * `rootTitle`: title of the note a page belongs to ("HPC"), added to the
+ * <title> so "Cache Associativity" also matches searches for "HPC".
+ */
+export function notePageMetadata(note: Note, rootTitle?: string): Metadata {
   const description = note.summary.trim() || note.title;
+  const pageTitle =
+    rootTitle != null && rootTitle !== note.title
+      ? `${note.title} · ${rootTitle}`
+      : note.title;
   const canonical = `/notes/${note.slug}`;
   const published = isIsoDate(note.date)
     ? `${note.date}T00:00:00.000Z`
     : undefined;
 
   return {
-    title: note.title,
+    title: pageTitle,
     description,
     authors: [{ name: note.author || "hpcnotes" }],
     keywords: note.tags,
@@ -31,7 +39,7 @@ export function notePageMetadata(note: Note): Metadata {
     openGraph: {
       type: "article",
       url: canonical,
-      title: note.title,
+      title: pageTitle,
       description,
       siteName: SITE_NAME,
       locale: "en_US",
@@ -43,7 +51,7 @@ export function notePageMetadata(note: Note): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: note.title,
+      title: pageTitle,
       description,
     },
   };

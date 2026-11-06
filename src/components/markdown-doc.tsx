@@ -4,8 +4,8 @@ import { Markdown } from "@astryxdesign/core/Markdown";
 import { Link } from "@astryxdesign/core/Link";
 import { Heading, Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
-import { Code } from "@astryxdesign/core/CodeBlock";
-import { MathText } from "@/components/math-text";
+import dynamic from "next/dynamic";
+import { Code } from "@astryxdesign/core/Code";
 import { MarkdownCode } from "@/components/markdown-code";
 import { MarkdownImage } from "@/components/markdown-image";
 import { liftDisplayMath } from "@/lib/lift-display-math";
@@ -35,6 +35,12 @@ function MarkdownLink({
     </Link>
   );
 }
+
+// KaTeX is ~100 kB of JS: load it only on pages that contain maths.
+// Still server-rendered, so the formulas are in the HTML for crawlers.
+const MathText = dynamic(() =>
+  import("@/components/math-text").then((mod) => mod.MathText),
+);
 
 const mathPlugins: MarkdownInlinePlugin[] = [
   {

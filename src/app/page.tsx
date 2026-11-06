@@ -10,7 +10,7 @@ import { pageMetadata } from "@/lib/page-metadata";
 import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site-url";
 
 export const metadata = pageMetadata({
-  title: SITE_NAME,
+  title: `${SITE_NAME} · HPC notes: performance engineering, caches, SIMD, MPI, Slurm`,
   description: SITE_DESCRIPTION,
   path: "/",
   absoluteTitle: true,

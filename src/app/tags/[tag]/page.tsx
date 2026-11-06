@@ -26,10 +26,14 @@ export async function generateMetadata({
     return notFoundMetadata();
   }
   const description = `HPC notes tagged ${decoded}.`;
+  // A tag with a single note is a thin duplicate of that note: keep it
+  // crawlable for links, out of the index.
+  const thin = getNotesByTag(decoded).length < 2;
   return pageMetadata({
     title: `Notes tagged ${decoded}`,
     description,
     path: `/tags/${encodeURIComponent(decoded)}`,
+    robots: thin ? { index: false, follow: true } : undefined,
   });
 }
 
