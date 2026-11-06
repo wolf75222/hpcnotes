@@ -52,6 +52,7 @@ export function toNoteIndex(note: Note): NoteIndex {
     title: note.title,
     summary: note.summary,
     date: note.date,
+    updated: note.updated,
     author: note.author,
     tags: note.tags,
     draft: note.draft,

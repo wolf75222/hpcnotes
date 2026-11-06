@@ -1,5 +1,6 @@
 import { Layout, LayoutContent } from "@astryxdesign/core/Layout";
 import { VStack } from "@astryxdesign/core/Stack";
+import { Link } from "@astryxdesign/core/Link";
 import type { NoteIndex } from "@/content/types";
 import { PaperMark } from "@/components/paper-mark";
 
@@ -18,6 +19,9 @@ export function PaperFrame({
       defaultHasDividers={false}
       content={
         <LayoutContent isScrollable={false}>
+          <Link href="#content" className="skip-link" type="supporting">
+            Skip to content
+          </Link>
           <VStack gap={10} className="paper-sheet" paddingBlockEnd={10}>
             <PaperMark notes={notes}>{children}</PaperMark>
           </VStack>

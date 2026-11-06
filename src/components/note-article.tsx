@@ -13,7 +13,9 @@ import { AdSlot } from "@/components/ad-slot";
 
 export function NoteArticle({
   note,
+  body,
   related,
+  backlinks,
   ancestors,
   contents,
   previous,
@@ -21,7 +23,9 @@ export function NoteArticle({
   readingLabel,
 }: {
   note: Note;
+  body: string;
   related: NoteIndex[];
+  backlinks: NoteIndex[];
   ancestors: NoteIndex[];
   contents: ThoughtRef[];
   previous: NoteIndex | null;
@@ -75,6 +79,12 @@ export function NoteArticle({
                 {formatDotDate(note.date)}
               </Text>
             )}
+            {note.updated != null ? (
+              <Text type="supporting" color="secondary" hasTabularNumbers>
+                · updated{" "}
+                <time dateTime={note.updated}>{formatDotDate(note.updated)}</time>
+              </Text>
+            ) : null}
             <Text type="supporting" color="secondary">
               · {readingLabel}
             </Text>
@@ -96,7 +106,7 @@ export function NoteArticle({
       {isCover ? null : (
         <NoteContents key={note.slug} pages={contents} activeSlug={note.slug} />
       )}
-      <MarkdownDoc>{note.body}</MarkdownDoc>
+      <MarkdownDoc>{body}</MarkdownDoc>
       {isCover ? <NoteContents key={note.slug} pages={contents} /> : null}
       {previous != null || next != null ? (
         <nav aria-label="Previous and next">
@@ -122,6 +132,14 @@ export function NoteArticle({
       <VStack gap={6}>
         <HashTags tags={note.tags} />
         {related.length > 0 ? <NoteList notes={related} /> : null}
+        {backlinks.length > 0 ? (
+          <VStack gap={3} as="section" aria-label="Linked from">
+            <Text type="supporting" color="secondary">
+              <span className="home-group">Linked from</span>
+            </Text>
+            <NoteList notes={backlinks} />
+          </VStack>
+        ) : null}
       </VStack>
     </VStack>
   );

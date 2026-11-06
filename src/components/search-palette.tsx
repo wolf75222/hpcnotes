@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import type { NoteIndex } from "@/content/types";
-import { filterNotes, SEARCH_LIMIT } from "@/content/query";
+import { searchNotes, SEARCH_LIMIT } from "@/content/query";
 import { LeaderRow } from "@/components/leader-row";
 import { NoteList } from "@/components/note-list";
 import { EmptyNotes } from "@/components/empty-notes";
@@ -56,6 +57,46 @@ function useSearchHotkeys(
   }, [open, onOpenChange]);
 }
 
+type BodyIndex = Readonly<Record<string, string>>;
+
+let bodyIndexPromise: Promise<BodyIndex> | null = null;
+
+/** Fetch note bodies once per page load; titles/tags work without them. */
+function loadBodyIndex() {
+  bodyIndexPromise ??= fetch("/search-index.json", { credentials: "same-origin" })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`search index: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data: unknown) =>
+      data != null && typeof data === "object" ? (data as BodyIndex) : {},
+    )
+    .catch(() => {
+      // Fall back to titles and tags; retry on the next open.
+      bodyIndexPromise = null;
+      return {};
+    });
+  return bodyIndexPromise;
+}
+
+function useBodyIndex() {
+  const [bodies, setBodies] = useState<BodyIndex | null>(null);
+  useEffect(() => {
+    let live = true;
+    void loadBodyIndex().then((index) => {
+      if (live) {
+        setBodies(index);
+      }
+    });
+    return () => {
+      live = false;
+    };
+  }, []);
+  return bodies;
+}
+
 function SearchPanel({
   notes,
   onClose,
@@ -64,10 +105,18 @@ function SearchPanel({
   onClose: () => void;
 }) {
   const router = useRouter();
+  const panelRef = useRef<HTMLElement>(null);
   const [query, setQuery] = useState("");
   const needle = query.trim().toLowerCase().slice(0, 120);
 
-  const thoughts = useMemo(() => filterNotes(notes, query), [notes, query]);
+  const bodies = useBodyIndex();
+  const thoughts = useMemo(
+    () =>
+      searchNotes(notes, query, bodies ?? undefined).map((hit) =>
+        hit.snippet != null ? { ...hit.note, summary: hit.snippet } : hit.note,
+      ),
+    [notes, query, bodies],
+  );
 
   const tags = useMemo(() => {
     if (needle === "") {
@@ -101,8 +150,35 @@ function SearchPanel({
     }
   };
 
+  // Arrow keys walk the results; ArrowUp from the first one returns to the field.
+  const onPanelKeyDown = (event: ReactKeyboardEvent) => {
+    if (event.key !== "ArrowDown" && event.key !== "ArrowUp") {
+      return;
+    }
+    const panel = panelRef.current;
+    if (panel == null) {
+      return;
+    }
+    const field = panel.querySelector<HTMLInputElement>("#paper-search");
+    const links = [
+      ...panel.querySelectorAll<HTMLAnchorElement>('a[href]:not([tabindex="-1"])'),
+    ];
+    if (links.length === 0) {
+      return;
+    }
+    const at = links.indexOf(document.activeElement as HTMLAnchorElement);
+    event.preventDefault();
+    if (event.key === "ArrowDown") {
+      links[Math.min(at + 1, links.length - 1)]?.focus();
+    } else if (at <= 0) {
+      field?.focus();
+    } else {
+      links[at - 1]?.focus();
+    }
+  };
+
   return (
-    <VStack gap={8}>
+    <VStack gap={8} ref={panelRef} onKeyDown={onPanelKeyDown} role="search">
       <input
         id="paper-search"
         className="paper-search-field"
@@ -124,20 +200,27 @@ function SearchPanel({
         autoFocus
         placeholder="Title, #tag, or a few words"
       />
-      {needle === "" ? (
-        <Text type="supporting" color="secondary">
-          Type a title, a #tag, or a few words.
-        </Text>
-      ) : thoughts.length === 0 && tags.length === 0 ? (
-        <EmptyNotes
-          title="Nothing matches"
-          description="Try another word, or a #tag."
-          actionLabel={null}
-        />
+      <Text type="supporting" color="secondary" aria-live="polite">
+        {needle === ""
+          ? "Type a title, a #tag, or a few words. ↑↓ to move, Enter to open, Esc to close."
+          : thoughts.length + tags.length === 0
+            ? bodies == null
+              ? "Loading note text…"
+              : ""
+            : `${thoughts.length + tags.length} result${thoughts.length + tags.length === 1 ? "" : "s"}`}
+      </Text>
+      {needle === "" ? null : thoughts.length === 0 && tags.length === 0 ? (
+        bodies == null ? null : (
+          <EmptyNotes
+            title="Nothing matches"
+            description="Try another word, or a #tag."
+            actionLabel={null}
+          />
+        )
       ) : (
         <VStack gap={8}>
           {thoughts.length > 0 ? (
-            <NoteList notes={thoughts} onNavigate={onClose} />
+            <NoteList notes={thoughts} onNavigate={onClose} showSummary />
           ) : null}
           {tags.length > 0 ? (
             <VStack gap={5}>
@@ -171,9 +254,20 @@ export function SearchPalette({
 }) {
   useSearchHotkeys(open, onOpenChange);
 
-  if (open) {
-    return <SearchPanel notes={notes} onClose={() => onOpenChange(false)} />;
-  }
-
-  return children;
+  // Keep the page mounted while searching: closing the panel then returns to
+  // the same reading position without re-rendering diagrams and maths.
+  return (
+    <>
+      {open ? (
+        <SearchPanel notes={notes} onClose={() => onOpenChange(false)} />
+      ) : null}
+      <VStack
+        gap={0}
+        aria-hidden={open || undefined}
+        style={open ? { display: "none" } : undefined}
+      >
+        {children}
+      </VStack>
+    </>
+  );
 }

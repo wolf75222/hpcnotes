@@ -58,8 +58,8 @@ function renderProfiles() {
             </div>
           </div>
           <div class="profile-actions">
-            <button class="icon-btn" onclick="openProfile('${escapeHtml(profile.profileUrl)}')" title="Ouvrir le profil">🔗</button>
-            <button class="icon-btn delete" onclick="deleteProfile('${escapeHtml(profile.profileUrl)}')" title="Supprimer">🗑️</button>
+            <button class="icon-btn" data-action="open" data-url="${escapeHtml(profile.profileUrl)}" title="Ouvrir le profil">🔗</button>
+            <button class="icon-btn delete" data-action="delete" data-url="${escapeHtml(profile.profileUrl)}" title="Supprimer">🗑️</button>
           </div>
         </div>
       </div>
@@ -67,11 +67,14 @@ function renderProfiles() {
   }).join('');
 }
 
-// Escape HTML to prevent XSS
+// Escape HTML (text and attribute values) to prevent XSS
 function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
+  return String(text ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 // Search/filter profiles
@@ -111,6 +114,8 @@ window.deleteProfile = async function(profileUrl) {
 
 // Open profile in new tab
 window.openProfile = function(url) {
+  // Only ever open LinkedIn profile URLs saved by the content script.
+  if (!/^https:\/\/(www|fr)\.linkedin\.com\/in\/[^\s]+$/.test(url)) return;
   chrome.tabs.create({ url });
 };
 
@@ -247,6 +252,18 @@ function openOptions() {
 }
 
 // Event listeners
+// Inline onclick handlers are blocked by the MV3 CSP: delegate instead.
+document.getElementById('profileList').addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-action]');
+  if (!button) return;
+  const url = button.dataset.url || '';
+  if (button.dataset.action === 'open') {
+    window.openProfile(url);
+  } else if (button.dataset.action === 'delete') {
+    window.deleteProfile(url);
+  }
+});
+
 document.getElementById('searchInput').addEventListener('input', (e) => {
   filterProfiles(e.target.value);
 });

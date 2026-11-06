@@ -6,12 +6,17 @@
     "predev": "node scripts/copy-mermaid.mjs",
     "prebuild": "node scripts/copy-mermaid.mjs",
     "postinstall": "node scripts/copy-mermaid.mjs",
-    "dev": "next dev --port 43123 --hostname 0.0.0.0",
+    "dev": "next dev --port 43123 --hostname 127.0.0.1",
     "build": "next build",
     "start": "next start --port 43123 --hostname 0.0.0.0",
     "new": "node scripts/new-note.mjs",
-    "lint": "eslint",
-    "astryx": "node node_modules/@astryxdesign/cli/clients/cli/bin/astryx.mjs"
+    "lint": "eslint .",
+    "astryx": "node node_modules/@astryxdesign/cli/clients/cli/bin/astryx.mjs",
+    "dev:lan": "next dev --port 43123 --hostname 0.0.0.0",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run lint && npm run typecheck && npm test"
   },
   "dependencies": {
     "@astryxdesign/cli": "^0.5.2",
@@ -30,6 +35,10 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.7"
+  },
+  "engines": {
+    "node": ">=20.9"
   }
 }

@@ -5,18 +5,11 @@ export const PLAYLISTS: Playlist[] = [
     slug: "first-week",
     title: "First week on a cluster",
     summary:
-      "Login, a job that finishes, and a GPU that actually sees a kernel.",
+      "Login, and a job that finishes.",
     slugs: [
       "login-nodes-are-not-compute",
       "slurm-jobs-that-finish",
-      "first-gpu-kernel",
     ],
-  },
-  {
-    slug: "performance",
-    title: "Measure, then touch the solver",
-    summary: "I/O, launchers, and the habit of one change per experiment.",
-    slugs: ["measure-before-you-optimize", "slurm-jobs-that-finish"],
   },
   {
     slug: "portable",

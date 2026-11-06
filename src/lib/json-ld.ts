@@ -122,6 +122,7 @@ export function noteJsonLd(note: Note, ancestors: NoteIndex[]) {
         mainEntityOfPage: url,
         inLanguage: "en",
         datePublished: date,
+        dateModified: publishedAt(note.updated ?? note.date),
         author: {
           "@type": "Person",
           name: note.author || "hpcnotes",

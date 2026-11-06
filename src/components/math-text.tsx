@@ -29,6 +29,9 @@ export function MathText({
     displayMode: display,
     throwOnError: false,
     trust: false,
+    strict: "ignore",
+    maxSize: 20,
+    maxExpand: 500,
     output: "html",
   });
 

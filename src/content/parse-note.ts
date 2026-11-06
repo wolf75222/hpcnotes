@@ -91,15 +91,17 @@ function parseFrontMatter(block: string) {
       continue;
     }
 
-    if (trimmed.startsWith("- ") && listKey != null) {
-      const item = unquote(trimmed.slice(2));
+    if ((trimmed === "-" || trimmed.startsWith("- ")) && listKey != null) {
+      // A YAML list only continues a key whose own line had no value.
       const current = fields[listKey];
-      const list = Array.isArray(current)
-        ? current
-        : current != null && current !== ""
-          ? [current]
-          : [];
-      list.push(item);
+      if (typeof current === "string" && current !== "") {
+        continue;
+      }
+      const item = unquote(trimmed.slice(1));
+      const list = Array.isArray(current) ? current : [];
+      if (item !== "") {
+        list.push(item);
+      }
       fields[listKey] = list;
       continue;
     }
@@ -121,8 +123,8 @@ function parseFrontMatter(block: string) {
 }
 
 export function parseNoteMarkdown(slug: string, source: string): Note {
-  const normalized = source.replace(/\r\n/g, "\n");
-  const match = normalized.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  const normalized = source.replace(/^\uFEFF/, "").replace(/\r\n?/g, "\n");
+  const match = normalized.match(/^---\n([\s\S]*?)\n---[ \t]*(?:\n([\s\S]*))?$/);
   if (match == null) {
     throw new Error(`Note "${slug}" needs YAML front matter between --- lines.`);
   }
@@ -141,6 +143,12 @@ export function parseNoteMarkdown(slug: string, source: string): Note {
     throw new Error(`Note "${slug}" has an invalid date "${date}".`);
   }
 
+  const updatedRaw = typeof fields.updated === "string" ? fields.updated.trim() : "";
+  if (updatedRaw !== "" && !isIsoDate(updatedRaw)) {
+    throw new Error(`Note "${slug}" has an invalid updated date "${updatedRaw}".`);
+  }
+  const updated = updatedRaw !== "" && updatedRaw > date ? updatedRaw : null;
+
   const summary = typeof fields.summary === "string" ? fields.summary : "";
   const authorRaw = typeof fields.author === "string" ? fields.author.trim() : "";
   const draftRaw = typeof fields.draft === "string" ? fields.draft : undefined;
@@ -155,6 +163,7 @@ export function parseNoteMarkdown(slug: string, source: string): Note {
     title,
     summary,
     date,
+    updated,
     author: authorRaw === "" ? "hpcnotes" : authorRaw,
     tags: parseTags(fields.tags, slug),
     draft: parseDraft(draftRaw),

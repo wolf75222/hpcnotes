@@ -9,6 +9,7 @@ import {
 import { PLAYLISTS } from "./playlists";
 import { isIsoDate } from "../lib/dates";
 import { findThoughtPath } from "./thoughts";
+import { linkedNoteSlugs } from "../lib/markdown-text";
 import type { Note } from "./types";
 
 export { filterNotes, notesByYear } from "./query";
@@ -136,4 +137,34 @@ export function getRelatedNotes(slug: string, limit = 5) {
   }
 
   return related;
+}
+
+const backlinkCache = new WeakMap<Note[], Map<string, Note[]>>();
+
+function backlinkIndex(notes: Note[]) {
+  const cached = backlinkCache.get(notes);
+  if (cached != null) {
+    return cached;
+  }
+  const index = new Map<string, Note[]>();
+  for (const note of notes) {
+    for (const target of linkedNoteSlugs(note.body)) {
+      if (target === note.slug) {
+        continue;
+      }
+      const list = index.get(target) ?? [];
+      list.push(note);
+      index.set(target, list);
+    }
+  }
+  backlinkCache.set(notes, index);
+  return index;
+}
+
+/** Notes whose body links to `slug` (Markdown links or [[wiki-links]]). */
+export function getBacklinks(slug: string, exclude: Iterable<string> = []) {
+  const skip = new Set(exclude);
+  return (backlinkIndex(getNotes()).get(slug) ?? []).filter(
+    (note) => !skip.has(note.slug),
+  );
 }

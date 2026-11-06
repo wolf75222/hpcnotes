@@ -165,8 +165,8 @@
     // Send to webhook if configured
     try {
       const options = await chrome.storage.local.get(['webhookUrl']);
-      if (options.webhookUrl && options.webhookUrl.trim()) {
-        fetch(options.webhookUrl, {
+      if (options.webhookUrl && /^https:\/\//i.test(options.webhookUrl.trim())) {
+        fetch(options.webhookUrl.trim(), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),

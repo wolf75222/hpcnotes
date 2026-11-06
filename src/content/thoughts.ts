@@ -34,11 +34,11 @@ export function buildThoughtForest(notes: NoteIndex[]): ThoughtNode[] {
     if (cached != null) {
       return cached;
     }
-    if (visiting.has(note.slug)) {
-      return { note, children: [] };
-    }
     visiting.add(note.slug);
+    // Skip children already on the current path: a parent cycle
+    // (a -> b -> a) must not duplicate a note as its own descendant.
     const children = [...(byParent.get(note.slug) ?? [])]
+      .filter((child) => !visiting.has(child.slug) && !built.has(child.slug))
       .sort(sortSiblings)
       .map(build);
     visiting.delete(note.slug);

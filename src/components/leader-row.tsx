@@ -57,9 +57,11 @@ export function LeaderRow({
   extra,
   mark,
   depth = 0,
+  isCurrent = false,
   onNavigate,
 }: {
   href?: string;
+  isCurrent?: boolean;
   label: string;
   meta?: string;
   extra?: React.ReactNode;
@@ -67,6 +69,7 @@ export function LeaderRow({
   depth?: number;
   onNavigate?: () => void;
 }) {
+  const current = isCurrent || href == null;
   return (
     <VStack gap={1} className="note-row" data-depth={String(Math.min(depth, 3))}>
       <HStack align="center" gap={mark != null ? 1 : 2} className="note-row">
@@ -83,14 +86,23 @@ export function LeaderRow({
               {label}
             </Link>
           ) : (
-            <Text type="supporting" color="secondary">
+            <Text
+              type="supporting"
+              color={isCurrent ? "primary" : "secondary"}
+              className="note-current"
+              aria-current={isCurrent ? "page" : undefined}
+            >
               {label}
             </Text>
           )}
         </span>
         {mark}
         {meta != null && meta !== "" ? (
-          <LeaderMeta href={href} meta={meta} onNavigate={onNavigate} />
+          <LeaderMeta
+            href={current ? undefined : href}
+            meta={meta}
+            onNavigate={onNavigate}
+          />
         ) : null}
       </HStack>
       {extra}

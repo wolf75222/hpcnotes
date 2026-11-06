@@ -4,7 +4,8 @@ import { preload } from "react-dom";
 import { NoteArticle } from "@/components/note-article";
 import { JsonLd } from "@/components/json-ld";
 import { getNoteBySlug, getNotes, getThoughtForest, toNoteIndex } from "@/content/load-notes";
-import { getRelatedNotes } from "@/content/catalog";
+import { getBacklinks, getRelatedNotes } from "@/content/catalog";
+import { resolveWikiLinks } from "@/lib/markdown-text";
 import {
   findThoughtPath,
   noteContents,
@@ -71,6 +72,17 @@ export default async function NotePage({
       ? `${minutesForTree(current)} min`
       : formatReadingTime(note.body);
 
+  const body = resolveWikiLinks(note.body, (target) => {
+    const hit = getNoteBySlug(target);
+    return hit == null ? undefined : { title: hit.title };
+  });
+  const related = getRelatedNotes(note.slug).map(toNoteIndex);
+  const backlinks = getBacklinks(note.slug, [
+    ...ancestors.map((item) => item.slug),
+    ...(current?.children.map((child) => child.note.slug) ?? []),
+    ...related.map((item) => item.slug),
+  ]).map(toNoteIndex);
+
   if (note.body.includes("```mermaid")) {
     preload("/vendor/mermaid.min.js", { as: "script" });
   }
@@ -80,7 +92,9 @@ export default async function NotePage({
       <JsonLd data={noteJsonLd(note, ancestors)} />
       <NoteArticle
         note={note}
-        related={getRelatedNotes(note.slug).map(toNoteIndex)}
+        body={body}
+        related={related}
+        backlinks={backlinks}
         ancestors={ancestors}
         contents={contents}
         previous={previous}

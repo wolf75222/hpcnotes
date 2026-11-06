@@ -36,6 +36,8 @@ export function notePageMetadata(note: Note): Metadata {
       siteName: SITE_NAME,
       locale: "en_US",
       publishedTime: published,
+      modifiedTime:
+        note.updated != null ? `${note.updated}T00:00:00.000Z` : published,
       authors: [note.author || "hpcnotes"],
       tags: note.tags,
     },

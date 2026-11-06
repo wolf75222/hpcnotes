@@ -68,6 +68,17 @@ export function MarkdownDoc({ children }: { children: string }) {
               className="article-heading"
             >
               {heading}
+              {id != null ? (
+                <Link
+                  href={`#${id}`}
+                  className="heading-anchor"
+                  color="secondary"
+                  hasUnderline={false}
+                  label="Link to this section"
+                >
+                  #
+                </Link>
+              ) : null}
             </Heading>
           ),
           hr: () => null,

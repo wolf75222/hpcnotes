@@ -349,8 +349,10 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
     padding-inline-start: var(--spacing-8);
   }
 
+  /* Keep the leader as a spacer so meta stays right-aligned. */
   .note-leader {
-    display: none;
+    visibility: hidden;
+    min-width: var(--spacing-4);
   }
 
   .note-title,
@@ -366,4 +368,70 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
   display: block;
   min-height: var(--size-element-lg);
   background-color: var(--color-background-muted);
+}
+
+.note-current {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-element-lg);
+}
+
+.note-current[aria-current="page"] {
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.note-contents-toggle:not(#\#):not(#\#):not(#\#) {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-1);
+  min-height: var(--size-element-lg);
+  margin-block-end: var(--spacing-3);
+  touch-action: manipulation;
+}
+
+.heading-anchor:not(#\#):not(#\#):not(#\#) {
+  margin-inline-start: var(--spacing-2);
+  color: var(--color-text-disabled);
+  font-weight: var(--font-weight-normal);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.article-heading:hover .heading-anchor:not(#\#):not(#\#):not(#\#),
+.heading-anchor:focus-visible:not(#\#):not(#\#):not(#\#) {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .heading-anchor:not(#\#):not(#\#):not(#\#) {
+    display: none;
+  }
+}
+
+.paper-search-field:focus-visible {
+  border-block-end-color: var(--color-text-primary);
+}
+
+#content:focus {
+  outline: none;
+}
+
+.skip-link:not(#\#):not(#\#):not(#\#) {
+  position: absolute;
+  inset-block-start: var(--spacing-2);
+  inset-inline-start: var(--spacing-2);
+  z-index: 10;
+  padding: var(--spacing-2) var(--spacing-3);
+  background-color: var(--color-background-surface);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible:not(#\#):not(#\#):not(#\#) {
+  transform: none;
+}
+
+.adsbygoogle:not([data-ad-status="filled"]) {
+  background-color: transparent;
 }

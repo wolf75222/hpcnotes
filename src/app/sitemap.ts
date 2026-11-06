@@ -23,7 +23,7 @@ function newestDate(dates: string[]) {
 export default function sitemap(): MetadataRoute.Sitemap {
   const site = getSiteUrl();
   const notes = getPublishedNotes();
-  const newest = newestDate(notes.map((note) => note.date));
+  const newest = newestDate(notes.map((note) => note.updated ?? note.date));
 
   return [
     {
@@ -54,7 +54,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...notes.map((note) => ({
       url: `${site}/notes/${note.slug}`,
-      lastModified: lastModified(note.date),
+      lastModified: lastModified(note.updated ?? note.date),
     })),
     ...getTags().map(({ tag }) => ({
       url: `${site}/tags/${encodeURIComponent(tag)}`,

@@ -5,6 +5,8 @@ export interface NoteIndex {
   title: string;
   summary: string;
   date: string;
+  /** ISO date of the last meaningful edit, when later than `date`. */
+  updated: string | null;
   author: string;
   tags: string[];
   draft: boolean;
