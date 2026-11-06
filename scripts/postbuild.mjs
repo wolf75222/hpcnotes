@@ -76,6 +76,13 @@ ${security}
 `;
 fs.writeFileSync(path.join(OUT, "_headers"), headers);
 
+// Functions (functions/api/*) run only on /api/*; every other request is a
+// free static asset and never counts against the Workers quota.
+fs.writeFileSync(
+  path.join(OUT, "_routes.json"),
+  `${JSON.stringify({ version: 1, include: ["/api/*"], exclude: [] }, null, 2)}\n`,
+);
+
 // 3. _redirects (Cloudflare: first match wins)
 const topLevel = new Set(
   fs.readdirSync(OUT).map((name) => name.replace(/\.(html|txt|xml|json)$/, "")),

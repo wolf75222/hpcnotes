@@ -10,6 +10,10 @@ import { LeaderRow } from "@/components/leader-row";
 import { NoteContents } from "@/components/note-contents";
 import { NoteTurn } from "@/components/note-turn";
 import { AdSlot } from "@/components/ad-slot";
+import { NoteComments } from "@/components/note-comments";
+import { commentsEnabled } from "@/lib/comments";
+
+const SOURCE_REPO = "https://github.com/wolf75222/hpcnotes";
 
 export function NoteArticle({
   note,
@@ -132,6 +136,36 @@ export function NoteArticle({
       <VStack gap={6}>
         <HashTags tags={note.tags} />
         {related.length > 0 ? <NoteList notes={related} /> : null}
+        <HStack gap={4} wrap="wrap" as="nav" aria-label="Source">
+          <Link
+            href={`${SOURCE_REPO}/edit/main/src/content/notes/${note.slug}.md`}
+            target="_blank"
+            rel="noopener noreferrer"
+            color="secondary"
+            type="supporting"
+            isStandalone
+          >
+            Suggest an edit
+          </Link>
+          <Link
+            href={`/notes/${note.slug}.md`}
+            color="secondary"
+            type="supporting"
+            isStandalone
+          >
+            Markdown
+          </Link>
+          <Link
+            href={`${SOURCE_REPO}/commits/main/src/content/notes/${note.slug}.md`}
+            target="_blank"
+            rel="noopener noreferrer"
+            color="secondary"
+            type="supporting"
+            isStandalone
+          >
+            History
+          </Link>
+        </HStack>
         {backlinks.length > 0 ? (
           <VStack gap={3} as="section" aria-label="Linked from">
             <Text type="supporting" color="secondary">
@@ -141,6 +175,7 @@ export function NoteArticle({
           </VStack>
         ) : null}
       </VStack>
+      {commentsEnabled() ? <NoteComments slug={note.slug} /> : null}
     </VStack>
   );
 }

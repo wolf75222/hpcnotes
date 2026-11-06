@@ -1,6 +1,15 @@
 import type { Note, NoteIndex } from "@/content/types";
 import { isIsoDate } from "@/lib/dates";
-import { SITE_DESCRIPTION, SITE_NAME, absoluteUrl, getSiteUrl, noteMarkdownUrl, noteUrl } from "@/lib/site-url";
+import {
+  SITE_ALT_NAMES,
+  SITE_DESCRIPTION,
+  SITE_KEYWORDS,
+  SITE_NAME,
+  absoluteUrl,
+  getSiteUrl,
+  noteMarkdownUrl,
+  noteUrl,
+} from "@/lib/site-url";
 
 export function serializeJsonLd(data: unknown) {
   return JSON.stringify(data).replace(/</g, "\\u003c");
@@ -12,8 +21,10 @@ function websiteNode() {
     "@type": "WebSite",
     "@id": `${site}/#website`,
     name: SITE_NAME,
+    alternateName: SITE_ALT_NAMES,
     url: site,
     description: SITE_DESCRIPTION,
+    keywords: SITE_KEYWORDS.join(", "),
     inLanguage: "en",
     publisher: {
       "@type": "Person",

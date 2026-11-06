@@ -1,64 +1,73 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { useDeferredLightbox } from "@/components/media-lightbox";
 import { figureAlt, hasCaption } from "@/lib/figure-alt";
-import {
-  isCompressibleRasterSrc,
-  isSafeMediaSrc,
-  mediaPathname,
-} from "@/lib/media";
+import { isSafeLocalMediaSrc, isSafeMediaSrc, mediaPathname } from "@/lib/media";
+import mediaManifest from "@/content/media-manifest.json";
 
 const VIDEO_SRC = /\.(mp4|webm|ogg)$/i;
 const GIF_SRC = /\.gif$/i;
-const SIZES = "(max-width: 40rem) 100vw, 640px";
 
+interface MediaInfo {
+  width: number;
+  height: number;
+  avif?: { src: string; bytes: number };
+  webp?: { src: string; bytes: number };
+}
+
+const MEDIA = mediaManifest as Record<string, MediaInfo>;
+
+/**
+ * Local images come with their intrinsic size (no layout shift) and, for
+ * PNG/JPEG, AVIF/WebP versions made at build time. GIFs stay animated and
+ * SVG stays vector. Remote images load as they are.
+ */
 function RasterOrFile({
   src,
   alt,
-  compress,
   onReady,
 }: {
   src: string;
   alt: string;
-  compress: boolean;
   onReady: () => void;
 }) {
-  const className = "md-image";
+  const info = isSafeLocalMediaSrc(src) ? MEDIA[src] : undefined;
+  const sources = [
+    info?.avif ? { type: "image/avif", ...info.avif } : null,
+    info?.webp ? { type: "image/webp", ...info.webp } : null,
+  ]
+    .filter((item) => item != null)
+    .sort((a, b) => a.bytes - b.bytes);
 
-  if (compress) {
-    return (
-      <Image
-        src={src}
-        alt={alt}
-        width={1200}
-        height={800}
-        sizes={SIZES}
-        quality={75}
-        className={className}
-        style={{ width: "100%", height: "auto" }}
-        onLoad={onReady}
-        onError={onReady}
-      />
-    );
-  }
-
-  return (
-    // GIFs must animate; SVG stays vector. Next/Image would freeze or rasterize them.
+  const img = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
       alt={alt}
-      className={className}
+      width={info?.width || undefined}
+      height={info?.height || undefined}
+      className="md-image"
       decoding="async"
       loading="lazy"
       referrerPolicy="no-referrer"
       onLoad={onReady}
       onError={onReady}
     />
+  );
+
+  if (sources.length === 0) {
+    return img;
+  }
+  return (
+    <picture>
+      {sources.map((source) => (
+        <source key={source.type} type={source.type} srcSet={source.src} />
+      ))}
+      {img}
+    </picture>
   );
 }
 
@@ -67,7 +76,6 @@ export function MarkdownImage({ src, alt }: { src: string; alt: string }) {
   const path = mediaPathname(src);
   const isVideo = safe && VIDEO_SRC.test(path);
   const isGif = safe && GIF_SRC.test(path);
-  const compress = safe && isCompressibleRasterSrc(src);
   const label = figureAlt(
     alt,
     isVideo ? "Video" : isGif ? "Animation" : "Figure",
@@ -119,7 +127,6 @@ export function MarkdownImage({ src, alt }: { src: string; alt: string }) {
           <RasterOrFile
             src={src}
             alt={label}
-            compress={compress}
             onReady={() => setReady(true)}
           />
         </VStack>

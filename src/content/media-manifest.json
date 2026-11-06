@@ -1,0 +1,22 @@
+{
+  "/media/heartbeat.gif": {
+    "width": 48,
+    "height": 12
+  },
+  "/media/ranks.png": {
+    "width": 640,
+    "height": 200,
+    "avif": {
+      "src": "/media/_opt/ranks.avif",
+      "bytes": 789
+    },
+    "webp": {
+      "src": "/media/_opt/ranks.webp",
+      "bytes": 454
+    }
+  },
+  "/media/ranks.svg": {
+    "width": 480,
+    "height": 220
+  }
+}

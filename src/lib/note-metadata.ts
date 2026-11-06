@@ -22,7 +22,7 @@ export function notePageMetadata(note: Note, rootTitle?: string): Metadata {
     title: pageTitle,
     description,
     authors: [{ name: note.author || "hpcnotes" }],
-    keywords: note.tags,
+    keywords: [...new Set([...note.tags, "HPC", ...(rootTitle ? [rootTitle] : [])])],
     category: note.tags[0],
     alternates: {
       canonical,

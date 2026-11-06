@@ -4,7 +4,12 @@ import { Providers } from "./providers";
 import { sans } from "./sans";
 import { SiteShell } from "@/components/site-shell";
 import { getAdSenseConfig } from "@/lib/ads";
-import { SITE_DESCRIPTION, SITE_NAME, getSiteUrl } from "@/lib/site-url";
+import {
+  SITE_DESCRIPTION,
+  SITE_KEYWORDS,
+  SITE_NAME,
+  getSiteUrl,
+} from "@/lib/site-url";
 import "./globals.css";
 
 const site = getSiteUrl();
@@ -21,15 +26,7 @@ export const metadata: Metadata = {
   creator: "hpcnotes",
   publisher: SITE_NAME,
   category: "technology",
-  keywords: [
-    "HPC",
-    "high-performance computing",
-    "Slurm",
-    "MPI",
-    "GPU",
-    "cluster",
-    "notes",
-  ],
+  keywords: SITE_KEYWORDS,
   alternates: {
     types: {
       "application/rss+xml": "/feed.xml",

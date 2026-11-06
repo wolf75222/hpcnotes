@@ -14,6 +14,8 @@ const AD_HOSTS = [
 // Cloudflare Web Analytics (cookieless), injected by Pages when enabled.
 const CF_ANALYTICS_SCRIPT = "https://static.cloudflareinsights.com";
 const CF_ANALYTICS_BEACON = "https://cloudflareinsights.com";
+// giscus comments run in a sandboxed iframe served by giscus.app.
+const GISCUS = "https://giscus.app";
 
 export function hasAdSense(env = process.env) {
   return /^ca-pub-\d{8,22}$/.test(env.NEXT_PUBLIC_ADSENSE_CLIENT?.trim() ?? "");
@@ -35,18 +37,19 @@ export function securityHeaders({ dev = false, ads = hasAdSense() } = {}) {
     "media-src 'self' https:",
     "font-src 'self' data:",
     `connect-src 'self'${dev ? " ws: wss:" : ""} ${CF_ANALYTICS_BEACON}${adHosts}`,
-    `frame-src ${ads ? adHosts.trim() : "'none'"}`,
+    `frame-src ${GISCUS}${adHosts}`,
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'none'",
     "manifest-src 'self'",
     "worker-src 'self' blob:",
-    ...(dev ? [] : ["upgrade-insecure-requests"]),
+    ...(dev ? [] : ["upgrade-insecure-requests", "report-uri /api/report", "report-to csp"]),
   ].join("; ");
 
   return [
     { key: "Content-Security-Policy", value: csp },
+    ...(dev ? [] : [{ key: "Reporting-Endpoints", value: 'csp="/api/report"' }]),
     { key: "X-Content-Type-Options", value: "nosniff" },
     { key: "X-Frame-Options", value: "DENY" },
     { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },

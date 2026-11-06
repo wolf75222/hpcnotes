@@ -435,3 +435,12 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
 .adsbygoogle:not([data-ad-status="filled"]) {
   background-color: transparent;
 }
+
+.note-comments {
+  min-height: var(--spacing-12);
+}
+
+.note-comments iframe {
+  width: 100%;
+  border: 0;
+}

@@ -1,0 +1,59 @@
+name: Monitor
+
+# Uptime and SEO smoke checks on the live site. A failed run makes GitHub
+# email the repo owner. Free: Actions minutes are unlimited on public repos.
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SITE: https://hpcnotes.eu
+    steps:
+      - name: Pages answer
+        run: |
+          set -euo pipefail
+          check() { code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$1"); echo "$code $1"; [ "$code" = "$2" ]; }
+          check "$SITE/" 200
+          check "$SITE/notes/hpc" 200
+          check "$SITE/notes/hpc.md" 200
+          check "$SITE/feed.xml" 200
+          check "$SITE/llms.txt" 200
+          check "$SITE/hpc" 301
+          check "https://www.hpcnotes.eu/" 301
+          check "http://hpcnotes.eu/" 301
+      - name: Crawlers are welcome
+        run: |
+          set -euo pipefail
+          curl -sf "$SITE/robots.txt" | tee robots.txt
+          grep -q "^Allow: /" robots.txt
+          ! grep -qi "^Disallow: /$" robots.txt
+          curl -sf "$SITE/sitemap.xml" -o sitemap.xml
+          python3 -c "import xml.dom.minidom,sys; d=xml.dom.minidom.parse('sitemap.xml'); n=len(d.getElementsByTagName('loc')); print(n,'URLs'); sys.exit(n<10)"
+          for ua in Googlebot/2.1 bingbot/2.0 GPTBot/1.1 ClaudeBot/1.0 PerplexityBot/1.0; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -A "Mozilla/5.0 (compatible; $ua)" "$SITE/notes/hpc"); echo "$code $ua"; [ "$code" = 200 ]
+          done
+          curl -s "$SITE/" | grep -q '<meta name="description"'
+          ! curl -s "$SITE/" | grep -qi 'name="robots" content="noindex'
+      - name: Security headers
+        run: |
+          set -euo pipefail
+          curl -sI "$SITE/" | tee headers.txt
+          for h in content-security-policy strict-transport-security x-content-type-options x-frame-options; do
+            grep -qi "^$h:" headers.txt || { echo "missing $h"; exit 1; }
+          done
+      - name: Certificate and DNSSEC
+        run: |
+          set -euo pipefail
+          end=$(echo | openssl s_client -connect hpcnotes.eu:443 -servername hpcnotes.eu 2>/dev/null | openssl x509 -noout -enddate | cut -d= -f2)
+          days=$(( ( $(date -d "$end" +%s) - $(date +%s) ) / 86400 ))
+          echo "certificate expires in $days days"; [ "$days" -gt 10 ]
+          ad=$(curl -s "https://dns.google/resolve?name=hpcnotes.eu&type=A" | python3 -c "import json,sys; print(json.load(sys.stdin).get('AD'))")
+          echo "DNSSEC validated: $ad"; [ "$ad" = "True" ]

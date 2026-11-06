@@ -2,7 +2,28 @@ const FALLBACK = "https://hpcnotes.eu";
 
 export const SITE_NAME = "hpcnotes.eu";
 export const SITE_DESCRIPTION =
-  "Short notes on high-performance computing, and personal thoughts around HPC.";
+  "HPC notes and wiki: high-performance computing and performance engineering, from CPU caches, SIMD and compilers to MPI, OpenMP, CUDA and Slurm clusters.";
+
+/** Phrases people search for; used in metadata and structured data. */
+export const SITE_KEYWORDS = [
+  "HPC notes",
+  "HPC wiki",
+  "HPC performance",
+  "high-performance computing",
+  "performance engineering",
+  "HPC tutorial",
+  "CPU cache",
+  "SIMD",
+  "vectorization",
+  "MPI",
+  "OpenMP",
+  "CUDA",
+  "Slurm",
+  "HPC cluster",
+  "parallel computing",
+];
+
+export const SITE_ALT_NAMES = ["HPC Notes", "hpcnotes", "HPC wiki"];
 
 function originFrom(raw: string) {
   const url = new URL(raw);

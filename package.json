@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/copy-mermaid.mjs",
-    "prebuild": "node scripts/copy-mermaid.mjs",
+    "predev": "node scripts/copy-mermaid.mjs && node scripts/optimize-media.mjs",
+    "prebuild": "node scripts/copy-mermaid.mjs && node scripts/optimize-media.mjs",
     "postinstall": "node scripts/copy-mermaid.mjs",
     "dev": "next dev --port 43123 --hostname 127.0.0.1",
     "build": "next build",
@@ -23,6 +23,7 @@
     "@astryxdesign/cli": "^0.5.2",
     "@astryxdesign/core": "^0.5.2",
     "@astryxdesign/theme-neutral": "^0.5.2",
+    "@giscus/react": "^3.1.0",
     "@stylexjs/stylex": "^0.19.0",
     "katex": "^0.18.5",
     "mermaid": "^11.17.2",
@@ -36,6 +37,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
+    "sharp": "^0.34.5",
     "typescript": "^5",
     "vitest": "^3.2.7"
   },

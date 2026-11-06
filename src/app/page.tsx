@@ -27,12 +27,13 @@ export default function HomePage() {
       <JsonLd data={homeJsonLd()} />
       <VStack gap={0}>
       <VisuallyHidden>
-        <Heading level={1}>hpcnotes</Heading>
+        <Heading level={1}>hpcnotes: HPC notes and wiki</Heading>
       </VisuallyHidden>
       <VStack gap={0} className="home-intro">
         <Text type="supporting" color="secondary">
-          Short notes on high-performance computing, and personal thoughts around
-          HPC.
+          HPC notes and wiki: short, practical notes on high-performance
+          computing and performance engineering, from CPU caches and SIMD to
+          MPI, GPUs and Slurm clusters.
         </Text>
       </VStack>
       <VStack gap={10}>
