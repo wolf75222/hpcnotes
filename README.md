@@ -46,7 +46,6 @@ Media go in `public/media/`. Drafts only show in `npm run dev`.
 src/content/      notes, loaders, search
 src/app/          routes, RSS, sitemap, llms.txt
 src/components/   UI (Astryx)
-document/         unrelated Chrome extension
 ```
 
 ## Environment
