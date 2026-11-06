@@ -11,6 +11,10 @@ const AD_HOSTS = [
   "https://*.adtrafficquality.google",
 ];
 
+// Cloudflare Web Analytics (cookieless), injected by Pages when enabled.
+const CF_ANALYTICS_SCRIPT = "https://static.cloudflareinsights.com";
+const CF_ANALYTICS_BEACON = "https://cloudflareinsights.com";
+
 export function hasAdSense(env = process.env) {
   return /^ca-pub-\d{8,22}$/.test(env.NEXT_PUBLIC_ADSENSE_CLIENT?.trim() ?? "");
 }
@@ -25,12 +29,12 @@ export function securityHeaders({ dev = false, ads = hasAdSense() } = {}) {
   const adHosts = ads ? ` ${AD_HOSTS.join(" ")}` : "";
   const csp = [
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""}${adHosts}`,
+    `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""} ${CF_ANALYTICS_SCRIPT}${adHosts}`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",
     "media-src 'self' https:",
     "font-src 'self' data:",
-    `connect-src 'self'${dev ? " ws: wss:" : ""}${adHosts}`,
+    `connect-src 'self'${dev ? " ws: wss:" : ""} ${CF_ANALYTICS_BEACON}${adHosts}`,
     `frame-src ${ads ? adHosts.trim() : "'none'"}`,
     "object-src 'none'",
     "base-uri 'self'",
