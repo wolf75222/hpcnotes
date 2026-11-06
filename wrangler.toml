@@ -1,4 +1,0 @@
-# Cloudflare Pages: `npm run build` writes the static site to out/.
-name = "hpcnotes"
-pages_build_output_dir = "out"
-compatibility_date = "2026-10-01"
