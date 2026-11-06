@@ -11,3 +11,5 @@ export default function Image() {
     meta: "Everything is public",
   });
 }
+
+export const dynamic = "force-static";

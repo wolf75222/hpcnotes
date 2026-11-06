@@ -11,3 +11,5 @@ export default function Image() {
     meta: "Everything you see is open",
   });
 }
+
+export const dynamic = "force-static";

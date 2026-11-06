@@ -22,3 +22,5 @@ export default async function Image({
     meta: "Notes",
   });
 }
+
+export const dynamic = "force-static";

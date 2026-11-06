@@ -8,7 +8,7 @@
     "postinstall": "node scripts/copy-mermaid.mjs",
     "dev": "next dev --port 43123 --hostname 127.0.0.1",
     "build": "next build",
-    "start": "next start --port 43123 --hostname 0.0.0.0",
+    "start": "npx --yes wrangler@4 pages dev out --port 43123",
     "new": "node scripts/new-note.mjs",
     "lint": "eslint .",
     "astryx": "node node_modules/@astryxdesign/cli/clients/cli/bin/astryx.mjs",
@@ -16,7 +16,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "npm run lint && npm run typecheck && npm test"
+    "check": "npm run lint && npm run typecheck && npm test",
+    "postbuild": "node scripts/postbuild.mjs"
   },
   "dependencies": {
     "@astryxdesign/cli": "^0.5.2",

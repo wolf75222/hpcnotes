@@ -23,3 +23,5 @@ export default async function Image({
     meta: "Explore",
   });
 }
+
+export const dynamic = "force-static";

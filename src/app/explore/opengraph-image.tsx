@@ -11,3 +11,5 @@ export default function Image() {
     meta: "Notes on HPC",
   });
 }
+
+export const dynamic = "force-static";

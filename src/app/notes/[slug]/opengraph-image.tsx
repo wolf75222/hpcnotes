@@ -27,3 +27,5 @@ export default async function Image({
 
   return paperOgImage({ title, meta });
 }
+
+export const dynamic = "force-static";

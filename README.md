@@ -13,7 +13,8 @@ npm run dev        # http://127.0.0.1:43123
 
 | Script | |
 | --- | --- |
-| `npm run build` / `npm start` | Production build / serve |
+| `npm run build` | Static export to `out/` (+ `_headers`, `_redirects`) |
+| `npm start` | Serve `out/` like Cloudflare Pages (wrangler) |
 | `npm run new -- my-slug` | New draft note |
 | `npm run check` | Lint, typecheck, tests (incl. broken links and missing media) |
 
@@ -47,6 +48,13 @@ src/content/      notes, loaders, search
 src/app/          routes, RSS, sitemap, llms.txt
 src/components/   UI (Astryx)
 ```
+
+## Deploy (Cloudflare Pages, free)
+
+Cloudflare dashboard → Workers & Pages → Create → Pages → connect this repo.
+Build command `npm run build`, output directory `out`, env `NODE_VERSION=22`
+and `NEXT_PUBLIC_SITE_URL=https://<your-domain>`. Then add the custom domain.
+Every push to `main` redeploys.
 
 ## Environment
 
