@@ -8,6 +8,18 @@ updates:
       minor-and-patch:
         update-types: [minor, patch]
     open-pull-requests-limit: 5
+    ignore:
+      # eslint-config-next's plugins do not accept ESLint 10 yet.
+      - dependency-name: eslint
+        update-types: [version-update:semver-major]
+      # TypeScript 7 (native compiler) and Astryx 0.x minors need a manual pass.
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
+      - dependency-name: "@astryxdesign/*"
+        update-types: [version-update:semver-minor, version-update:semver-major]
+      # Keep Node types on the runtime's major (Node 22, see .node-version).
+      - dependency-name: "@types/node"
+        update-types: [version-update:semver-major]
   - package-ecosystem: github-actions
     directory: /
     schedule:
