@@ -321,16 +321,18 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
   width: 100%;
   max-width: 100%;
   height: auto;
-  /* Flush with the text column and the caption under it. */
+  /* Flush with the caption under it. */
   margin-inline: 0;
 }
 
-/* Figures sit a little narrower than the text, caption included; a click
-   opens them full size. */
+/* Figures sit a little narrower than the text, caption included, centred;
+   a click opens them full size. */
 figure:has(> .md-image-trigger),
 figure:has(> video.md-image) {
   max-width: min(100%, 32rem);
   margin-block: var(--spacing-4) var(--spacing-6);
+  /* Centred in the column; the caption stays flush with the image. */
+  margin-inline: auto;
 }
 
 .md-mermaid {
