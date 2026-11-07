@@ -58,10 +58,14 @@ main {
   background: transparent !important;
 }
 
+/* Quiet header, like the site's small grey section labels. */
 .gsc-comments > .gsc-header,
 .gsc-left-header,
-.gsc-comment-count {
-  font-weight: 500;
+.gsc-comment-count,
+.gsc-comments-count h4 {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  color: var(--color-fg-muted) !important;
 }
 
 .gsc-reactions,
