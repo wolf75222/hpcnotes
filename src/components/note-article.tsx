@@ -13,8 +13,6 @@ import { AdSlot } from "@/components/ad-slot";
 import { NoteComments } from "@/components/note-comments";
 import { commentsEnabled } from "@/lib/comments";
 
-const SOURCE_REPO = "https://github.com/wolf75222/hpcnotes";
-
 export function NoteArticle({
   note,
   body,
@@ -37,6 +35,7 @@ export function NoteArticle({
   readingLabel: string;
 }) {
   const isCover = ancestors.length === 0 && contents.length > 0;
+  const chapter = isCover ? [] : chapterPages(contents, note.slug);
 
   return (
     <VStack gap={10} as="article">
@@ -111,6 +110,23 @@ export function NoteArticle({
         <NoteContents key={note.slug} pages={contents} activeSlug={note.slug} />
       )}
       <MarkdownDoc>{body}</MarkdownDoc>
+      {chapter.length > 0 ? (
+        <VStack gap={4} as="nav" aria-label="In this chapter">
+          <Text type="supporting" color="secondary">
+            <span className="home-group">In this chapter</span>
+          </Text>
+          <VStack gap={3}>
+            {chapter.map((page) => (
+              <LeaderRow
+                key={page.slug}
+                href={`/notes/${page.slug}`}
+                label={page.title}
+                meta={page.label}
+              />
+            ))}
+          </VStack>
+        </VStack>
+      ) : null}
       {isCover ? <NoteContents key={note.slug} pages={contents} /> : null}
       {previous != null || next != null ? (
         <nav aria-label="Previous and next">
@@ -136,36 +152,6 @@ export function NoteArticle({
       <VStack gap={6}>
         <HashTags tags={note.tags} />
         {related.length > 0 ? <NoteList notes={related} /> : null}
-        <HStack gap={4} wrap="wrap" as="nav" aria-label="Source">
-          <Link
-            href={`${SOURCE_REPO}/edit/main/src/content/notes/${note.slug}.md`}
-            target="_blank"
-            rel="noopener noreferrer"
-            color="secondary"
-            type="supporting"
-            isStandalone
-          >
-            Suggest an edit
-          </Link>
-          <Link
-            href={`/notes/${note.slug}.md`}
-            color="secondary"
-            type="supporting"
-            isStandalone
-          >
-            Markdown
-          </Link>
-          <Link
-            href={`${SOURCE_REPO}/commits/main/src/content/notes/${note.slug}.md`}
-            target="_blank"
-            rel="noopener noreferrer"
-            color="secondary"
-            type="supporting"
-            isStandalone
-          >
-            History
-          </Link>
-        </HStack>
         {backlinks.length > 0 ? (
           <VStack gap={3} as="section" aria-label="Linked from">
             <Text type="supporting" color="secondary">
@@ -178,4 +164,23 @@ export function NoteArticle({
       {commentsEnabled() ? <NoteComments slug={note.slug} /> : null}
     </VStack>
   );
+}
+
+/** Direct sub-pages of `slug`, read from the flattened contents tree. */
+function chapterPages(contents: ThoughtRef[], slug: string): ThoughtRef[] {
+  const start = contents.findIndex((page) => page.slug === slug);
+  if (start < 0) {
+    return [];
+  }
+  const depth = contents[start].depth;
+  const pages: ThoughtRef[] = [];
+  for (const page of contents.slice(start + 1)) {
+    if (page.depth <= depth) {
+      break;
+    }
+    if (page.depth === depth + 1) {
+      pages.push(page);
+    }
+  }
+  return pages;
 }
