@@ -592,14 +592,40 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
     display: none;
   }
 
-  /* One column, set flush under the wordmark. */
-  .paper-body:has(.site-nav[data-home]) .paper-below-mark {
-    margin-inline: 0;
+  /* One centred column, header included, so everything shares one axis. */
+  .paper-sheet:has(.site-nav[data-home]) {
+    max-width: 680px;
   }
 }
 
+/* Home: a title page and an index. Three tones only (ink titles, grey
+   facts, faint leaders), one axis, one column. */
 .home-lede:not(#\#):not(#\#) {
-  max-width: 36rem;
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+
+html[data-theme="light"] .home-index .note-title a:not(#\#):not(#\#):not(#\#),
+html[data-theme="light"] .home-index .note-title a span:not(#\#):not(#\#):not(#\#) {
+  color: var(--color-text-primary);
+}
+
+.home-index .note-summary:not(#\#):not(#\#):not(#\#),
+.home-index .note-summary span:not(#\#):not(#\#):not(#\#) {
+  font-style: normal;
+}
+
+html[data-theme="light"] .home-index .home-chapters .note-title a:not(#\#):not(#\#):not(#\#),
+html[data-theme="light"] .home-index .home-chapters .note-title a span:not(#\#):not(#\#):not(#\#) {
+  color: var(--color-text-secondary);
+}
+
+.home-chapters {
+  margin-block-start: var(--spacing-1);
+}
+
+.home-chapters .note-row[data-depth="1"] {
+  padding-inline-start: var(--spacing-4);
 }
 
 /* Rows: the dotted leader darkens with its title on hover. Colour only. */

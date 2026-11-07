@@ -38,16 +38,17 @@ export default function HomePage() {
       <VisuallyHidden>
         <Heading level={1}>hpcnotes: HPC notes and wiki</Heading>
       </VisuallyHidden>
-      <VStack gap={0} className="home-intro">
-        <Text type="supporting" color="secondary" className="home-lede">
-          HPC notes and wiki: short, practical notes on high-performance
-          computing and performance engineering, from CPU caches and SIMD to
-          MPI, GPUs and Slurm clusters.
+      <VStack gap={1} className="home-intro">
+        <Text color="primary" className="home-lede">
+          Notes on high-performance computing.
+        </Text>
+        <Text type="supporting" color="secondary">
+          Short and practical: CPU caches, SIMD, MPI, GPUs, Slurm clusters.
         </Text>
       </VStack>
-      <VStack gap={10}>
+      <VStack gap={10} className="home-index">
         {notes.length > 0 ? (
-          <VStack gap={5}>
+          <VStack gap={4}>
             <Text type="supporting" color="secondary">
               <span className="home-group">Notes</span>
             </Text>
@@ -55,11 +56,11 @@ export default function HomePage() {
               {notes.map((guide) => {
                 const chapters = chaptersOf(guide.slug);
                 return (
-                  <VStack gap={3} key={guide.slug}>
+                  <VStack gap={2} key={guide.slug}>
                     <NoteList notes={[guide]} showSummary />
                     {chapters.length > 0 ? (
                       <VStack
-                        gap={1}
+                        gap={0}
                         as="nav"
                         aria-label={`${guide.title} chapters`}
                         className="home-chapters"
@@ -82,7 +83,7 @@ export default function HomePage() {
           </VStack>
         ) : null}
         {thoughts.length > 0 ? (
-          <VStack gap={5}>
+          <VStack gap={4}>
             <Text type="supporting" color="secondary">
               <span className="home-group">Thoughts</span>
             </Text>
