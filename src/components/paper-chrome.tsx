@@ -2,9 +2,7 @@
 
 import type { Ref } from "react";
 import { Link } from "@astryxdesign/core/Link";
-import { Icon } from "@astryxdesign/core/Icon";
 import { HStack } from "@astryxdesign/core/Stack";
-import { ExploreMark, SearchMark } from "@/components/paper-icons";
 
 export function PaperWordmark({ onHome }: { onHome?: () => void }) {
   return (
@@ -30,36 +28,21 @@ export function PaperTools({
         className="paper-mark-action"
         color={searchOpen ? "primary" : "secondary"}
         type="supporting"
-        label="Search notes"
         aria-expanded={searchOpen}
         aria-pressed={searchOpen}
         aria-controls={searchOpen ? "paper-search" : undefined}
         onClick={() => onSearchOpenChange(!searchOpen)}
       >
-        <HStack as="span" align="center" gap={1}>
-          <Icon
-            icon={SearchMark}
-            size="xsm"
-            color={searchOpen ? "primary" : "secondary"}
-          />
-          <span>Search</span>
-          <kbd className="paper-kbd" aria-hidden>
-            /
-          </kbd>
-        </HStack>
+        Search
       </Link>
       <Link
         href="/explore"
         className="paper-mark-action"
         color="secondary"
         type="supporting"
-        label="Explore"
         onClick={() => onSearchOpenChange(false)}
       >
-        <HStack as="span" align="center" gap={1}>
-          <Icon icon={ExploreMark} size="xsm" color="secondary" />
-          <span>Explore</span>
-        </HStack>
+        Explore
       </Link>
     </HStack>
   );

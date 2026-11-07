@@ -22,7 +22,6 @@ export function NoteArticle({
   contents,
   previous,
   next,
-  readingLabel,
 }: {
   note: Note;
   body: string;
@@ -32,7 +31,6 @@ export function NoteArticle({
   contents: ThoughtRef[];
   previous: NoteIndex | null;
   next: NoteIndex | null;
-  readingLabel: string;
 }) {
   const isCover = ancestors.length === 0 && contents.length > 0;
   const chapter = isCover ? [] : chapterPages(contents, note.slug);
@@ -88,14 +86,8 @@ export function NoteArticle({
                 <time dateTime={note.updated}>{formatDotDate(note.updated)}</time>
               </Text>
             ) : null}
-            <Text type="supporting" color="secondary">
-              · {readingLabel}
-            </Text>
           </HStack>
           <NoteTurn
-            coverHref={
-              ancestors[0] != null ? `/notes/${ancestors[0].slug}` : undefined
-            }
             previousHref={
               previous != null ? `/notes/${previous.slug}` : undefined
             }

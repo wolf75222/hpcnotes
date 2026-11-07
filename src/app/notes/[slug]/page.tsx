@@ -14,9 +14,7 @@ import {
 import { noteJsonLd } from "@/lib/json-ld";
 import { notePageMetadata } from "@/lib/note-metadata";
 import { notFoundMetadata } from "@/lib/page-metadata";
-import { formatReadingTime } from "@/lib/reading-time";
 import { isNoteSlug, safeDecodeParam } from "@/lib/slugs";
-import type { ThoughtNode } from "@/content/types";
 
 export const dynamicParams = false;
 
@@ -36,11 +34,6 @@ export async function generateMetadata({
   }
   const root = findThoughtPath(getThoughtForest(), note.slug)?.[0]?.note;
   return notePageMetadata(note, root?.title);
-}
-
-function treeBody(node: ThoughtNode): string {
-  const self = getNoteBySlug(node.note.slug)?.body ?? "";
-  return [self, ...node.children.map(treeBody)].join("\n");
 }
 
 export default async function NotePage({
@@ -67,10 +60,6 @@ export default async function NotePage({
       : [];
   const contents = noteContents(path);
   const { previous, next } = thoughtNeighbors(path);
-  const readingLabel =
-    current != null && current.children.length > 0
-      ? formatReadingTime(treeBody(current))
-      : formatReadingTime(note.body);
 
   const body = resolveWikiLinks(note.body, (target) => {
     const hit = getNoteBySlug(target);
@@ -99,7 +88,6 @@ export default async function NotePage({
         contents={contents}
         previous={previous}
         next={next}
-        readingLabel={readingLabel}
       />
     </>
   );
