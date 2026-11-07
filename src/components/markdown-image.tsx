@@ -49,6 +49,12 @@ function RasterOrFile({
       alt={alt}
       width={info?.width || undefined}
       height={info?.height || undefined}
+      // Natural size capped by the column; tiny figures get at least 240px.
+      style={
+        info?.width
+          ? { width: `min(100%, ${Math.max(info.width, 240)}px)` }
+          : undefined
+      }
       className="md-image"
       decoding="async"
       loading="lazy"

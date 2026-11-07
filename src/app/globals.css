@@ -279,20 +279,16 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
 }
 
 
-/* Natural size, never wider than the column: small figures are not blown up. */
 .md-image,
 .md-image-trigger video,
 .md-image-trigger img,
 .md-image-trigger svg,
 .md-image-slot img {
   display: block;
-  width: auto;
+  width: 100%;
   max-width: 100%;
   height: auto;
-}
-
-.md-image-trigger video {
-  width: 100%;
+  margin-inline: auto;
 }
 
 .md-mermaid {
