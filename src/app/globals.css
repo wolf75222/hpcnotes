@@ -534,11 +534,25 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
   }
 }
 
-/* The page being read: ink text, and its stretch of the tree line in ink. */
+/* The page being read: ink text and a small chevron on the tree line. */
 .site-nav-item[data-current] > a:not(#\#):not(#\#),
 .site-nav-item[data-current] > a span:not(#\#):not(#\#) {
   color: var(--color-text-primary);
-  border-inline-start-color: var(--color-text-primary);
+}
+
+.site-nav-item[data-current]::before {
+  content: "\203A";
+  position: absolute;
+  inset-inline-start: 0.2em;
+  inset-block-start: var(--spacing-1);
+  color: var(--color-text-secondary);
+  font-size: var(--text-supporting-size);
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+.site-nav-list[data-depth="0"] > .site-nav-item[data-current]::before {
+  inset-inline-start: -0.9em;
 }
 
 @media (min-width: 1100px) {
@@ -572,22 +586,15 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
 
 /* ---- Home ---------------------------------------------------------- */
 
-/* The home page is the index: no sidebar; notes and thoughts side by
-   side across the width. */
+/* The home page is the index: no sidebar. */
 @media (min-width: 1100px) {
   .site-nav[data-home] {
     display: none;
   }
 
+  /* One column, set flush under the wordmark. */
   .paper-body:has(.site-nav[data-home]) .paper-below-mark {
-    max-width: none;
-  }
-
-  .home-columns {
-    display: grid;
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    column-gap: var(--spacing-16, 4rem);
-    align-items: start;
+    margin-inline: 0;
   }
 }
 
@@ -595,48 +602,10 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
   max-width: 36rem;
 }
 
-/* One quiet line of facts under the intro, like a book's imprint. */
-.home-colophon:not(#\#):not(#\#) {
-  margin-block-start: var(--spacing-3);
-  color: var(--color-text-disabled);
-}
-
-.home-foot {
-  margin-block-start: 5rem;
-  padding-block-start: var(--spacing-6);
-  border-block-start: var(--border-width) solid var(--color-border-default);
-}
-
-.home-links .astryx-link:not(#\#):not(#\#) {
-  color: var(--color-text-disabled);
-}
-
-@media (hover: hover) {
-  .home-links .astryx-link:hover:not(#\#):not(#\#) {
-    color: var(--color-text-primary);
-  }
-}
-
-/* Sections rise in, one after the other, once. */
-.home-reveal {
-  animation: home-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-  animation-delay: calc(var(--i, 0) * 90ms);
-}
-
-@keyframes home-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-}
-
-/* Rows: the dotted leader darkens and the title nudges on hover. */
-.note-leader {
-  transition: color 0.2s ease;
-}
-
+/* Rows: the dotted leader darkens with its title on hover. Colour only. */
+.note-leader,
 .note-title a {
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition: color 0.15s ease;
 }
 
 @media (hover: hover) {
@@ -647,24 +616,12 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
   .note-row:hover > .note-row .note-title a:not(#\#):not(#\#):not(#\#) {
     color: var(--color-text-primary);
   }
-
-  .note-row:hover > .note-row .note-title a {
-    display: inline-block;
-    transform: translateX(2px);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-reveal {
-    animation: none;
-  }
-
+  .note-leader,
   .note-title a {
     transition: none;
-  }
-
-  .note-row:hover > .note-row .note-title a {
-    transform: none;
   }
 }
 

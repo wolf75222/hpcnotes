@@ -1,10 +1,5 @@
 import { Heading, Text } from "@astryxdesign/core/Text";
-import { HStack, VStack } from "@astryxdesign/core/Stack";
-import { Link } from "@astryxdesign/core/Link";
-import { HashTags } from "@/components/hash-tags";
-import { getTags } from "@/content/catalog";
-import { getNotes } from "@/content/load-notes";
-import { formatDotDate } from "@/lib/dates";
+import { VStack } from "@astryxdesign/core/Stack";
 import { VisuallyHidden } from "@astryxdesign/core/VisuallyHidden";
 import { NoteList } from "@/components/note-list";
 import { LeaderRow } from "@/components/leader-row";
@@ -28,12 +23,6 @@ export const metadata = pageMetadata({
 export default function HomePage() {
   const forest = getThoughtForest();
   const { notes, thoughts } = splitHomeLists(forest);
-  const all = getNotes();
-  const latest = all
-    .map((note) => note.updated ?? note.date)
-    .sort()
-    .at(-1);
-  const tags = getTags().map((item) => item.tag);
   // Same numbering as the contents list inside the guide.
   const chaptersOf = (slug: string) => {
     const root = forest.find((node) => node.note.slug === slug);
@@ -49,22 +38,16 @@ export default function HomePage() {
       <VisuallyHidden>
         <Heading level={1}>hpcnotes: HPC notes and wiki</Heading>
       </VisuallyHidden>
-      <VStack gap={0} className="home-intro home-reveal">
+      <VStack gap={0} className="home-intro">
         <Text type="supporting" color="secondary" className="home-lede">
           HPC notes and wiki: short, practical notes on high-performance
           computing and performance engineering, from CPU caches and SIMD to
           MPI, GPUs and Slurm clusters.
         </Text>
-        <Text type="supporting" className="home-colophon" hasTabularNumbers>
-          {notes.length} {notes.length === 1 ? "note" : "notes"} ·{" "}
-          {thoughts.length} {thoughts.length === 1 ? "thought" : "thoughts"} ·{" "}
-          {all.length} pages
-          {latest != null ? ` · updated ${formatDotDate(latest)}` : ""}
-        </Text>
       </VStack>
-      <VStack gap={10} className="home-columns">
+      <VStack gap={10}>
         {notes.length > 0 ? (
-          <VStack gap={5} className="home-reveal" style={{ "--i": 1 } as React.CSSProperties}>
+          <VStack gap={5}>
             <Text type="supporting" color="secondary">
               <span className="home-group">Notes</span>
             </Text>
@@ -99,7 +82,7 @@ export default function HomePage() {
           </VStack>
         ) : null}
         {thoughts.length > 0 ? (
-          <VStack gap={5} className="home-reveal" style={{ "--i": 2 } as React.CSSProperties}>
+          <VStack gap={5}>
             <Text type="supporting" color="secondary">
               <span className="home-group">Thoughts</span>
             </Text>
@@ -113,37 +96,6 @@ export default function HomePage() {
             actionLabel={null}
           />
         ) : null}
-      </VStack>
-      <VStack gap={6} className="home-foot home-reveal" style={{ "--i": 3 } as React.CSSProperties}>
-        {tags.length > 0 ? (
-          <VStack gap={3}>
-            <Text type="supporting" color="secondary">
-              <span className="home-group">Topics</span>
-            </Text>
-            <HashTags tags={tags} />
-          </VStack>
-        ) : null}
-        <HStack gap={4} wrap="wrap" as="nav" aria-label="Elsewhere" className="home-links">
-          <Link href="/feed.xml" color="secondary" type="supporting" isStandalone>
-            RSS
-          </Link>
-          <Link href="/llms.txt" color="secondary" type="supporting" isStandalone>
-            llms.txt
-          </Link>
-          <Link
-            href="https://github.com/wolf75222/hpcnotes"
-            color="secondary"
-            type="supporting"
-            isStandalone
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </Link>
-          <Link href="/privacy" color="secondary" type="supporting" isStandalone>
-            Privacy
-          </Link>
-        </HStack>
       </VStack>
     </VStack>
     </>
