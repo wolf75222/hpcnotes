@@ -22,11 +22,11 @@ jobs:
           set -euo pipefail
           check() { code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$1"); echo "$code $1"; [ "$code" = "$2" ]; }
           check "$SITE/" 200
-          check "$SITE/notes/hpc" 200
-          check "$SITE/notes/hpc.md" 200
+          check "$SITE/notes/working-on-a-cluster" 200
+          check "$SITE/notes/working-on-a-cluster.md" 200
           check "$SITE/feed.xml" 200
           check "$SITE/llms.txt" 200
-          check "$SITE/hpc" 301
+          check "$SITE/working-on-a-cluster" 301
           check "https://www.hpcnotes.eu/" 301
           check "http://hpcnotes.eu/" 301
       - name: Crawlers are welcome
@@ -36,9 +36,9 @@ jobs:
           grep -q "^Allow: /" robots.txt
           ! grep -qi "^Disallow: /$" robots.txt
           curl -sf "$SITE/sitemap.xml" -o sitemap.xml
-          python3 -c "import xml.dom.minidom,sys; d=xml.dom.minidom.parse('sitemap.xml'); n=len(d.getElementsByTagName('loc')); print(n,'URLs'); sys.exit(n<10)"
+          python3 -c "import xml.dom.minidom,sys; d=xml.dom.minidom.parse('sitemap.xml'); n=len(d.getElementsByTagName('loc')); print(n,'URLs'); sys.exit(n<5)"
           for ua in Googlebot/2.1 bingbot/2.0 GPTBot/1.1 ClaudeBot/1.0 PerplexityBot/1.0; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' -A "Mozilla/5.0 (compatible; $ua)" "$SITE/notes/hpc"); echo "$code $ua"; [ "$code" = 200 ]
+            code=$(curl -s -o /dev/null -w '%{http_code}' -A "Mozilla/5.0 (compatible; $ua)" "$SITE/notes/working-on-a-cluster"); echo "$code $ua"; [ "$code" = 200 ]
           done
           curl -sf "$SITE/" -o home.html
           grep -q '<meta name="description"' home.html

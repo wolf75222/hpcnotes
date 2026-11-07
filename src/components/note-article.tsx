@@ -88,6 +88,9 @@ export function NoteArticle({
             ) : null}
           </HStack>
           <NoteTurn
+            coverHref={
+              ancestors[0] != null ? `/notes/${ancestors[0].slug}` : undefined
+            }
             previousHref={
               previous != null ? `/notes/${previous.slug}` : undefined
             }

@@ -7,6 +7,7 @@ import { getNoteBySlug, getNotes, getThoughtForest, toNoteIndex } from "@/conten
 import { getBacklinks, getRelatedNotes } from "@/content/catalog";
 import { resolveWikiLinks } from "@/lib/markdown-text";
 import {
+  thoughtSlugs,
   findThoughtPath,
   noteContents,
   thoughtNeighbors,
@@ -65,7 +66,12 @@ export default async function NotePage({
     const hit = getNoteBySlug(target);
     return hit == null ? undefined : { title: hit.title };
   });
-  const related = getRelatedNotes(note.slug).map(toNoteIndex);
+  // Pages of the same note are already one click away (contents,
+  // previous / next), so "related" only points outside it.
+  const sameNote = new Set(path?.[0] != null ? thoughtSlugs(path[0]) : []);
+  const related = getRelatedNotes(note.slug)
+    .filter((item) => !sameNote.has(item.slug))
+    .map(toNoteIndex);
   const backlinks = getBacklinks(note.slug, [
     ...ancestors.map((item) => item.slug),
     ...(current?.children.map((child) => child.note.slug) ?? []),

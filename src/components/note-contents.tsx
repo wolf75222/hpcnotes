@@ -9,9 +9,6 @@ import { DiscloseMark, DiscloseOpenMark } from "@/components/paper-icons";
 import { defaultExpandedSlugs, visibleContents } from "@/content/thoughts";
 import type { ThoughtRef } from "@/content/types";
 
-/** Inside a note, a contents list longer than this starts folded. */
-const LONG_CONTENTS = 8;
-
 export function NoteContents({
   pages,
   activeSlug,
@@ -28,15 +25,15 @@ export function NoteContents({
     [pages, expanded, showDisclosure],
   );
 
-  const [listOpen, setListOpen] = useState(
-    () => activeSlug == null || visible.length <= LONG_CONTENTS,
-  );
+  // Inside a page the contents start folded: the text comes first, and
+  // previous / next sit at the end.
+  const [listOpen, setListOpen] = useState(() => activeSlug == null);
 
   if (pages.length < 2) {
     return null;
   }
 
-  const collapsible = activeSlug != null && visible.length > LONG_CONTENTS;
+  const collapsible = activeSlug != null;
   const position = pages.findIndex((page) => page.slug === activeSlug);
 
   function toggle(slug: string) {

@@ -49,7 +49,7 @@ export default function HomePage() {
         {notes.length > 0 ? (
           <VStack gap={5}>
             <Text type="supporting" color="secondary">
-              <span className="home-group">Guides</span>
+              <span className="home-group">Notes</span>
             </Text>
             <VStack gap={8}>
               {notes.map((guide) => {
@@ -84,7 +84,7 @@ export default function HomePage() {
         {thoughts.length > 0 ? (
           <VStack gap={5}>
             <Text type="supporting" color="secondary">
-              <span className="home-group">Essays</span>
+              <span className="home-group">Thoughts</span>
             </Text>
             <NoteList notes={thoughts} showSummary />
           </VStack>

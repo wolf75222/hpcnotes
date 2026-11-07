@@ -1,21 +1,49 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, type ComponentType, type SVGProps } from "react";
 import { useRouter } from "next/navigation";
+import { Icon } from "@astryxdesign/core/Icon";
+import { Link } from "@astryxdesign/core/Link";
+import { HStack } from "@astryxdesign/core/Stack";
+import { CoverMark, TurnNextMark, TurnPrevMark } from "@/components/paper-icons";
 
-/**
- * Left and right arrows turn the page, like a book. Renders nothing: the
- * visible Previous / Next rows sit at the end of the note.
- */
+function TurnLink({
+  href,
+  label,
+  icon,
+}: {
+  href?: string;
+  label: string;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
+}) {
+  if (href == null) {
+    return null;
+  }
+  return (
+    <Link
+      href={href}
+      className="paper-mark-action"
+      color="secondary"
+      type="supporting"
+      label={label}
+    >
+      <Icon icon={icon} size="sm" color="secondary" />
+    </Link>
+  );
+}
+
 export function NoteTurn({
+  coverHref,
   previousHref,
   nextHref,
 }: {
+  coverHref?: string;
   previousHref?: string;
   nextHref?: string;
 }) {
   const router = useRouter();
 
+  // Left and right arrows turn the page, like a book.
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (
@@ -27,10 +55,9 @@ export function NoteTurn({
       ) {
         return;
       }
-      const target = event.target;
+      const target = event.target as HTMLElement | null;
       if (
-        target instanceof Element &&
-        target.closest("input, textarea, select, [contenteditable], pre, .md-table") != null
+        target?.closest("input, textarea, select, [contenteditable], pre, .md-table") != null
       ) {
         return;
       }
@@ -49,5 +76,16 @@ export function NoteTurn({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [router, previousHref, nextHref]);
 
-  return null;
+  if (coverHref == null && previousHref == null && nextHref == null) {
+    return null;
+  }
+  return (
+    <nav aria-label="Turn the note">
+      <HStack align="center" gap={1}>
+        <TurnLink href={coverHref} label="Start of this note" icon={CoverMark} />
+        <TurnLink href={previousHref} label="Previous page" icon={TurnPrevMark} />
+        <TurnLink href={nextHref} label="Next page" icon={TurnNextMark} />
+      </HStack>
+    </nav>
+  );
 }
