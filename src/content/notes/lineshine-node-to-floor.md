@@ -38,8 +38,6 @@ Compute and storage are liquid-cooled. NSCS describes the storage as China's lar
 
 ![The building in three floors (F1 cooling, F2 compute, F3 storage). The panel lists 92 compute cabinets and 47,000+ processors, 36 network cabinets, 67 storage cabinets with 428 storage nodes at 10 TB/s, and a central liquid-cooling loop with a PUE under 1.09. NSCS slide, photographed for The Next Platform.](/media/lineshine-slide-floors.jpg)
 
-![LineShine on the compute floor in Shenzhen. NSCS slide, via The Next Platform.](/media/lineshine-photo.jpg)
-
 ## Power
 
 42.22 MW during HPL. Some arithmetic, all mine:

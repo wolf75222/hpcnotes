@@ -4,75 +4,75 @@
     "height": 12
   },
   "/media/lineshine-arxiv-d2ar-scaling.png": {
-    "width": 1632,
-    "height": 886,
+    "width": 1600,
+    "height": 854,
     "avif": {
       "src": "/media/_opt/lineshine-arxiv-d2ar-scaling.avif",
-      "bytes": 40428
+      "bytes": 41908
     },
     "webp": {
       "src": "/media/_opt/lineshine-arxiv-d2ar-scaling.webp",
-      "bytes": 63676
+      "bytes": 65840
     }
   },
   "/media/lineshine-arxiv-gemm.png": {
-    "width": 1632,
-    "height": 1026,
+    "width": 1600,
+    "height": 994,
     "avif": {
       "src": "/media/_opt/lineshine-arxiv-gemm.avif",
-      "bytes": 34133
+      "bytes": 32988
     },
     "webp": {
       "src": "/media/_opt/lineshine-arxiv-gemm.webp",
-      "bytes": 52634
+      "bytes": 53922
     }
   },
   "/media/lineshine-arxiv-hbm-ddr-latency.png": {
-    "width": 1632,
-    "height": 754,
+    "width": 1600,
+    "height": 722,
     "avif": {
       "src": "/media/_opt/lineshine-arxiv-hbm-ddr-latency.avif",
-      "bytes": 22791
+      "bytes": 22552
     },
     "webp": {
       "src": "/media/_opt/lineshine-arxiv-hbm-ddr-latency.webp",
-      "bytes": 34498
+      "bytes": 33830
     }
   },
   "/media/lineshine-arxiv-lx2.png": {
-    "width": 1632,
-    "height": 728,
+    "width": 1600,
+    "height": 689,
     "avif": {
       "src": "/media/_opt/lineshine-arxiv-lx2.avif",
-      "bytes": 31809
+      "bytes": 31528
     },
     "webp": {
       "src": "/media/_opt/lineshine-arxiv-lx2.webp",
-      "bytes": 47994
+      "bytes": 50598
     }
   },
   "/media/lineshine-arxiv-matris-overview.png": {
-    "width": 1632,
-    "height": 792,
+    "width": 2000,
+    "height": 949,
     "avif": {
       "src": "/media/_opt/lineshine-arxiv-matris-overview.avif",
-      "bytes": 69950
+      "bytes": 71438
     },
     "webp": {
       "src": "/media/_opt/lineshine-arxiv-matris-overview.webp",
-      "bytes": 99072
+      "bytes": 101140
     }
   },
   "/media/lineshine-arxiv-matris-scaling.png": {
-    "width": 1632,
-    "height": 856,
+    "width": 1600,
+    "height": 824,
     "avif": {
       "src": "/media/_opt/lineshine-arxiv-matris-scaling.avif",
-      "bytes": 51880
+      "bytes": 51680
     },
     "webp": {
       "src": "/media/_opt/lineshine-arxiv-matris-scaling.webp",
-      "bytes": 87574
+      "bytes": 91292
     }
   },
   "/media/lineshine-numa.svg": {
@@ -80,15 +80,15 @@
     "height": 350
   },
   "/media/lineshine-photo.jpg": {
-    "width": 715,
-    "height": 330,
+    "width": 1200,
+    "height": 616,
     "avif": {
       "src": "/media/_opt/lineshine-photo.avif",
-      "bytes": 10304
+      "bytes": 37927
     },
     "webp": {
       "src": "/media/_opt/lineshine-photo.webp",
-      "bytes": 12690
+      "bytes": 51246
     }
   },
   "/media/lineshine-roofline.svg": {

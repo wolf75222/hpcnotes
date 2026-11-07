@@ -58,10 +58,10 @@ The teams that trained on the full machine used flat mode and moved data explici
 - For a GEMM: copy the inputs DDR → HBM in bulk, compute in HBM, write the result back.
 - Double-buffered: SDMA prefetches the next layer while the cores compute the current one.
 - Copies over 1 MB go to SDMA. That was up to 1.4× faster than letting the cores copy, because the cores are busy.
+- Placement by phase: in the forward pass only the attention outputs stay in HBM; in the backward pass almost everything does, and parameter gradients are pushed out to DDR while communication runs.
 
 What placement buys, operator by operator. The first letter is where the weights live, the second where the activations live; attention backward goes from 38 ms in DDR to 19.5 ms in HBM.
 
 ![Forward and backward latency of linear, attention and RMSNorm layers with weights and activations in DDR or HBM (DD, HD, DH, HH). Zhang et al., arXiv:2605.08633, CC BY-NC-SA 4.0, figure 4.](/media/lineshine-arxiv-hbm-ddr-latency.png)
-- Placement by phase: in the forward pass only the attention outputs stay in HBM; in the backward pass almost everything does, and parameter gradients are pushed out to DDR while communication runs.
 
 With 32 GB of fast memory against 256 GB of slow, this is the main job of anyone porting code to LineShine. It is the same problem GPU programmers have with host memory, except that here it happens inside one chip.
