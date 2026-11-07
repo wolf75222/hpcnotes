@@ -47,6 +47,16 @@ On a GPU, PyTorch overlaps communication and compute through CUDA streams. The C
 
 The Earth-observation team wrote two SME micro-kernels, 64 × K by K × 16 and 16 × K by K × 64, chosen at run time from the matrix shape. K comes from the L2 capacity, so a panel stays in the 28.5 MB of the cluster. The streamed operand is prefetched into HBM; partial sums in FP32 also stay in HBM when K is large. Bias and scaling are fused into the write-back. Single-node step time on their 6-billion-parameter model went from 51.3 s to 5.0 s, a 10.3× gain, once all of this was in place.
 
+![The GEMM workflow: threads pack the shared B into HBM once, each thread packs its own A tile into HBM, and the SME micro-kernel walks N then K. Zhang et al., arXiv:2605.08633, CC BY-NC-SA 4.0, figure 3.](/media/lineshine-arxiv-gemm.png)
+
+NSCS's own slide on the same problem: SME for the outer-product part of stencils, square GEMM tiles and the tall-skinny products of attention; SVE for the row updates, boundaries and softmax; buffers pre-allocated in HBM.
+
+![SME and SVE across stencil, FFT, GEMM, graph and attention, with blocking, packing and prefetching into HBM. Reported: over 40% SME utilisation, up to 1.59× IPC from interleaving SME and SVE, up to 4.1× on stencils and 1.75× over the vendor GEMM. NSCS slide at ISC 2026, photographed for The Next Platform.](/media/lineshine-slide-sme.jpg)
+
+The interatomic-potential team summarised their whole stack in one figure; panel (g) is the SDMA and HBM pipeline described above.
+
+![MatRIS-MoE on LineShine: model, FSDP, expert and graph parallelism, pipelined gradient sync, compressed all-to-all, SDMA prefetch into HBM, and the parallel grid. Zhou et al., arXiv:2604.15821, CC BY 4.0, figure 2.](/media/lineshine-arxiv-matris-overview.png)
+
 ## Start-up at scale
 
 One number every user of a big machine should look at: on the full system, MPI initialisation took 923.5 s and Python imports plus HBM and PyTorch initialisation another 531.8 s. Twenty-four minutes before the first step. On a 22,000-node job, start-up is part of the cost of a run.

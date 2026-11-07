@@ -26,7 +26,9 @@ Two compute dies, four clusters per die. Chips and Cheese reports 40 physical co
 
 The L2 is large: 28.5 MB for 38 cores is 750 KB per core, shared inside the cluster. There is no L3 in any source. The on-package HBM plays that role, one stack per cluster.
 
-![LX2 package: two dies of four 38-core clusters, each with its L2 and HBM stack, an integrated NIC, and DDR off package](/media/lineshine-lx2.svg)
+![The LX2 as NSCS presented it: 304 cores in 8 NUMA domains, SVE2 and SME, 60.3 TFlop/s, 690 W, HBM at 4 TB/s in cache or flat mode, DRAM wafer-bonded on logic, an 800 Gb/s NIC on chip. NSCS slide at ISC 2026, photographed for The Next Platform.](/media/lineshine-slide-lx2.jpg)
+
+![Two dies of four clusters, each cluster with its HBM; one SDMA engine and one LQLink per die; DDR off package. Inside a cluster, 38 cores with SME and SVE share the L2. Zhang et al., arXiv:2605.08633, CC BY-NC-SA 4.0, figure 1.](/media/lineshine-arxiv-lx2.png)
 
 ## Where 60.3 TFlop/s comes from
 

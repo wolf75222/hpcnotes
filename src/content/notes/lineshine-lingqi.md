@@ -25,11 +25,7 @@ Two sources describe the node side differently. Lockwood and ServeTheHome put on
 
 Both can be true. Eight interfaces of 200 Gb/s, four rails on each of two planes, also make 1.6 Tb/s. An 800G NIC built as four 200G ports would look like one NIC to Lockwood and four interfaces to NSCS. That reconciliation is mine; nobody has published the NIC.
 
-```mermaid
-flowchart LR
-  node["Node"] --> a1["Leaf A"] --> a2["L2 A"] --> a3["L3 A"] --> top["L4"]
-  node --> b1["Leaf B"] --> b2["L2 B"] --> b3["L3 B"] --> top
-```
+![LingQi as NSCS drew it: L1 switches on the 16 compute blades of each of 184 compute frames, 8 L2 switch blades per frame, 16 L3 and 6 L4 switch blades in each of 32 network frames. Right panel: 22K+ nodes, 200K ports, 4-level fat tree, bisection at least 3.5 Pb/s, 1.07 µs per hop, one optical layer, credit-based lossless flow control, dual plane and multi-rail. NSCS slide at ISC 2026, photographed for The Next Platform.](/media/lineshine-slide-lingqi.jpg)
 
 ## The four levels
 

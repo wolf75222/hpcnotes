@@ -3,17 +3,157 @@
     "width": 48,
     "height": 12
   },
-  "/media/lineshine-lx2.svg": {
-    "width": 680,
-    "height": 400
+  "/media/lineshine-arxiv-d2ar-scaling.png": {
+    "width": 1632,
+    "height": 886,
+    "avif": {
+      "src": "/media/_opt/lineshine-arxiv-d2ar-scaling.avif",
+      "bytes": 40428
+    },
+    "webp": {
+      "src": "/media/_opt/lineshine-arxiv-d2ar-scaling.webp",
+      "bytes": 63676
+    }
+  },
+  "/media/lineshine-arxiv-gemm.png": {
+    "width": 1632,
+    "height": 1026,
+    "avif": {
+      "src": "/media/_opt/lineshine-arxiv-gemm.avif",
+      "bytes": 34133
+    },
+    "webp": {
+      "src": "/media/_opt/lineshine-arxiv-gemm.webp",
+      "bytes": 52634
+    }
+  },
+  "/media/lineshine-arxiv-hbm-ddr-latency.png": {
+    "width": 1632,
+    "height": 754,
+    "avif": {
+      "src": "/media/_opt/lineshine-arxiv-hbm-ddr-latency.avif",
+      "bytes": 22791
+    },
+    "webp": {
+      "src": "/media/_opt/lineshine-arxiv-hbm-ddr-latency.webp",
+      "bytes": 34498
+    }
+  },
+  "/media/lineshine-arxiv-lx2.png": {
+    "width": 1632,
+    "height": 728,
+    "avif": {
+      "src": "/media/_opt/lineshine-arxiv-lx2.avif",
+      "bytes": 31809
+    },
+    "webp": {
+      "src": "/media/_opt/lineshine-arxiv-lx2.webp",
+      "bytes": 47994
+    }
+  },
+  "/media/lineshine-arxiv-matris-overview.png": {
+    "width": 1632,
+    "height": 792,
+    "avif": {
+      "src": "/media/_opt/lineshine-arxiv-matris-overview.avif",
+      "bytes": 69950
+    },
+    "webp": {
+      "src": "/media/_opt/lineshine-arxiv-matris-overview.webp",
+      "bytes": 99072
+    }
+  },
+  "/media/lineshine-arxiv-matris-scaling.png": {
+    "width": 1632,
+    "height": 856,
+    "avif": {
+      "src": "/media/_opt/lineshine-arxiv-matris-scaling.avif",
+      "bytes": 51880
+    },
+    "webp": {
+      "src": "/media/_opt/lineshine-arxiv-matris-scaling.webp",
+      "bytes": 87574
+    }
   },
   "/media/lineshine-numa.svg": {
     "width": 680,
     "height": 350
   },
+  "/media/lineshine-photo.jpg": {
+    "width": 715,
+    "height": 330,
+    "avif": {
+      "src": "/media/_opt/lineshine-photo.avif",
+      "bytes": 10304
+    },
+    "webp": {
+      "src": "/media/_opt/lineshine-photo.webp",
+      "bytes": 12690
+    }
+  },
   "/media/lineshine-roofline.svg": {
     "width": 680,
     "height": 400
+  },
+  "/media/lineshine-slide-floors.jpg": {
+    "width": 1412,
+    "height": 722,
+    "avif": {
+      "src": "/media/_opt/lineshine-slide-floors.avif",
+      "bytes": 45850
+    },
+    "webp": {
+      "src": "/media/_opt/lineshine-slide-floors.webp",
+      "bytes": 67468
+    }
+  },
+  "/media/lineshine-slide-lingqi.jpg": {
+    "width": 1412,
+    "height": 954,
+    "avif": {
+      "src": "/media/_opt/lineshine-slide-lingqi.avif",
+      "bytes": 64568
+    },
+    "webp": {
+      "src": "/media/_opt/lineshine-slide-lingqi.webp",
+      "bytes": 87142
+    }
+  },
+  "/media/lineshine-slide-lx2.jpg": {
+    "width": 1412,
+    "height": 999,
+    "avif": {
+      "src": "/media/_opt/lineshine-slide-lx2.avif",
+      "bytes": 64136
+    },
+    "webp": {
+      "src": "/media/_opt/lineshine-slide-lx2.webp",
+      "bytes": 88606
+    }
+  },
+  "/media/lineshine-slide-sme.jpg": {
+    "width": 1412,
+    "height": 988,
+    "avif": {
+      "src": "/media/_opt/lineshine-slide-sme.avif",
+      "bytes": 73893
+    },
+    "webp": {
+      "src": "/media/_opt/lineshine-slide-sme.webp",
+      "bytes": 107146
+    }
+  },
+  "/media/lineshine-slide-system.jpg": {
+    "width": 1412,
+    "height": 982,
+    "avif": {
+      "src": "/media/_opt/lineshine-slide-system.avif",
+      "bytes": 44922
+    },
+    "webp": {
+      "src": "/media/_opt/lineshine-slide-system.webp",
+      "bytes": 57402
+    }
   },
   "/media/lineshine-sme-fmopa.svg": {
     "width": 680,

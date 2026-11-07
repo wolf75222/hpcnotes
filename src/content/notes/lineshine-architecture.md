@@ -13,6 +13,8 @@ The last Chinese number one was Sunway TaihuLight in 2017. China then stopped su
 
 NSCS calls the approach "online acceleration": scalar, vector and matrix work, communication and I/O all run in one CPU, one memory hierarchy and one software stack. Their own paper is careful to say it does not replace GPU machines for the largest dense AI training.
 
+![LineShine on the compute floor of the National Supercomputing Center in Shenzhen. NSCS slide, via The Next Platform.](/media/lineshine-photo.jpg)
+
 ## The machine on one page
 
 | | |

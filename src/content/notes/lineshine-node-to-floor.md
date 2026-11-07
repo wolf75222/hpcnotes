@@ -20,6 +20,8 @@ tags: architecture, datacentre
 
 90 cabinets give 23,040 node slots. The HPL run used 22,680, which is 98.4% of them, and 22,680 × 608 is exactly the 13,789,440 cores on the list. NSCS's first paper describes 20,480 nodes; the team that trained an interatomic potential model also calls 20,480 "the full machine", so the system probably grew between spring and the June list. Lockwood counts 184 compute frames on the floor plan shown at ISC, which would be 23,552 nodes. The safe statement is "about 90 cabinets, a bit over 22,000 nodes".
 
+![From node to machine: 2 CPUs and 120.6 TFlop/s per node, 8 nodes per blade, 16 blades per frame, 2 frames and 30.87 PFlop/s per cabinet, about 90 cabinets, 22,000+ nodes, 13 million+ cores, about 40 MW. NSCS slide at ISC 2026, photographed for The Next Platform.](/media/lineshine-slide-system.jpg)
+
 A node is 121 TFlop/s of FP64, a cabinet about 31 PFlop/s. That cabinet figure is the same order as a full HPE Cray EX cabinet of MI300A: dense, liquid-cooled, and built for it.
 
 ## Three floors
@@ -33,6 +35,10 @@ The building is stacked by function:
 | 3 | storage, 67 cabinets, 428 storage nodes |
 
 Compute and storage are liquid-cooled. NSCS describes the storage as China's largest liquid-cooled storage deployment.
+
+![The building in three floors (F1 cooling, F2 compute, F3 storage). The panel lists 92 compute cabinets and 47,000+ processors, 36 network cabinets, 67 storage cabinets with 428 storage nodes at 10 TB/s, and a central liquid-cooling loop with a PUE under 1.09. NSCS slide, photographed for The Next Platform.](/media/lineshine-slide-floors.jpg)
+
+![LineShine on the compute floor in Shenzhen. NSCS slide, via The Next Platform.](/media/lineshine-photo.jpg)
 
 ## Power
 

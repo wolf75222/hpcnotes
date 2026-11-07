@@ -31,6 +31,8 @@ NSCS launched LineShine with four flagship applications. Two arXiv papers add th
 
 D2AR compresses satellite archives by 100 to 10,000 times. The team's optimisations, from SME kernels to SDMA pipelines, are on the software page.
 
+![Weak scaling of D2AR from 4 to 20,480 nodes: the 6 B model reaches 1,543 PFlop/s at 76% efficiency. Zhang et al., arXiv:2605.08633, CC BY-NC-SA 4.0, figure 7.](/media/lineshine-arxiv-d2ar-scaling.png)
+
 The MatRIS-MoE team reports the full set of scaling numbers:
 
 | Run | FP32 rate | Efficiency |
@@ -39,6 +41,8 @@ The MatRIS-MoE team reports the full set of scaling numbers:
 | Weak scaling, medium model | 862 PFlop/s | 91.3% |
 | Strong scaling, large model | 673 PFlop/s | 50.6% |
 | 1,000 steps sustained, large model | 1,033 PFlop/s | 21% of FP32 peak |
+
+![Strong scaling of MatRIS-MoE from 1/8 of the machine to all of it, on LineShine and on CNIS. LineShine reaches 672.5 PFlop/s with the large model. Zhou et al., arXiv:2604.15821, CC BY 4.0, figure 6.](/media/lineshine-arxiv-matris-scaling.png)
 
 They cut MoE all-to-all volume in half by compressing it to FP16 per atom type, and overlapped gradient synchronisation with the optimizer step. Step time fell from 40.7 s to 8.1 s on the large model.
 
