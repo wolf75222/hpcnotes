@@ -1,6 +1,6 @@
 import { Heading, Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
-import { VisuallyHidden } from "@astryxdesign/core/VisuallyHidden";
+import { HomeMark } from "@/components/home-mark";
 import { NoteList } from "@/components/note-list";
 import { LeaderRow } from "@/components/leader-row";
 import { JsonLd } from "@/components/json-ld";
@@ -35,19 +35,22 @@ export default function HomePage() {
     <>
       <JsonLd data={homeJsonLd()} />
       <VStack gap={0}>
-      <VisuallyHidden>
-        <Heading level={1}>hpcnotes: HPC notes and wiki</Heading>
-      </VisuallyHidden>
-      <VStack gap={0} className="home-intro">
-        <Text type="supporting" color="secondary">
-          HPC notes and wiki: short, practical notes on high-performance
-          computing and performance engineering, from CPU caches and SIMD to
-          MPI, GPUs and Slurm clusters.
-        </Text>
+      <VStack gap={5} className="home-intro home-reveal" style={{ "--i": 0 } as React.CSSProperties}>
+        <HomeMark />
+        <VStack gap={2}>
+          <Heading level={1} className="home-title">
+            HPC notes
+          </Heading>
+          <Text type="supporting" color="secondary" className="home-lede">
+            Short, practical notes on high-performance computing and
+            performance engineering, from CPU caches and SIMD to MPI, GPUs
+            and Slurm clusters.
+          </Text>
+        </VStack>
       </VStack>
       <VStack gap={10}>
         {notes.length > 0 ? (
-          <VStack gap={5}>
+          <VStack gap={5} className="home-reveal" style={{ "--i": 1 } as React.CSSProperties}>
             <Text type="supporting" color="secondary">
               <span className="home-group">Notes</span>
             </Text>
@@ -82,7 +85,7 @@ export default function HomePage() {
           </VStack>
         ) : null}
         {thoughts.length > 0 ? (
-          <VStack gap={5}>
+          <VStack gap={5} className="home-reveal" style={{ "--i": 2 } as React.CSSProperties}>
             <Text type="supporting" color="secondary">
               <span className="home-group">Thoughts</span>
             </Text>

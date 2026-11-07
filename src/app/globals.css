@@ -500,24 +500,51 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
   list-style: none;
 }
 
+.site-nav-list[data-depth="0"] > .site-nav-item > a:not(#\#):not(#\#) {
+  padding-inline-start: 0;
+  border-inline-start: 0;
+}
+
 .site-nav-list[data-depth="1"],
 .site-nav-list[data-depth="2"],
 .site-nav-list[data-depth="3"] {
-  padding-inline-start: var(--spacing-3);
-  border-inline-start: var(--border-width) solid var(--color-border-default);
   margin-block: var(--spacing-1);
+  margin-inline-start: var(--spacing-1);
+  border-inline-start: var(--border-width) solid var(--color-border-default);
 }
 
-.site-nav-link:not(#\#):not(#\#) {
+.site-nav-item {
+  position: relative;
+}
+
+.site-nav-item > a:not(#\#):not(#\#) {
   display: block;
   padding-block: var(--spacing-1);
+  padding-inline-start: var(--spacing-3);
+  margin-inline-start: calc(var(--border-width) * -1);
+  border-inline-start: 2px solid transparent;
   line-height: 1.4;
   text-decoration: none;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-.site-nav-link[aria-current="page"]:not(#\#):not(#\#) {
+@media (hover: hover) {
+  .site-nav-item > a:hover:not(#\#):not(#\#) {
+    color: var(--color-text-primary);
+  }
+}
+
+/* The page being read: ink text and a short ink bar on the left. */
+.site-nav-item[data-current] > a:not(#\#):not(#\#),
+.site-nav-item[data-current] > a span:not(#\#):not(#\#) {
   color: var(--color-text-primary);
   font-weight: var(--font-weight-medium, 500);
+  border-inline-start-color: var(--color-text-primary);
+}
+
+/* Its note stays darker too, so the open branch reads as one block. */
+.site-nav-item[data-open] > a:not(#\#):not(#\#) {
+  color: var(--color-text-primary);
 }
 
 @media (min-width: 1100px) {
@@ -544,4 +571,136 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
   .note-contents-nav {
     display: none;
   }
+}
+
+/* ---- Home ---------------------------------------------------------- */
+
+/* The home page is the index: no sidebar, one centred column. */
+@media (min-width: 1100px) {
+  .paper-sheet:has(.site-nav[data-home]) {
+    max-width: 640px;
+  }
+
+  .site-nav[data-home] {
+    display: none;
+  }
+}
+
+.home-title:not(#\#):not(#\#) {
+  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.25rem);
+  font-weight: var(--font-weight-semibold, 600);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--color-text-primary);
+}
+
+.home-lede:not(#\#):not(#\#) {
+  max-width: 34rem;
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+}
+
+.home-mark {
+  display: block;
+  color: var(--color-text-primary);
+}
+
+.home-mark-rank {
+  fill: var(--color-text-primary);
+  animation: home-rank 4.8s ease-in-out infinite;
+  animation-delay: calc(var(--step) * 1.2s);
+}
+
+.home-mark-link {
+  stroke: var(--color-text-disabled);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 14;
+  stroke-dashoffset: 14;
+  animation: home-link 4.8s ease-in-out infinite;
+  animation-delay: calc(var(--step) * 1.2s + 0.4s);
+}
+
+.home-mark [data-step="0"] { --step: 0; }
+.home-mark [data-step="1"] { --step: 1; }
+.home-mark [data-step="2"] { --step: 2; }
+.home-mark [data-step="3"] { --step: 3; }
+
+@keyframes home-rank {
+  0%, 30%, 100% { fill-opacity: 0.18; }
+  8%, 20% { fill-opacity: 1; }
+}
+
+@keyframes home-link {
+  0% { stroke-dashoffset: 14; opacity: 1; }
+  12% { stroke-dashoffset: 0; opacity: 1; }
+  24%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+/* Sections rise in, one after the other, once. */
+.home-reveal {
+  animation: home-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+@keyframes home-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* Rows: the dotted leader darkens and the title nudges on hover. */
+.note-leader {
+  transition: color 0.2s ease;
+}
+
+.note-title a {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+@media (hover: hover) {
+  .note-row:hover > .note-row .note-leader {
+    color: var(--color-text-secondary);
+  }
+
+  .note-row:hover > .note-row .note-title a:not(#\#):not(#\#):not(#\#) {
+    color: var(--color-text-primary);
+  }
+
+  .note-row:hover > .note-row .note-title a {
+    display: inline-block;
+    transform: translateX(2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-reveal,
+  .home-mark-rank,
+  .home-mark-link {
+    animation: none;
+  }
+
+  .home-mark-rank {
+    fill-opacity: 1;
+  }
+
+  .home-mark-rank[data-step="2"] {
+    fill-opacity: 0.4;
+  }
+
+  .note-title a {
+    transition: none;
+  }
+
+  .note-row:hover > .note-row .note-title a {
+    transform: none;
+  }
+}
+
+/* Inline code: monospace in ink, no grey fill. */
+.astryx-code:not(pre *):not(#\#):not(#\#) {
+  background-color: transparent;
+  padding-inline: 0.1em;
+  color: var(--color-text-primary);
 }

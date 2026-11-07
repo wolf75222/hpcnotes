@@ -37,10 +37,14 @@ function NavRows({
         const open =
           item.children.length > 0 && current != null && contains(item, current);
         return (
-          <li key={item.slug}>
+          <li
+            key={item.slug}
+            className="site-nav-item"
+            data-current={isCurrent ? "" : undefined}
+            data-open={open ? "" : undefined}
+          >
             <Link
               href={`/notes/${item.slug}`}
-              className="site-nav-link"
               color={isCurrent ? "primary" : "secondary"}
               type="supporting"
               isStandalone
