@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect x="7" y="7" width="7" height="7" fill="currentColor" />
-  <rect x="18" y="7" width="7" height="7" fill="currentColor" />
-  <rect x="7" y="18" width="7" height="7" fill="currentColor" />
-  <rect x="18" y="18" width="7" height="7" fill="currentColor" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#18181b"/>
+  <rect x="8" y="8" width="6.5" height="6.5" rx="1" fill="#fafafa"/>
+  <rect x="17.5" y="8" width="6.5" height="6.5" rx="1" fill="#fafafa"/>
+  <rect x="8" y="17.5" width="6.5" height="6.5" rx="1" fill="#fafafa"/>
+  <rect x="17.5" y="17.5" width="6.5" height="6.5" rx="1" fill="#a1a1aa"/>
 </svg>

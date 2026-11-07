@@ -1,61 +1,63 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
+import { HStack, VStack } from "@astryxdesign/core/Stack";
+import { Icon } from "@astryxdesign/core/Icon";
 import { Link } from "@astryxdesign/core/Link";
 import { Text } from "@astryxdesign/core/Text";
-import { VStack } from "@astryxdesign/core/Stack";
+import { DiscloseMark, DiscloseOpenMark } from "@/components/paper-icons";
 import { GISCUS } from "@/lib/comments";
 
 const Giscus = dynamic(() => import("@giscus/react"), { ssr: false });
 
 /**
- * Comments load only when the reader scrolls near them: no third-party
- * request (and no GitHub iframe) for people who never reach the end.
+ * Comments stay folded behind one quiet row, like the contents list.
+ * Nothing loads from giscus.app or GitHub until the reader opens them.
  */
 export function NoteComments({ slug }: { slug: string }) {
-  const anchor = useRef<HTMLElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const node = anchor.current;
-    if (node == null || visible) {
-      return;
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "400px 0px" },
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [visible]);
+  const [open, setOpen] = useState(false);
+  const [theme] = useState(() =>
+    typeof window === "undefined"
+      ? "light"
+      : `${window.location.origin}/giscus-theme.css`,
+  );
 
   return (
-    <VStack gap={3} as="section" aria-label="Comments" id="comments" ref={anchor}>
-      <Text type="supporting" color="secondary">
-        <span className="home-group">Comments</span>
-      </Text>
-      <Text type="supporting" color="secondary">
-        Comments live in{" "}
-        <Link
-          href={`https://github.com/${GISCUS.repo}/discussions`}
-          target="_blank"
-          rel="noopener noreferrer"
-          type="supporting"
-          color="secondary"
-          hasUnderline
-        >
-          GitHub Discussions
-        </Link>
-        . Sign in with GitHub to post.
-      </Text>
-      <VStack gap={0} className="note-comments">
-        {visible ? (
+    <VStack gap={3} as="section" aria-label="Comments" id="comments">
+      <Link
+        className="note-contents-toggle"
+        color="secondary"
+        type="supporting"
+        aria-expanded={open}
+        aria-controls="note-comments"
+        onClick={() => setOpen((value) => !value)}
+      >
+        <HStack as="span" gap={1} align="center">
+          <Icon
+            icon={open ? DiscloseOpenMark : DiscloseMark}
+            size="xsm"
+            color="inherit"
+          />
+          <span>Comments</span>
+        </HStack>
+      </Link>
+      {open ? (
+        <VStack gap={3} id="note-comments" className="note-comments">
+          <Text type="supporting" color="secondary">
+            Stored in{" "}
+            <Link
+              href={`https://github.com/${GISCUS.repo}/discussions`}
+              target="_blank"
+              rel="noopener noreferrer"
+              type="supporting"
+              color="secondary"
+              hasUnderline
+            >
+              GitHub Discussions
+            </Link>
+            . Sign in with GitHub to post.
+          </Text>
           <Giscus
             repo={GISCUS.repo}
             repoId={GISCUS.repoId}
@@ -64,15 +66,15 @@ export function NoteComments({ slug }: { slug: string }) {
             mapping="specific"
             term={slug}
             strict="1"
-            reactionsEnabled="1"
+            reactionsEnabled="0"
             emitMetadata="0"
-            inputPosition="top"
-            theme="light"
+            inputPosition="bottom"
+            theme={theme}
             lang="en"
             loading="lazy"
           />
-        ) : null}
-      </VStack>
+        </VStack>
+      ) : null}
     </VStack>
   );
 }

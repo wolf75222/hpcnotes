@@ -65,6 +65,10 @@ ${security}
 /search-index.json
   X-Robots-Tag: noindex
 
+/giscus-theme.css
+  Access-Control-Allow-Origin: https://giscus.app
+  Cache-Control: public, max-age=3600
+
 /opengraph-image
   Content-Type: image/png
 
