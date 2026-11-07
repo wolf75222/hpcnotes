@@ -2,17 +2,20 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { VStack } from "@astryxdesign/core/Stack";
+import { HStack, VStack } from "@astryxdesign/core/Stack";
 import { SearchPalette } from "@/components/search-palette";
 import { PaperChrome } from "@/components/paper-chrome";
 import { PaperToTop } from "@/components/paper-to-top";
 import type { NoteIndex } from "@/content/types";
+import { SiteNav, type SiteNavData } from "@/components/site-nav";
 
 export function PaperMark({
   notes,
+  nav,
   children,
 }: {
   notes: NoteIndex[];
+  nav: SiteNavData;
   children: React.ReactNode;
 }) {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -59,15 +62,18 @@ export function PaperMark({
         onSearchOpenChange={onSearchOpenChange}
         searchButtonRef={searchButtonRef}
       />
-      <VStack gap={0} className="paper-below-mark" as="main" id="content" tabIndex={-1}>
-        <SearchPalette
-          notes={notes}
-          open={searchOpen}
-          onOpenChange={onSearchOpenChange}
-        >
-          {children}
-        </SearchPalette>
-      </VStack>
+      <HStack gap={0} align="start" className="paper-body">
+        <SiteNav data={nav} />
+        <VStack gap={0} className="paper-below-mark" as="main" id="content" tabIndex={-1}>
+          <SearchPalette
+            notes={notes}
+            open={searchOpen}
+            onOpenChange={onSearchOpenChange}
+          >
+            {children}
+          </SearchPalette>
+        </VStack>
+      </HStack>
       <PaperToTop hidden={searchOpen} />
     </VStack>
   );

@@ -73,11 +73,11 @@ export function NoteContents({
   ) : null;
 
   if (collapsible && !listOpen) {
-    return <nav aria-label="Contents">{toggleRow}</nav>;
+    return <nav aria-label="Contents" className="note-contents-nav">{toggleRow}</nav>;
   }
 
   return (
-    <nav aria-label="Contents">
+    <nav aria-label="Contents" className="note-contents-nav">
       {toggleRow}
       <VStack gap={3} id="note-contents-list">
         {visible.map((page) => {
