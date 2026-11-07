@@ -4,8 +4,20 @@
     "height": 12
   },
   "/media/lineshine-lx2.svg": {
-    "width": 640,
-    "height": 360
+    "width": 680,
+    "height": 400
+  },
+  "/media/lineshine-numa.svg": {
+    "width": 680,
+    "height": 350
+  },
+  "/media/lineshine-roofline.svg": {
+    "width": 680,
+    "height": 400
+  },
+  "/media/lineshine-sme-fmopa.svg": {
+    "width": 680,
+    "height": 366
   },
   "/media/ranks.png": {
     "width": 640,

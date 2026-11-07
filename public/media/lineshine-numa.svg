@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="350" viewBox="0 0 680 350" role="img" aria-label="Measured bandwidth from one LX2 cluster: local HBM 450, same-die HBM 230, other-die HBM 170, other-socket 45, local DDR 125, other-die DDR 110, other-socket DDR 45 GB/s">
+<rect width="680" height="350" fill="#ffffff"/>
+<g font-family="system-ui, -apple-system, Segoe UI, sans-serif" fill="#0A1317">
+<text x="40" y="30" font-size="12" text-anchor="start" fill="#52525b" >Bandwidth seen by one 38-core cluster, measured (GB/s)</text>
+<text x="238" y="75" font-size="11" text-anchor="end" fill="#0A1317" >HBM, its own stack</text>
+<rect x="250" y="60" width="360.0" height="20" fill="#0A1317" opacity="1"/>
+<text x="618.0" y="75" font-size="11" text-anchor="start" fill="#52525b" >450</text>
+<text x="238" y="115" font-size="11" text-anchor="end" fill="#0A1317" >HBM, other cluster, same die</text>
+<rect x="250" y="100" width="184.0" height="20" fill="#0A1317" opacity="1"/>
+<text x="442.0" y="115" font-size="11" text-anchor="start" fill="#52525b" >230</text>
+<text x="238" y="155" font-size="11" text-anchor="end" fill="#0A1317" >HBM, other die</text>
+<rect x="250" y="140" width="136.0" height="20" fill="#0A1317" opacity="1"/>
+<text x="394.0" y="155" font-size="11" text-anchor="start" fill="#52525b" >170</text>
+<text x="238" y="195" font-size="11" text-anchor="end" fill="#0A1317" >HBM, other socket</text>
+<rect x="250" y="180" width="36.0" height="20" fill="#0A1317" opacity="1"/>
+<text x="294.0" y="195" font-size="11" text-anchor="start" fill="#52525b" >45</text>
+<text x="238" y="235" font-size="11" text-anchor="end" fill="#0A1317" >DDR, its own die</text>
+<rect x="250" y="220" width="100.0" height="20" fill="#52525b" opacity="0.55"/>
+<text x="358.0" y="235" font-size="11" text-anchor="start" fill="#52525b" >125</text>
+<text x="238" y="275" font-size="11" text-anchor="end" fill="#0A1317" >DDR, other die</text>
+<rect x="250" y="260" width="88.0" height="20" fill="#52525b" opacity="0.55"/>
+<text x="346.0" y="275" font-size="11" text-anchor="start" fill="#52525b" >110</text>
+<text x="238" y="315" font-size="11" text-anchor="end" fill="#0A1317" >DDR, other socket</text>
+<rect x="250" y="300" width="36.0" height="20" fill="#52525b" opacity="0.55"/>
+<text x="294.0" y="315" font-size="11" text-anchor="start" fill="#52525b" >45</text>
+</g></svg>

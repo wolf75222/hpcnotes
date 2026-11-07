@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="366" viewBox="0 0 680 366" role="img" aria-label="An SME FMOPA instruction: an 8-element column times an 8-element row accumulates into an 8 by 8 FP64 tile">
+<rect width="680" height="366" fill="#ffffff"/>
+<g font-family="system-ui, -apple-system, Segoe UI, sans-serif" fill="#0A1317">
+<text x="40" y="28" font-size="12" text-anchor="start" fill="#52525b" >One FMOPA, one cycle: ZA[i][j] += a[i] × b[j]</text>
+<rect x="190" y="96" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="203.0" y="113" font-size="10" text-anchor="middle" fill="#0A1317" >a0</text>
+<rect x="190" y="122" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="203.0" y="139" font-size="10" text-anchor="middle" fill="#0A1317" >a1</text>
+<rect x="190" y="148" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="203.0" y="165" font-size="10" text-anchor="middle" fill="#0A1317" >a2</text>
+<rect x="190" y="174" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="203.0" y="191" font-size="10" text-anchor="middle" fill="#0A1317" >a3</text>
+<rect x="190" y="200" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="203.0" y="217" font-size="10" text-anchor="middle" fill="#0A1317" >a4</text>
+<rect x="190" y="226" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="203.0" y="243" font-size="10" text-anchor="middle" fill="#0A1317" >a5</text>
+<rect x="190" y="252" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="203.0" y="269" font-size="10" text-anchor="middle" fill="#0A1317" >a6</text>
+<rect x="190" y="278" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="203.0" y="295" font-size="10" text-anchor="middle" fill="#0A1317" >a7</text>
+<rect x="250" y="56" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="263.0" y="73" font-size="10" text-anchor="middle" fill="#0A1317" >b0</text>
+<rect x="276" y="56" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="289.0" y="73" font-size="10" text-anchor="middle" fill="#0A1317" >b1</text>
+<rect x="302" y="56" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="315.0" y="73" font-size="10" text-anchor="middle" fill="#0A1317" >b2</text>
+<rect x="328" y="56" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="341.0" y="73" font-size="10" text-anchor="middle" fill="#0A1317" >b3</text>
+<rect x="354" y="56" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="367.0" y="73" font-size="10" text-anchor="middle" fill="#0A1317" >b4</text>
+<rect x="380" y="56" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="393.0" y="73" font-size="10" text-anchor="middle" fill="#0A1317" >b5</text>
+<rect x="406" y="56" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="419.0" y="73" font-size="10" text-anchor="middle" fill="#0A1317" >b6</text>
+<rect x="432" y="56" width="26" height="26" fill="none" stroke="#0A1317" stroke-width="1.2"/>
+<text x="445.0" y="73" font-size="10" text-anchor="middle" fill="#0A1317" >b7</text>
+<rect x="250" y="96" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="276" y="96" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="302" y="96" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="328" y="96" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="354" y="96" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="380" y="96" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="406" y="96" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="432" y="96" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="250" y="122" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="276" y="122" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="302" y="122" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="328" y="122" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="354" y="122" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="380" y="122" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="406" y="122" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="432" y="122" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="250" y="148" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="276" y="148" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="302" y="148" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="328" y="148" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="354" y="148" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="380" y="148" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="406" y="148" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="432" y="148" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="250" y="174" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="276" y="174" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="302" y="174" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="328" y="174" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="354" y="174" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="380" y="174" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="406" y="174" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="432" y="174" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="250" y="200" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="276" y="200" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="302" y="200" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="328" y="200" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="354" y="200" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="380" y="200" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="406" y="200" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="432" y="200" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="250" y="226" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="276" y="226" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="302" y="226" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="328" y="226" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="354" y="226" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="380" y="226" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="406" y="226" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="432" y="226" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="250" y="252" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="276" y="252" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="302" y="252" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="328" y="252" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="354" y="252" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="380" y="252" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="406" y="252" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="432" y="252" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="250" y="278" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="276" y="278" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="302" y="278" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="328" y="278" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="354" y="278" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="380" y="278" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="406" y="278" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="432" y="278" width="26" height="26" fill="none" stroke="#a1a1aa" stroke-width="1"/>
+<rect x="250" y="96" width="208" height="208" fill="none" stroke="#0A1317" stroke-width="1.5"/>
+<text x="354" y="326" font-size="11" text-anchor="middle" fill="#0A1317" >ZA tile · 8 × 8 FP64 accumulators</text>
+<text x="203.0" y="326" font-size="11" text-anchor="middle" fill="#52525b" >z1</text>
+<text x="472" y="73" font-size="11" text-anchor="start" fill="#52525b" >z2</text>
+<text x="518" y="126" font-size="12" text-anchor="start" fill="#0A1317" >512-bit vector</text>
+<text x="518" y="142" font-size="11" text-anchor="start" fill="#52525b" >8 × FP64</text>
+<text x="518" y="170" font-size="12" text-anchor="start" fill="#0A1317" >outer product</text>
+<text x="518" y="186" font-size="11" text-anchor="start" fill="#52525b" >64 FMA / cycle</text>
+<text x="518" y="214" font-size="12" text-anchor="start" fill="#0A1317" >= 128 flop</text>
+<text x="518" y="230" font-size="11" text-anchor="start" fill="#52525b" >per core per cycle</text>
+<text x="518" y="258" font-size="12" text-anchor="start" fill="#0A1317" >× 304 × 1.55 GHz</text>
+<text x="518" y="274" font-size="11" text-anchor="start" fill="#52525b" >60.3 TFlop/s</text>
+</g></svg>
