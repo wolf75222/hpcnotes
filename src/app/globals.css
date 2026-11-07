@@ -109,11 +109,11 @@ body {
 .paper-sheet {
   min-width: 0;
   max-width: 100%;
-  padding-block-start: clamp(2rem, 7vh, 4.5rem);
+  padding-block-start: clamp(1.5rem, 5vh, 3rem);
 }
 
 .paper-below-mark {
-  padding-block-start: 3rem;
+  padding-block-start: 2.5rem;
 }
 
 .home-intro {
@@ -522,7 +522,7 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
   padding-block: var(--spacing-1);
   padding-inline-start: var(--spacing-3);
   margin-inline-start: calc(var(--border-width) * -1);
-  border-inline-start: 2px solid transparent;
+  border-inline-start: var(--border-width) solid transparent;
   line-height: 1.4;
   text-decoration: none;
   transition: color 0.15s ease, border-color 0.15s ease;
@@ -534,17 +534,11 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
   }
 }
 
-/* The page being read: ink text and a short ink bar on the left. */
+/* The page being read: ink text, and its stretch of the tree line in ink. */
 .site-nav-item[data-current] > a:not(#\#):not(#\#),
 .site-nav-item[data-current] > a span:not(#\#):not(#\#) {
   color: var(--color-text-primary);
-  font-weight: var(--font-weight-medium, 500);
   border-inline-start-color: var(--color-text-primary);
-}
-
-/* Its note stays darker too, so the open branch reads as one block. */
-.site-nav-item[data-open] > a:not(#\#):not(#\#) {
-  color: var(--color-text-primary);
 }
 
 @media (min-width: 1100px) {
@@ -554,18 +548,21 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
 
   .site-nav {
     display: flex;
-    flex: 0 0 200px;
-    width: 200px;
+    flex: 0 0 240px;
+    width: 240px;
     margin-inline-end: var(--spacing-12);
-    padding-block-start: 3rem;
+    padding-block-start: 2.5rem;
     position: sticky;
     top: var(--spacing-6);
     max-height: calc(100vh - var(--spacing-12));
     overflow-y: auto;
   }
 
-  .site-nav[data-home] {
-    visibility: hidden;
+  /* Reading measure: the text column stays ~70 characters wide and
+     sits in the middle of the space the sidebar leaves. */
+  .paper-below-mark {
+    max-width: 760px;
+    margin-inline: auto;
   }
 
   .note-contents-nav {
@@ -575,66 +572,49 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
 
 /* ---- Home ---------------------------------------------------------- */
 
-/* The home page is the index: no sidebar, one centred column. */
+/* The home page is the index: no sidebar; notes and thoughts side by
+   side across the width. */
 @media (min-width: 1100px) {
-  .paper-sheet:has(.site-nav[data-home]) {
-    max-width: 640px;
-  }
-
   .site-nav[data-home] {
     display: none;
   }
-}
 
-.home-title:not(#\#):not(#\#) {
-  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.25rem);
-  font-weight: var(--font-weight-semibold, 600);
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  color: var(--color-text-primary);
+  .paper-body:has(.site-nav[data-home]) .paper-below-mark {
+    max-width: none;
+  }
+
+  .home-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    column-gap: var(--spacing-16, 4rem);
+    align-items: start;
+  }
 }
 
 .home-lede:not(#\#):not(#\#) {
-  max-width: 34rem;
-  font-size: var(--font-size-base);
-  line-height: 1.6;
+  max-width: 36rem;
 }
 
-.home-mark {
-  display: block;
-  color: var(--color-text-primary);
+/* One quiet line of facts under the intro, like a book's imprint. */
+.home-colophon:not(#\#):not(#\#) {
+  margin-block-start: var(--spacing-3);
+  color: var(--color-text-disabled);
 }
 
-.home-mark-rank {
-  fill: var(--color-text-primary);
-  animation: home-rank 4.8s ease-in-out infinite;
-  animation-delay: calc(var(--step) * 1.2s);
+.home-foot {
+  margin-block-start: 5rem;
+  padding-block-start: var(--spacing-6);
+  border-block-start: var(--border-width) solid var(--color-border-default);
 }
 
-.home-mark-link {
-  stroke: var(--color-text-disabled);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-dasharray: 14;
-  stroke-dashoffset: 14;
-  animation: home-link 4.8s ease-in-out infinite;
-  animation-delay: calc(var(--step) * 1.2s + 0.4s);
+.home-links .astryx-link:not(#\#):not(#\#) {
+  color: var(--color-text-disabled);
 }
 
-.home-mark [data-step="0"] { --step: 0; }
-.home-mark [data-step="1"] { --step: 1; }
-.home-mark [data-step="2"] { --step: 2; }
-.home-mark [data-step="3"] { --step: 3; }
-
-@keyframes home-rank {
-  0%, 30%, 100% { fill-opacity: 0.18; }
-  8%, 20% { fill-opacity: 1; }
-}
-
-@keyframes home-link {
-  0% { stroke-dashoffset: 14; opacity: 1; }
-  12% { stroke-dashoffset: 0; opacity: 1; }
-  24%, 100% { stroke-dashoffset: 0; opacity: 0; }
+@media (hover: hover) {
+  .home-links .astryx-link:hover:not(#\#):not(#\#) {
+    color: var(--color-text-primary);
+  }
 }
 
 /* Sections rise in, one after the other, once. */
@@ -675,18 +655,8 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-reveal,
-  .home-mark-rank,
-  .home-mark-link {
+  .home-reveal {
     animation: none;
-  }
-
-  .home-mark-rank {
-    fill-opacity: 1;
-  }
-
-  .home-mark-rank[data-step="2"] {
-    fill-opacity: 0.4;
   }
 
   .note-title a {

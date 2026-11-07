@@ -17,7 +17,7 @@ export function PaperFrame({
   return (
     <Layout
       height="auto"
-      contentWidth={928}
+      contentWidth={1240}
       padding={6}
       defaultHasDividers={false}
       content={
