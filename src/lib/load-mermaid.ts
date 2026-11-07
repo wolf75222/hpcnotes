@@ -57,21 +57,60 @@ function readGlobalMermaid(): MermaidApi | undefined {
   );
 }
 
+// Match the paper: white boxes, hairline zinc borders, near-black text,
+// no shadows or grey fills.
+const INK = "#18181b";
+const MUTED = "#71717a";
+const LINE = "#d4d4d8";
+const PAPER = "#ffffff";
+
 function configure(mermaid: MermaidApi) {
   mermaid.initialize({
     startOnLoad: false,
     securityLevel: "strict",
-    theme: "neutral",
-    fontFamily: "inherit",
+    theme: "base",
+    fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif",
     themeVariables: {
-      background: "white",
+      background: PAPER,
+      fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif",
+      fontSize: "14px",
+      primaryColor: PAPER,
+      primaryTextColor: INK,
+      primaryBorderColor: LINE,
+      secondaryColor: PAPER,
+      tertiaryColor: PAPER,
+      lineColor: MUTED,
+      textColor: INK,
+      mainBkg: PAPER,
+      nodeBorder: LINE,
+      clusterBkg: PAPER,
+      clusterBorder: LINE,
+      edgeLabelBackground: PAPER,
+      actorBkg: PAPER,
+      actorBorder: LINE,
+      actorTextColor: INK,
+      actorLineColor: LINE,
+      signalColor: INK,
+      signalTextColor: INK,
+      labelBoxBkgColor: PAPER,
+      labelBoxBorderColor: LINE,
+      labelTextColor: INK,
+      loopTextColor: INK,
+      noteBkgColor: "#fafafa",
+      noteBorderColor: LINE,
+      noteTextColor: INK,
+      activationBkgColor: "#f4f4f5",
+      activationBorderColor: LINE,
+      sequenceNumberColor: PAPER,
     },
     flowchart: {
       htmlLabels: false,
       useMaxWidth: true,
+      curve: "basis",
     },
     sequence: {
       useMaxWidth: true,
+      mirrorActors: false,
     },
   });
 }
@@ -215,37 +254,33 @@ export function renderMermaidChart(chart: string): Promise<string> {
   return job;
 }
 
+/**
+ * Give the root <svg> explicit width/height from its viewBox (an <img> needs
+ * them) and a white background. Only the opening <svg> tag is edited: the
+ * diagram's own rects also carry width/height attributes.
+ */
 export function prepareMermaidSvg(svg: string): string {
-  let trimmed = svg.trim();
-  if (!/xmlns=/.test(trimmed)) {
-    trimmed = trimmed.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"');
+  const trimmed = svg.trim();
+  const open = trimmed.match(/^<svg\b[^>]*>/);
+  if (open == null) {
+    return trimmed;
   }
-  const viewBox = trimmed.match(
-    /viewBox="\s*([0-9.eE+-]+)\s+([0-9.eE+-]+)\s+([0-9.eE+-]+)\s+([0-9.eE+-]+)\s*"/,
+  let tag = open[0];
+  if (!/\sxmlns=/.test(tag)) {
+    tag = tag.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"');
+  }
+  const viewBox = tag.match(
+    /\sviewBox="\s*[-0-9.eE+]+\s+[-0-9.eE+]+\s+([0-9.eE+]+)\s+([0-9.eE+]+)\s*"/,
   );
   if (viewBox != null) {
-    const width = viewBox[3];
-    const height = viewBox[4];
-    if (width != null && height != null) {
-      if (/width="/.test(trimmed)) {
-        trimmed = trimmed.replace(/width="[^"]*"/, `width="${width}"`);
-      } else {
-        trimmed = trimmed.replace("<svg", `<svg width="${width}"`);
-      }
-      if (/height="/.test(trimmed)) {
-        trimmed = trimmed.replace(/height="[^"]*"/, `height="${height}"`);
-      } else {
-        trimmed = trimmed.replace(/<svg/, `<svg height="${height}"`);
-      }
-    }
+    const [, width, height] = viewBox;
+    tag = tag
+      .replace(/\swidth="[^"]*"/, "")
+      .replace(/\sheight="[^"]*"/, "")
+      .replace("<svg", `<svg width="${width}" height="${height}"`);
   }
-  trimmed = trimmed.replace(/style="[^"]*max-width:[^"]*"/, (style) =>
-    style.replace(/max-width:\s*[^;"]*;?/, ""),
-  );
-  return trimmed.replace(
-    /(<svg[^>]*>)/,
-    '$1<rect width="100%" height="100%" fill="white"/>',
-  );
+  tag = tag.replace(/max-width:\s*[^;"]*;?/, "");
+  return `${tag}<rect width="100%" height="100%" fill="white"/>${trimmed.slice(open[0].length)}`;
 }
 
 export function mermaidSvgDataUrl(svg: string): string {

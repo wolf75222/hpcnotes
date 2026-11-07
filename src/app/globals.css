@@ -250,13 +250,14 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
     scroll-behavior: auto;
   }
 
-  .md-image-slot:not(.is-ready) .md-image {
-    opacity: 1;
-  }
 }
 
 .paper-search-field::placeholder {
   color: var(--color-text-secondary);
+}
+
+.md-image-trigger:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .md-image-trigger {
@@ -275,28 +276,23 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  min-height: var(--spacing-12);
-  background-color: var(--color-background-muted);
 }
 
-.md-image-slot.is-ready {
-  min-height: 0;
-  background-color: transparent;
-}
 
-.md-image-slot:not(.is-ready) .md-image {
-  opacity: 0;
-}
-
+/* Natural size, never wider than the column: small figures are not blown up. */
 .md-image,
 .md-image-trigger video,
 .md-image-trigger img,
 .md-image-trigger svg,
 .md-image-slot img {
   display: block;
-  width: 100%;
+  width: auto;
   max-width: 100%;
   height: auto;
+}
+
+.md-image-trigger video {
+  width: 100%;
 }
 
 .md-mermaid {

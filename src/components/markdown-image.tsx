@@ -53,6 +53,13 @@ function RasterOrFile({
       decoding="async"
       loading="lazy"
       referrerPolicy="no-referrer"
+      // An image served from cache can finish before React hydrates and
+      // attaches onLoad: check `complete` when the node mounts.
+      ref={(node) => {
+        if (node?.complete) {
+          onReady();
+        }
+      }}
       onLoad={onReady}
       onError={onReady}
     />
