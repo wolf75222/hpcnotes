@@ -22,7 +22,7 @@ export default function GlobalError({
           content="This page did not render. Try again, or go back to the list."
         />
         <Providers>
-          <PaperFrame notes={[]}>
+          <PaperFrame notes={[]} nav={{ notes: [], thoughts: [] }}>
             <FaultPage error={error} retry={retry} />
           </PaperFrame>
         </Providers>
