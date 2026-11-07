@@ -2,9 +2,10 @@ import { Heading, Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/Stack";
 import { VisuallyHidden } from "@astryxdesign/core/VisuallyHidden";
 import { NoteList } from "@/components/note-list";
+import { LeaderRow } from "@/components/leader-row";
 import { JsonLd } from "@/components/json-ld";
 import { getThoughtForest } from "@/content/load-notes";
-import { splitHomeLists } from "@/content/thoughts";
+import { noteContents, splitHomeLists } from "@/content/thoughts";
 import { homeJsonLd } from "@/lib/json-ld";
 import { pageMetadata } from "@/lib/page-metadata";
 import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site-url";
@@ -20,7 +21,15 @@ export const metadata = pageMetadata({
 });
 
 export default function HomePage() {
-  const { notes, thoughts } = splitHomeLists(getThoughtForest());
+  const forest = getThoughtForest();
+  const { notes, thoughts } = splitHomeLists(forest);
+  // Same numbering as the contents list inside the guide.
+  const chaptersOf = (slug: string) => {
+    const root = forest.find((node) => node.note.slug === slug);
+    return root == null
+      ? []
+      : noteContents([root]).filter((page) => page.depth === 0 && !page.isRoot);
+  };
 
   return (
     <>
@@ -40,15 +49,42 @@ export default function HomePage() {
         {notes.length > 0 ? (
           <VStack gap={5}>
             <Text type="supporting" color="secondary">
-              <span className="home-group">Notes</span>
+              <span className="home-group">Guides</span>
             </Text>
-            <NoteList notes={notes} showSummary />
+            <VStack gap={8}>
+              {notes.map((guide) => {
+                const chapters = chaptersOf(guide.slug);
+                return (
+                  <VStack gap={3} key={guide.slug}>
+                    <NoteList notes={[guide]} showSummary />
+                    {chapters.length > 0 ? (
+                      <VStack
+                        gap={1}
+                        as="nav"
+                        aria-label={`${guide.title} chapters`}
+                        className="home-chapters"
+                      >
+                        {chapters.map((chapter) => (
+                          <LeaderRow
+                            key={chapter.slug}
+                            href={`/notes/${chapter.slug}`}
+                            label={chapter.title}
+                            meta={chapter.label}
+                            depth={1}
+                          />
+                        ))}
+                      </VStack>
+                    ) : null}
+                  </VStack>
+                );
+              })}
+            </VStack>
           </VStack>
         ) : null}
         {thoughts.length > 0 ? (
           <VStack gap={5}>
             <Text type="supporting" color="secondary">
-              <span className="home-group">Thoughts</span>
+              <span className="home-group">Essays</span>
             </Text>
             <NoteList notes={thoughts} showSummary />
           </VStack>

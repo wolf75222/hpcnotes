@@ -24,7 +24,7 @@ export function PaperTools({
   searchButtonRef?: Ref<HTMLButtonElement | HTMLAnchorElement>;
 }) {
   return (
-    <HStack align="center" gap={1}>
+    <HStack align="center" gap={4}>
       <Link
         ref={searchButtonRef}
         className="paper-mark-action"
@@ -36,11 +36,17 @@ export function PaperTools({
         aria-controls={searchOpen ? "paper-search" : undefined}
         onClick={() => onSearchOpenChange(!searchOpen)}
       >
-        <Icon
-          icon={SearchMark}
-          size="sm"
-          color={searchOpen ? "primary" : "secondary"}
-        />
+        <HStack as="span" align="center" gap={1}>
+          <Icon
+            icon={SearchMark}
+            size="xsm"
+            color={searchOpen ? "primary" : "secondary"}
+          />
+          <span>Search</span>
+          <kbd className="paper-kbd" aria-hidden>
+            /
+          </kbd>
+        </HStack>
       </Link>
       <Link
         href="/explore"
@@ -50,7 +56,10 @@ export function PaperTools({
         label="Explore"
         onClick={() => onSearchOpenChange(false)}
       >
-        <Icon icon={ExploreMark} size="sm" color="secondary" />
+        <HStack as="span" align="center" gap={1}>
+          <Icon icon={ExploreMark} size="xsm" color="secondary" />
+          <span>Explore</span>
+        </HStack>
       </Link>
     </HStack>
   );

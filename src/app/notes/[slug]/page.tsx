@@ -14,7 +14,7 @@ import {
 import { noteJsonLd } from "@/lib/json-ld";
 import { notePageMetadata } from "@/lib/note-metadata";
 import { notFoundMetadata } from "@/lib/page-metadata";
-import { formatReadingTime, readingMinutes } from "@/lib/reading-time";
+import { formatReadingTime } from "@/lib/reading-time";
 import { isNoteSlug, safeDecodeParam } from "@/lib/slugs";
 import type { ThoughtNode } from "@/content/types";
 
@@ -38,10 +38,9 @@ export async function generateMetadata({
   return notePageMetadata(note, root?.title);
 }
 
-function minutesForTree(node: ThoughtNode): number {
-  const full = getNoteBySlug(node.note.slug);
-  const self = readingMinutes(full?.body ?? "");
-  return node.children.reduce((sum, child) => sum + minutesForTree(child), self);
+function treeBody(node: ThoughtNode): string {
+  const self = getNoteBySlug(node.note.slug)?.body ?? "";
+  return [self, ...node.children.map(treeBody)].join("\n");
 }
 
 export default async function NotePage({
@@ -70,7 +69,7 @@ export default async function NotePage({
   const { previous, next } = thoughtNeighbors(path);
   const readingLabel =
     current != null && current.children.length > 0
-      ? `${minutesForTree(current)} min`
+      ? formatReadingTime(treeBody(current))
       : formatReadingTime(note.body);
 
   const body = resolveWikiLinks(note.body, (target) => {

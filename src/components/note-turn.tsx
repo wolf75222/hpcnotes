@@ -1,6 +1,7 @@
 "use client";
 
-import type { ComponentType, SVGProps } from "react";
+import { useEffect, type ComponentType, type SVGProps } from "react";
+import { useRouter } from "next/navigation";
 import { Icon } from "@astryxdesign/core/Icon";
 import { Link } from "@astryxdesign/core/Link";
 import { HStack } from "@astryxdesign/core/Stack";
@@ -40,6 +41,41 @@ export function NoteTurn({
   previousHref?: string;
   nextHref?: string;
 }) {
+  const router = useRouter();
+
+  // Left and right arrows turn the page, like a book.
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (
+        event.defaultPrevented ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.shiftKey
+      ) {
+        return;
+      }
+      const target = event.target as HTMLElement | null;
+      if (
+        target?.closest("input, textarea, select, [contenteditable], pre, .md-table") != null
+      ) {
+        return;
+      }
+      const href =
+        event.key === "ArrowLeft"
+          ? previousHref
+          : event.key === "ArrowRight"
+            ? nextHref
+            : undefined;
+      if (href != null) {
+        event.preventDefault();
+        router.push(href);
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [router, previousHref, nextHref]);
+
   if (coverHref == null && previousHref == null && nextHref == null) {
     return null;
   }

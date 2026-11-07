@@ -469,3 +469,28 @@ html[data-theme="light"] .note-title .astryx-text:not(#\#):not(#\#):not(#\#) {
   width: 100%;
   border: 0;
 }
+
+.paper-kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--spacing-4);
+  height: var(--spacing-4);
+  padding-inline: var(--spacing-0-5);
+  border: var(--border-width) solid var(--color-border-default);
+  border-radius: var(--radius-sm, 3px);
+  color: var(--color-text-disabled);
+  font-family: inherit;
+  font-size: var(--font-size-xs);
+  line-height: 1;
+}
+
+.home-chapters .note-title a:not(#\#):not(#\#):not(#\#),
+.home-chapters .note-title a span:not(#\#):not(#\#):not(#\#) {
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 40rem) {
+  .paper-kbd {
+    display: none;
+  }
+}
